@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- SR sticker asset: a 12-point starburst vinyl sticker in the identity's
+       accent amber (soft form), watermarked with a repeating mini doc icon.
+       Rendered at 112px. Highlights come from the accent set (§1.2). -->
+  <defs>
+    <path id="burst" d="M 96.0 2.0 L 114.6 26.5 L 143.0 14.6 L 146.9 45.1 L 177.4 49.0 L 165.5 77.4 L 190.0 96.0 L 165.5 114.6 L 177.4 143.0 L 146.9 146.9 L 143.0 177.4 L 114.6 165.5 L 96.0 190.0 L 77.4 165.5 L 49.0 177.4 L 45.1 146.9 L 14.6 143.0 L 26.5 114.6 L 2.0 96.0 L 26.5 77.4 L 14.6 49.0 L 45.1 45.1 L 49.0 14.6 L 77.4 26.5 Z"/>
+    <clipPath id="burstClip"><use href="#burst"/></clipPath>
+    <!-- Watermark tile: simplified pixel doc icon (sheet, dog-ear, lines) -->
+    <pattern id="docs" width="34" height="38" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
+      <g fill="none" stroke="#ffffff" stroke-width="2" opacity="0.45">
+        <path d="M 8 6 H 20 L 26 12 V 32 H 8 Z"/>
+        <path d="M 20 6 V 12 H 26"/>
+      </g>
+      <g fill="#ffffff" opacity="0.45">
+        <rect x="12" y="16" width="10" height="2"/>
+        <rect x="12" y="21" width="8" height="2"/>
+        <rect x="12" y="26" width="10" height="2"/>
+      </g>
+    </pattern>
+  </defs>
+
+  <!-- Vinyl body: accent amber (soft form) — promo stickers get accent color -->
+  <use href="#burst" fill="#fde68a"/>
+  <!-- Repeating doc-icon watermark -->
+  <rect width="192" height="192" fill="url(#docs)" clip-path="url(#burstClip)"/>
+
+  <!-- Printed copy -->
+  <g transform="rotate(-7 96 96)" fill="#111111"
+     font-family="'Arial Black', 'Arial Bold', Arial, sans-serif" text-anchor="middle">
+    <text x="96" y="82" font-size="22" font-weight="900">Try super</text>
+    <text x="96" y="106" font-size="22" font-weight="900">resolution!</text>
+    <text x="96" y="128" font-size="13" font-weight="700">crisp, modern</text>
+    <text x="96" y="144" font-size="13" font-weight="700">reading mode</text>
+  </g>
+</svg>

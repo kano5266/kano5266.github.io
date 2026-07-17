@@ -1,0 +1,15 @@
+Enter Command
+Copyright jeti (Font End Dev) — https://fontenddev.com/fonts/enter-command/
+
+Licensed under the Creative Commons Attribution 4.0 International License
+(CC BY 4.0): http://creativecommons.org/licenses/by/4.0/
+
+The font may be used for personal or commercial projects provided credit is
+given to the creator. That credit is given in this project's README.
+
+NOTE: Enter Command is NOT under the SIL Open Font License, unlike
+DotGothic16 (see DotGothic16-OFL.txt). It carries no licence field in the
+font file itself; the terms above come from the designer's own page, linked
+above. Confirm there before relying on them for anything beyond this site.
+
+Files: EnterCommand.woff2, EnterCommand-Bold.woff2

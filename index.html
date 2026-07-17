@@ -1,591 +1,2062 @@
 <!DOCTYPE html>
+<!--
+  Visual identity: everything on this page lives on an 8px pixel grid —
+  positions, sizes, colors, and motion all snap to it.
+  See STYLE_GUIDE.md before changing or adding anything.
+-->
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Kanopri">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Kanopri">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="kano">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://yoursite.com/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'en'
-  };
-</script>
-
-  <title>Kanopri</title>
-  
-
-
-
-
-
-
-  <noscript>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jiali Ma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Kanopri</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">kano's personal website</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/shell-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="kano">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Kanopri">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/22/shell-command/" class="post-title-link" itemprop="url">shell command</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-01-22 02:39:29 / Modified: 02:50:42" itemprop="dateCreated datePublished" datetime="2021-01-22T02:39:29+09:00">2021-01-22</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="连入aws"><a href="#连入aws" class="headerlink" title="连入aws"></a>连入aws</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i <span class="string">"Documents/kanopri.pem"</span> ubuntu@ec2-3-112-234-229.ap-northeast-1.compute.amazonaws.com</span><br></pre></td></tr></table></figure>
-<h3 id="开启ngrok服务"><a href="#开启ngrok服务" class="headerlink" title="开启ngrok服务"></a>开启ngrok服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=<span class="string">"ngrok.kanopri.com"</span> -httpAddr=<span class="string">":8081"</span> -httpsAddr=<span class="string">":8082"</span></span><br></pre></td></tr></table></figure>
-<h3 id="列出、连入已有screen"><a href="#列出、连入已有screen" class="headerlink" title="列出、连入已有screen"></a>列出、连入已有screen</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ screen -r</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 新建screen</span></span><br><span class="line">``` bash</span><br><span class="line">$ screen -S</span><br></pre></td></tr></table></figure>
-
-<p>ctrl + a + c：创建新窗口（create）</p>
-<p>ctrl + a + n：切换至下一个窗口（next）</p>
-<p>ctrl + a + p：切换至上一个窗口（previous）</p>
-<p>ctrl + a + w: 列出所有窗口</p>
-<p>ctrl + a + A: 窗口重命名</p>
-<p>ctrl + a + d：detach当前会话</p>
-<p>ctrl + a + [1-9]: 切换到指定窗口（1-9为窗口号）</p>
-<p>ctrl + d：退出（关闭）当前窗口</p>
-<h3 id="安装miniconda"><a href="#安装miniconda" class="headerlink" title="安装miniconda"></a>安装miniconda</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line">$ chmod +x Miniconda3-latest-Linux-x86_64.sh; ./Miniconda3-latest-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
-
-<p>cd ngrok</p>
-<h3 id="修改jupyter配置"><a href="#修改jupyter配置" class="headerlink" title="修改jupyter配置"></a>修改jupyter配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/.jupyter/jupyter_notebook_config.py</span><br><span class="line"></span><br><span class="line">$ jupyter notebook --generate-config</span><br></pre></td></tr></table></figure>
-
-<h3 id="远程拷贝"><a href="#远程拷贝" class="headerlink" title="远程拷贝"></a>远程拷贝</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scp -i <span class="string">"Documents/kanopri.pem"</span> ubuntu@ec2-3-112-234-229.ap-northeast-1.compute.amazonaws.com:/root/ngrok/bin/ngrok /home/kano/ngrok</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="unraid虚拟机挂载"><a href="#unraid虚拟机挂载" class="headerlink" title="unraid虚拟机挂载"></a>unraid虚拟机挂载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mount -t 9p -o trans=virtio /unraidvault /unraidvault -oversion=9p2000.L</span><br><span class="line"></span><br><span class="line">$ sudo mount -t 9p -o trans=virtio /unraidvault /home/kano/unraidvault</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/%E8%A7%A3%E5%86%B3github%E5%BB%BA%E7%AB%99%E8%AE%BF%E9%97%AE%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%AE%89%E5%85%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="kano">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Kanopri">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/22/%E8%A7%A3%E5%86%B3github%E5%BB%BA%E7%AB%99%E8%AE%BF%E9%97%AE%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%AE%89%E5%85%A8/" class="post-title-link" itemprop="url">解决github建站访问显示不安全</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-01-22 02:35:28 / Modified: 02:36:41" itemprop="dateCreated datePublished" datetime="2021-01-22T02:35:28+09:00">2021-01-22</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>CNAME里面前缀加上www,勾选强制https就好了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/21/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="kano">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Kanopri">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/21/test/" class="post-title-link" itemprop="url">test</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-01-21 20:10:39" itemprop="dateCreated datePublished" datetime="2021-01-21T20:10:39+09:00">2021-01-21</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/26/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="kano">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Kanopri">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/26/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-04-26 19:45:55" itemprop="dateCreated datePublished" datetime="2020-04-26T19:45:55+09:00">2020-04-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-21 20:45:54" itemprop="dateModified" datetime="2021-01-21T20:45:54+09:00">2021-01-21</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<h3 id="Generate-and-Deploy"><a href="#Generate-and-Deploy" class="headerlink" title="Generate and Deploy"></a>Generate and Deploy</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g -d</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
+    /* DotGothic16 (SIL OFL) — self-hosted so it can carry size-adjust:
+       its CJK glyphs fill the em and read oversized next to Enter Command;
+       70% brings the ink heights into optical balance. */
+    @font-face {
+      font-family: "DotGothic16";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      size-adjust: 70%;
+      src: url("fonts/DotGothic16.woff2") format("woff2");
     }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
+
+    /* Enter Command by jeti (public domain) — self-hosted pixel display
+       face with true lowercase. Native 16-per-em grid: crisp at 16px. */
+    @font-face {
+      font-family: "Enter Command";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("fonts/EnterCommand.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Enter Command";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("fonts/EnterCommand-Bold.woff2") format("woff2");
+    }
+    :root {
+      color-scheme: light;
+      /* Primary: the identity color — interaction, focus, brand highlights. */
+      --identity-primary: #4f46e5;
+      /* Primary-ink: the accent as legible text on paper (links, years, hover).
+         Equals primary for indigo and in dark mode, where the primary already
+         reads; light pastels deepen it so text holds its contrast on white. */
+      --identity-primary-ink: #4f46e5;
+      /* Ring: the accent as an understated avatar outline — a lighter tone in
+         light mode, a deeper one in dark, so the circle reads without shouting.
+         Seafoam overrides light to its soft primary; others use tint-deep. */
+      --identity-ring: var(--identity-tint-deep);
+      /* Accent set: categorical highlights only, never interaction.
+         Each hue has a strong (ink-level) and a soft (fill-level) form. */
+      --identity-accent-pink: #db2777;
+      --identity-accent-pink-soft: #fbcfe8;
+      --identity-accent-amber: #d97706;
+      --identity-accent-amber-soft: #fde68a;
+      --identity-accent-green: #059669;
+      --identity-accent-green-soft: #a7f3d0;
+      --identity-accent-cyan: #0891b2;
+      --identity-accent-cyan-soft: #a5f3fc;
+      --identity-normal: #000;
+      /* Surfaces: paper + the primary tint ramp used for structural
+         shading. Every surface color on the page consumes these tokens —
+         that's what makes dark mode a palette swap, not a redesign. */
+      --identity-paper: #ffffff;
+      --identity-tint-deep: #a5b4fc;    /* creases, pressed fills */
+      --identity-tint-mid: #c7d2fe;     /* flaps, hover fills, scrollbar */
+      --identity-tint-soft: #dbe2ff;    /* inner-edge surface shading */
+      --identity-tint-shadow: #e0e7ff;  /* drop shadows */
+      --identity-gray: #6b7280;         /* secondary text */
+      --identity-color-in: 360ms;
+      --identity-color-out: 560ms;
+      --identity-color-steps: 5;
+      --identity-pixel-size: 8px;
+      --font-display: "Enter Command", "Silkscreen", monospace;
+      --font-content: "Enter Command", "Silkscreen", "DotGothic16", monospace;
+    }
+
+    /* Dark mode: the same machine at night. Ink and paper swap (dark paper
+       is the asset-ink near-black), structural shading flips to the dark
+       side of the primary ramp (indigo 950..700 mirroring 100..300), and
+       primary glows one step brighter. Physical objects (sticker, cards)
+       and lit screens (the TV picture, TV-icon glass) do NOT change —
+       they are objects and emitters, not page paper. The swap is instant:
+       a palette swap, per the motion law. */
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --identity-normal: #ffffff;
+      --identity-paper: #17151f;
+      --identity-primary: #818cf8;
+      --identity-primary-ink: #818cf8;
+      --identity-ring: var(--identity-tint-deep);
+      --identity-tint-deep: #4338ca;
+      --identity-tint-mid: #3730a3;
+      --identity-tint-soft: #312e81;
+      --identity-tint-shadow: #1e1b4b;
+      --identity-gray: #9ca3af;
+    }
+
+    /* Seafoam accent — the OS's one alternate look, selectable in the Control
+       Panel (Looks). A soft, airy 90s-anime pastel from the #b6ded1 seafoam
+       family, saturated up to a luminous glass-aqua (#82e3c0) for the primary;
+       accent *text* uses a deeper ink (--identity-primary-ink) so it stays
+       legible on paper. A gentle seafoam over a pale tint ramp in light, and a
+       bright
+       seafoam primary over a muted-dark ramp in dark. Same palette-swap trick
+       as dark mode — only the primary + tints change; ink, paper and gray stay
+       — so it layers on top and works in both modes. */
+    html[data-accent="seafoam"] {
+      --identity-primary: #82e3c0;
+      --identity-primary-ink: #1f8c68;
+      --identity-ring: var(--identity-primary);
+      --identity-tint-deep: #cdece1;
+      --identity-tint-mid: #deeee9;
+      --identity-tint-soft: #eaf2ef;
+      --identity-tint-shadow: #f5f8f7;
+    }
+
+    html[data-theme="dark"][data-accent="seafoam"] {
+      --identity-primary: #8ee1c5;
+      --identity-primary-ink: #8ee1c5;
+      --identity-ring: var(--identity-tint-deep);
+      --identity-tint-deep: #4c9a81;
+      --identity-tint-mid: #3f7d6c;
+      --identity-tint-soft: #326256;
+      --identity-tint-shadow: #284b43;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      background: var(--identity-paper);
+    }
+
+    .pixel-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      width: 100vw;
+      height: 100vh;
+      background: var(--identity-paper);
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pixel-transition { display: none; }
+    }
+
+    .draggable-item {
+      position: fixed;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    .draggable-item.dragging { cursor: grabbing; }
+
+    .identity-color,
+    .identity-pixel-color,
+    .pub-title a {
+      color: var(--identity-normal);
+      text-decoration: none;
+      transition: color var(--identity-color-out) steps(var(--identity-color-steps), end);
+    }
+
+    .identity-color:hover,
+    .identity-color:focus-visible,
+    .identity-pixel-color:hover,
+    .identity-pixel-color:focus-visible,
+    .pub-title a:hover,
+    .pub-title a:focus-visible {
+      color: var(--identity-primary-ink);
+      text-decoration: none;
+      transition-duration: var(--identity-color-in);
+    }
+
+    .identity-color:focus-visible,
+    .identity-pixel-color:focus-visible,
+    .pub-title a:focus-visible {
+      outline: 2px solid var(--identity-primary);
+      outline-offset: 4px;
+    }
+
+    /* Shared shell for all pixel icons; alignToGrid lays them out as a
+       centered row on the grid. */
+    .pixel-icon {
+      z-index: 2;
+      width: 112px;
+      height: 160px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .documentation-icon,
+    .wallet-icon,
+    .tv-icon,
+    .controls-icon,
+    .chat-icon,
+    .contacts-icon {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Icons need not share width — the shell height and label row stay
+       uniform, the box fits the subject (document: portrait; wallet and
+       TV: landscape). */
+    .wallet-icon,
+    .tv-icon { width: 144px; }
+    /* Contacts runs wider than the default: the book needs room for its
+       fore-edge page block AND the index tabs standing out past it. */
+    .contacts-icon { width: 128px; }
+
+    /* Every .doc-px is one solid rect on the 8px grid; DOM order = paint order.
+       currentColor pieces inherit the button's ink and follow its hover transition. */
+    .doc-px {
+      position: absolute;
+      display: block;
+    }
+
+    .px-shadow-b { left: 16px;  top: 128px; width: 88px; height: 8px;   background: var(--identity-tint-shadow); }
+    .px-shadow-r { left: 104px; top: 32px;  width: 8px;  height: 104px; background: var(--identity-tint-shadow); }
+
+    .px-paper-top  { left: 16px; top: 8px;  width: 64px; height: 8px;   background: var(--identity-paper); }
+    .px-paper-main { left: 16px; top: 16px; width: 80px; height: 104px; background: var(--identity-paper); }
+
+    .px-shade-b { left: 16px; top: 112px; width: 80px; height: 8px;  background: var(--identity-tint-soft); }
+    .px-shade-r { left: 88px; top: 32px;  width: 8px;  height: 88px; background: var(--identity-tint-soft); }
+
+    .px-fold-1 { left: 72px; top: 8px;  width: 8px;  height: 8px; background: var(--identity-tint-mid); }
+    .px-fold-2 { left: 72px; top: 16px; width: 16px; height: 8px; background: var(--identity-tint-mid); }
+    .px-fold-3 { left: 72px; top: 24px; width: 24px; height: 8px; background: var(--identity-tint-deep); }
+
+    .px-edge-left   { left: 8px;  top: 0;     width: 8px;  height: 128px; background: currentColor; }
+    .px-edge-top    { left: 8px;  top: 0;     width: 72px; height: 8px;   background: currentColor; }
+    .px-edge-step1  { left: 80px; top: 8px;   width: 8px;  height: 8px;   background: currentColor; }
+    .px-edge-step2  { left: 88px; top: 16px;  width: 8px;  height: 8px;   background: currentColor; }
+    .px-edge-step3  { left: 96px; top: 24px;  width: 8px;  height: 8px;   background: currentColor; }
+    .px-edge-right  { left: 96px; top: 32px;  width: 8px;  height: 88px;  background: currentColor; }
+    .px-edge-bottom { left: 8px;  top: 120px; width: 96px; height: 8px;   background: currentColor; }
+
+    .px-line-1 { left: 24px; top: 40px; width: 48px; height: 8px; background: var(--identity-primary); }
+    .px-line-2 { left: 24px; top: 56px; width: 64px; height: 8px; background: currentColor; }
+    .px-line-3 { left: 24px; top: 72px; width: 56px; height: 8px; background: currentColor; }
+    .px-line-4 { left: 24px; top: 88px; width: 40px; height: 8px; background: currentColor; }
+
+    /* Profile icon: a card wallet — the fun CV, landscape (144px box).
+       Apple-Wallet composition on the pixel grid: white wallet back with
+       1-step rounded top, tone-on-tone card layers (primary tints — the
+       approved reference separates layers by tone, not hue), and a front
+       pocket whose rim scoops down in the center revealing the card. */
+    .px-w-shadow-r { left: 136px; top: 32px;  width: 8px;   height: 104px; background: var(--identity-tint-shadow); }
+    .px-w-shadow-b { left: 16px;  top: 128px; width: 120px; height: 8px;   background: var(--identity-tint-shadow); }
+
+    .px-w-back-fill { left: 16px; top: 24px; width: 112px; height: 40px; background: var(--identity-paper); }
+    .px-w-back-top  { left: 16px; top: 16px; width: 112px; height: 8px;  background: currentColor; }
+    .px-w-back-l    { left: 8px;  top: 24px; width: 8px;   height: 40px; background: currentColor; }
+    .px-w-back-r    { left: 128px; top: 24px; width: 8px;  height: 40px; background: currentColor; }
+    .px-w-layer1 { left: 16px; top: 32px; width: 112px; height: 32px; background: var(--identity-tint-soft); }
+    .px-w-layer2 { left: 16px; top: 48px; width: 112px; height: 16px; background: var(--identity-tint-mid); }
+
+    .px-w-fill     { left: 16px;  top: 72px;  width: 112px; height: 48px; background: var(--identity-paper); }
+    .px-w-shade-b2 { left: 16px;  top: 112px; width: 112px; height: 8px;  background: var(--identity-tint-soft); }
+    .px-w-shade-r2 { left: 120px; top: 80px;  width: 8px;   height: 32px; background: var(--identity-tint-soft); }
+    .px-w-reveal-a { left: 48px;  top: 64px;  width: 48px;  height: 8px;  background: var(--identity-tint-mid); }
+    .px-w-reveal-b { left: 56px;  top: 72px;  width: 32px;  height: 8px;  background: var(--identity-tint-mid); }
+    .px-w-rim-l    { left: 8px;   top: 64px;  width: 40px;  height: 8px;  background: currentColor; }
+    .px-w-rim-r    { left: 96px;  top: 64px;  width: 40px;  height: 8px;  background: currentColor; }
+    .px-w-scoop-wl { left: 48px;  top: 72px;  width: 8px;   height: 8px;  background: currentColor; }
+    .px-w-scoop-wr { left: 88px;  top: 72px;  width: 8px;   height: 8px;  background: currentColor; }
+    .px-w-scoop-b  { left: 56px;  top: 80px;  width: 32px;  height: 8px;  background: currentColor; }
+    .px-w-side-l   { left: 8px;   top: 72px;  width: 8px;   height: 48px; background: currentColor; }
+    .px-w-side-r   { left: 128px; top: 72px;  width: 8px;   height: 48px; background: currentColor; }
+    .px-w-bottom   { left: 8px;   top: 120px; width: 128px; height: 8px;  background: currentColor; }
+
+    /* TV icon: a rabbit-ear CRT TV — white body, primary-lit screen
+       (the one accent), knob panel right. Parts prefixed px-n-*. */
+    .px-n-shadow-r { left: 136px; top: 48px;  width: 8px;   height: 88px; background: var(--identity-tint-shadow); }
+    .px-n-shadow-b { left: 16px;  top: 128px; width: 128px; height: 8px;  background: var(--identity-tint-shadow); }
+
+    .px-n-ant-l1 { left: 32px;  top: 0;    width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-l2 { left: 40px;  top: 8px;  width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-l3 { left: 48px;  top: 16px; width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-l4 { left: 56px;  top: 24px; width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-r1 { left: 104px; top: 0;    width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-r2 { left: 96px;  top: 8px;  width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-r3 { left: 88px;  top: 16px; width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-r4 { left: 80px;  top: 24px; width: 8px;  height: 8px; background: currentColor; }
+    .px-n-ant-base { left: 64px; top: 32px; width: 16px; height: 8px; background: currentColor; }
+
+    .px-n-tv-top    { left: 8px;   top: 40px;  width: 128px; height: 8px;  background: currentColor; }
+    .px-n-tv-left   { left: 8px;   top: 48px;  width: 8px;   height: 72px; background: currentColor; }
+    .px-n-tv-right  { left: 128px; top: 48px;  width: 8px;   height: 72px; background: currentColor; }
+    .px-n-tv-bottom { left: 8px;   top: 120px; width: 128px; height: 8px;  background: currentColor; }
+    .px-n-tv-fill   { left: 16px;  top: 48px;  width: 112px; height: 72px; background: var(--identity-paper); }
+
+    .px-n-scr-top    { left: 16px; top: 48px;  width: 80px; height: 8px;  background: currentColor; }
+    .px-n-scr-bottom { left: 16px; top: 112px; width: 80px; height: 8px;  background: currentColor; }
+    .px-n-scr-left   { left: 16px; top: 56px;  width: 8px;  height: 56px; background: currentColor; }
+    .px-n-scr-right  { left: 88px; top: 56px;  width: 8px;  height: 56px; background: currentColor; }
+    .px-n-scr-fill   { left: 24px; top: 56px;  width: 64px; height: 56px; background: var(--identity-primary); }
+    .px-n-glint-a    { left: 32px; top: 64px;  width: 16px; height: 8px;  background: #fff; }
+    .px-n-glint-b    { left: 32px; top: 72px;  width: 8px;  height: 8px;  background: #fff; }
+
+    .px-n-knob-1 { left: 104px; top: 56px; width: 16px; height: 16px; background: currentColor; }
+    .px-n-knob-2 { left: 104px; top: 80px; width: 16px; height: 16px; background: var(--identity-tint-mid); }
+
+    /* Controls icon: a slider panel — three tint tracks, ink knobs, one
+       primary knob (the accent). Parts prefixed px-c-*. */
+    .px-c-shadow-r { left: 104px; top: 48px;  width: 8px;  height: 80px; background: var(--identity-tint-shadow); }
+    .px-c-shadow-b { left: 16px;  top: 120px; width: 96px; height: 8px;  background: var(--identity-tint-shadow); }
+
+    .px-c-top    { left: 8px;  top: 40px;  width: 96px; height: 8px;  background: currentColor; }
+    .px-c-left   { left: 8px;  top: 48px;  width: 8px;  height: 64px; background: currentColor; }
+    .px-c-right  { left: 96px; top: 48px;  width: 8px;  height: 64px; background: currentColor; }
+    .px-c-bottom { left: 8px;  top: 112px; width: 96px; height: 8px;  background: currentColor; }
+    .px-c-fill   { left: 16px; top: 48px;  width: 80px; height: 64px; background: var(--identity-paper); }
+
+    .px-c-track-1 { left: 24px; top: 56px; width: 64px; height: 8px; background: var(--identity-tint-soft); }
+    .px-c-track-2 { left: 24px; top: 72px; width: 64px; height: 8px; background: var(--identity-tint-soft); }
+    .px-c-track-3 { left: 24px; top: 88px; width: 64px; height: 8px; background: var(--identity-tint-soft); }
+    .px-c-knob-1  { left: 48px; top: 56px; width: 16px; height: 8px; background: var(--identity-primary); }
+    .px-c-knob-2  { left: 32px; top: 72px; width: 16px; height: 8px; background: currentColor; }
+    .px-c-knob-3  { left: 72px; top: 88px; width: 16px; height: 8px; background: currentColor; }
+    .px-c-shade   { left: 80px; top: 104px; width: 16px; height: 8px; background: var(--identity-tint-soft); }
+
+    /* Messages icon: a speech bubble (tail bottom-left, one primary line —
+       the document-icon language) with an unread badge. Parts px-m-*. */
+    .px-m-shadow-r  { left: 104px; top: 48px; width: 8px;  height: 56px; background: var(--identity-tint-shadow); }
+    .px-m-shadow-t1 { left: 32px; top: 104px; width: 24px; height: 8px;  background: var(--identity-tint-shadow); }
+    .px-m-shadow-t2 { left: 24px; top: 112px; width: 16px; height: 8px;  background: var(--identity-tint-shadow); }
+    .px-m-shadow-b  { left: 24px; top: 96px;  width: 80px; height: 8px;  background: var(--identity-tint-shadow); }
+
+    .px-m-top      { left: 16px; top: 40px; width: 80px; height: 8px;  background: currentColor; }
+    .px-m-left     { left: 8px;  top: 48px; width: 8px;  height: 40px; background: currentColor; }
+    .px-m-right    { left: 96px; top: 48px; width: 8px;  height: 40px; background: currentColor; }
+    .px-m-fill     { left: 16px; top: 48px; width: 80px; height: 40px; background: var(--identity-paper); }
+    .px-m-line-1   { left: 24px; top: 56px; width: 32px; height: 8px;  background: var(--identity-primary); }
+    .px-m-line-2   { left: 24px; top: 72px; width: 48px; height: 8px;  background: currentColor; }
+    .px-m-shade-r  { left: 88px; top: 56px; width: 8px;  height: 32px; background: var(--identity-tint-soft); }
+    .px-m-shade-b  { left: 24px; top: 80px; width: 64px; height: 8px;  background: var(--identity-tint-soft); }
+    .px-m-bottom-l { left: 16px; top: 88px; width: 8px;  height: 8px;  background: currentColor; }
+    .px-m-throat   { left: 24px; top: 88px; width: 16px; height: 8px;  background: var(--identity-paper); }
+    .px-m-bottom-r { left: 40px; top: 88px; width: 56px; height: 8px;  background: currentColor; }
+    .px-m-tail-l   { left: 16px; top: 96px; width: 8px;  height: 8px;  background: currentColor; }
+    .px-m-tail-f   { left: 24px; top: 96px; width: 16px; height: 8px;  background: var(--identity-paper); }
+    .px-m-tail-r   { left: 40px; top: 96px; width: 8px;  height: 8px;  background: currentColor; }
+    .px-m-tail-tip { left: 16px; top: 104px; width: 16px; height: 8px; background: currentColor; }
+
+    /* The unread badge: accent-pink (the palette's red), paper halo like
+       the close box, blinking in hard steps. Hidden once read. */
+    .px-m-badge {
+      left: 88px;
+      top: 32px;
+      width: 16px;
+      height: 16px;
+      background: var(--identity-accent-pink);
+      box-shadow: 0 0 0 4px var(--identity-paper);
+    }
+
+    .chat-icon:not(.unread) .px-m-badge { display: none; }
+
+    .chat-icon.unread .px-m-badge {
+      animation: chat-badge 1200ms step-end infinite;
+    }
+
+    @keyframes chat-badge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chat-icon.unread .px-m-badge { animation: none; }
+    }
+
+    /* Contacts icon: the address book — an outlined person (tint fill) on the
+       cover, with the page block wrapping the bottom AND the right fore-edge
+       so it reads as a bound volume with real thickness rather than a loose
+       sheet, and three index tabs standing out of the pages, the middle one
+       primary (the open letter). Parts prefixed px-ct-*.
+
+       The shadow is the book's silhouette offset exactly one cell down-right,
+       which is what lets the :active press land the art perfectly on top of
+       it. The tabs cast none of their own — they read as thin paper. */
+    /* The book is two planes, not one outline: the page block is a rectangle
+       (x 24-104, y 32-120) sitting BEHIND the cover (x 8-88, y 16-104) and
+       extruded 16px down-right, so the silhouette steps out on the right and
+       in on the left — that step is the perspective. Only the parts of the
+       block the cover does not hide get drawn. The tabs then grow out of the
+       block's own right edge, at the pages' depth, not off the cover. */
+    .px-ct-shadow-r { left: 104px; top: 40px;  width: 8px;  height: 88px; background: var(--identity-tint-shadow); }
+    .px-ct-shadow-b { left: 24px;  top: 120px; width: 88px; height: 8px;  background: var(--identity-tint-shadow); }
+
+    /* The depth edges: 45° staircases running from the cover's corners to the
+       block's, sealing the two planes into ONE volume. Without them the cover
+       and the block read as two cards lying on each other, not as a book. The
+       top-right pair starts a cell below the cover's corner, so the thickness
+       eases in rather than springing straight out of the corner. */
+    .px-ct-depth-tr1 { left: 88px; top: 24px;  width: 8px; height: 8px; background: currentColor; }
+    .px-ct-depth-tr2 { left: 96px; top: 32px;  width: 8px; height: 8px; background: currentColor; }
+    .px-ct-depth-bl1 { left: 8px;  top: 104px; width: 8px; height: 8px; background: currentColor; }
+    .px-ct-depth-bl2 { left: 16px; top: 112px; width: 8px; height: 8px; background: currentColor; }
+
+    /* The page block, behind: the pages themselves, closed by the block's
+       outer edges. */
+    .px-ct-pages-r { left: 88px; top: 32px;  width: 8px;  height: 80px; background: var(--identity-tint-soft); }
+    .px-ct-pages-b { left: 16px; top: 104px; width: 72px; height: 8px;  background: var(--identity-tint-soft); }
+    .px-ct-block-r { left: 96px; top: 40px;  width: 8px;  height: 80px; background: currentColor; }
+    .px-ct-block-b { left: 24px; top: 112px; width: 80px; height: 8px;  background: currentColor; }
+
+    /* The cover, in front — it hides the rest of the block. */
+    .px-ct-top    { left: 8px;  top: 16px; width: 80px; height: 8px;  background: currentColor; }
+    .px-ct-left   { left: 8px;  top: 24px; width: 8px;  height: 72px; background: currentColor; }
+    .px-ct-right  { left: 80px; top: 24px; width: 8px;  height: 72px; background: currentColor; }
+    .px-ct-fill   { left: 16px; top: 24px; width: 64px; height: 72px; background: var(--identity-paper); }
+    .px-ct-bottom { left: 8px;  top: 96px; width: 80px; height: 8px;  background: currentColor; }
+
+    /* Index tabs: they belong to the COVER's plane, springing from its right
+       edge and crossing the fore-edge to stand one cell proud of the book's
+       edge. They start below the depth staircase so it stays readable. */
+    /* tint-deep, not tint-mid: these now sit ON the tint-soft pages rather than
+       against bare paper, and mid is too close to soft to register there. */
+    .px-ct-tab-1 { left: 88px; top: 40px; width: 24px; height: 16px; background: var(--identity-tint-deep); }
+    .px-ct-tab-2 { left: 88px; top: 64px; width: 24px; height: 16px; background: var(--identity-primary); }
+    .px-ct-tab-3 { left: 88px; top: 88px; width: 24px; height: 16px; background: var(--identity-tint-deep); }
+
+    .px-ct-head-top    { left: 40px; top: 32px; width: 16px; height: 8px;  background: currentColor; }
+    .px-ct-head-l      { left: 32px; top: 40px; width: 8px;  height: 16px; background: currentColor; }
+    .px-ct-head-r      { left: 56px; top: 40px; width: 8px;  height: 16px; background: currentColor; }
+    .px-ct-head-fill   { left: 40px; top: 40px; width: 16px; height: 16px; background: var(--identity-tint-soft); }
+    .px-ct-head-bottom { left: 40px; top: 56px; width: 16px; height: 8px;  background: currentColor; }
+    .px-ct-torso-top   { left: 32px; top: 64px; width: 32px; height: 8px;  background: currentColor; }
+    .px-ct-torso-l     { left: 24px; top: 72px; width: 8px;  height: 24px; background: currentColor; }
+    .px-ct-torso-r     { left: 64px; top: 72px; width: 8px;  height: 24px; background: currentColor; }
+    .px-ct-torso-fill  { left: 32px; top: 72px; width: 32px; height: 24px; background: var(--identity-tint-soft); }
+
+    /* Press feedback: the art snaps one grid cell onto its own drop shadow,
+       so the icon reads as physically pushed in. Instant, no easing — pixel style.
+       .pressed is the same look driven from script, so the welcome can show the
+       reader an icon being opened instead of windows just appearing. */
+    .pixel-icon:is(:active, .pressed) .doc-px { translate: 8px 8px; }
+
+    .pixel-icon:is(:active, .pressed) :is(
+      .px-shadow-b,
+      .px-shadow-r,
+      .px-w-shadow-r,
+      .px-w-shadow-b,
+      .px-n-shadow-r,
+      .px-n-shadow-b,
+      .px-c-shadow-r,
+      .px-c-shadow-b,
+      .px-m-shadow-r,
+      .px-m-shadow-b,
+      .px-m-shadow-t1,
+      .px-m-shadow-t2,
+      .px-ct-shadow-r,
+      .px-ct-shadow-b) { translate: none; }
+
+    .doc-label {
+      position: absolute;
+      left: 0;
+      top: 136px;
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 24px;
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+      text-align: center;
+      color: inherit;
+    }
+
+    /* Retro Macintosh-style window: striped title bar, close box on the
+       upper left, 4px "virtual pixel" chrome on the identity palette. */
+    .mac-window {
+      position: fixed;
+      z-index: 30;
+      width: min(560px, calc(100vw - 48px));
+      background: var(--identity-paper);
+      border: 4px solid var(--identity-normal);
+      box-shadow: 8px 8px 0 var(--identity-tint-shadow);
+      /* Content stack is Silkscreen-first with a Japanese font covering CJK —
+         both bitmap-styled, so smoothing stays off. */
+      font-family: var(--font-content);
+      font-size: 16px;
+      line-height: 24px;
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+    }
+
+    .mac-titlebar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      border-bottom: 4px solid var(--identity-normal);
+      background: linear-gradient(
+        to bottom,
+        var(--identity-paper) 0 8px, var(--identity-normal) 8px 12px,
+        var(--identity-paper) 12px 20px, var(--identity-normal) 20px 24px,
+        var(--identity-paper) 24px 32px, var(--identity-normal) 32px 36px,
+        var(--identity-paper) 36px
+      );
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* The window receives programmatic focus on open (for Escape handling);
+       suppress the browser's default focus ring — it isn't tabbable. */
+    .mac-window:focus { outline: none; }
+
+    .mac-window.dragging .mac-titlebar { cursor: grabbing; }
+
+    .mac-title {
+      margin: 0;
+      padding: 0 16px;
+      background: var(--identity-paper);
+      /* Title bars are chrome, not content: Silkscreen at its native 16px
+         (the optical match for Enter Command 24) — the one place the
+         fallback face leads the stack. */
+      font-family: "Silkscreen", var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+    }
+
+    .mac-close {
+      position: absolute;
+      left: 16px;
+      top: 8px;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 4px solid var(--identity-normal);
+      background: var(--identity-paper);
+      box-shadow: 0 0 0 8px var(--identity-paper);
+      cursor: pointer;
+    }
+
+    .mac-close:hover,
+    .mac-close:focus-visible {
+      background: var(--identity-tint-mid);
+    }
+
+    .mac-close:active { background: var(--identity-primary); }
+
+    .mac-close:focus-visible {
+      outline: 2px solid var(--identity-primary);
+      outline-offset: 6px;
+    }
+
+    /* Super-resolution sticker: a physical vinyl sticker (sr-sticker.svg)
+       stuck on the window's bottom-right corner. As a real-world object on
+       the screen glass (like the cursor), it is exempt from the pixel laws.
+       The asset carries the print; the button carries placement, tilt,
+       cast shadow, and the lift/press physics. Toggles super-resolution mode. */
+    .sr-sticker {
+      position: absolute;
+      right: -24px;
+      bottom: -28px;
+      z-index: 5;
+      width: 112px;
+      height: 112px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      transform: rotate(-12deg);
+      cursor: pointer;
+      touch-action: none;
+      transition: transform 150ms ease;
+    }
+
+    /* Peeling: the sticker is physical — it can be tugged and torn off. */
+    .sr-sticker.peeling {
+      transition: none;
+      cursor: grabbing;
+    }
+
+    .sr-sticker.peeled {
+      animation: sticker-peel-away 420ms ease-in forwards;
+      pointer-events: none;
+    }
+
+    @keyframes sticker-peel-away {
+      from { opacity: 1; }
+      to {
+        opacity: 0;
+        visibility: hidden;
+        transform: translate(var(--peel-x, 80px), var(--peel-y, 120px)) rotate(28deg) scale(0.85);
       }
     }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
+    @media (prefers-reduced-motion: reduce) {
+      .sr-sticker.peeled {
+        animation: none;
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
 
-  <aside class="sidebar">
-    <div class="sidebar-inner">
+    .sr-sticker .face-modern {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
+    .sr-sticker .face-classic { display: none; }
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
+    .sr-sticker:hover,
+    .sr-sticker:focus-visible {
+      transform: rotate(-8deg) scale(1.06);
+    }
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">kano</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">4</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/kano5266" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;kano5266" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:kripri5266@gmail.com" title="E-Mail → mailto:kripri5266@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
+    .sr-sticker:active {
+      transform: rotate(-10deg) scale(0.96);
+    }
 
+    .sr-sticker:focus-visible {
+      outline: 2px solid var(--identity-primary);
+      outline-offset: 4px;
+    }
 
+    /* Slap-on: the sticker lands on the window a beat after it opens
+       (--sr-slap-delay, ~10s on open so it surfaces once you've settled
+       in; snappy on a manual mode-flip), and again when the mode flips.
+       backwards fill holds the `from` frame through the delay, so it stays
+       invisible AND non-interactive until it lands. */
+    .sr-sticker.slapped {
+      animation: sticker-slap-modern 240ms ease-out var(--sr-slap-delay, 220ms) backwards;
+    }
 
-      </div>
+    @keyframes sticker-slap-modern {
+      from { opacity: 0; transform: rotate(-26deg) scale(1.7); pointer-events: none; }
+      65% { opacity: 1; transform: rotate(-9deg) scale(0.94); }
+      to { transform: rotate(-12deg) scale(1); pointer-events: auto; }
+    }
 
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+    /* In super-resolution mode the sticker flips: a pixel-art pop-up
+       offering the way home. Each face advertises the other world.
+       Unlike the sticker, the pop-up is screen content, not a physical
+       object — it sits in the title bar, aligned with title and close. */
+    .super-res .sr-sticker {
+      width: auto;
+      height: auto;
+      right: 12px;
+      top: 4px;
+      bottom: auto;
+      transform: none;
+      transform-origin: right center;
+    }
 
+    .super-res .sr-sticker .face-modern { display: none; }
 
-      </div>
-    </main>
+    /* Pixel-rounded dialog drawn as a fixed-size inline SVG: integer
+       dimensions and crispEdges paths keep the 1px outline uniform at
+       every DPR (a text-sized box goes fractional and renders the
+       hairline unevenly). Inline SVG shares the document's fonts, so the
+       label stays Silkscreen. */
+    .super-res .sr-sticker .face-classic {
+      display: block;
+      width: 112px;
+      height: 48px;
+    }
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
+    .super-res .sr-sticker .face-classic path { shape-rendering: crispEdges; }
 
-        
+    .super-res .sr-sticker .face-classic-bg { fill: var(--identity-accent-amber-soft); }
 
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">kano</span>
-</div>
+    .super-res .sr-sticker .face-classic text {
+      font-family: var(--font-display);
+      font-size: 24px;
+      fill: #000;
+    }
 
-        
+    .super-res .sr-sticker:hover,
+    .super-res .sr-sticker:focus-visible { transform: none; }
 
+    .super-res .sr-sticker:hover .face-classic-bg,
+    .super-res .sr-sticker:focus-visible .face-classic-bg { fill: #fff; }
 
+    .super-res .sr-sticker:active { transform: translate(4px, 4px); }
 
+    /* Retro pop-in: discrete frames only — the box snaps through three
+       sizes with no in-between rendering, like an RPG dialog opening.
+       Deliberately late: the way back reveals itself after a beat, not
+       the instant the mode flips. */
+    .super-res .sr-sticker.slapped {
+      animation-name: sticker-slap-classic;
+      animation-timing-function: step-end;
+      animation-delay: 1100ms;
+    }
 
+    @keyframes sticker-slap-classic {
+      0% { opacity: 0; transform: scale(0.4); }
+      1% { opacity: 1; }
+      33% { transform: scale(0.6); }
+      66% { transform: scale(0.85); }
+      100% { transform: scale(1); }
+    }
 
+    @media (prefers-reduced-motion: reduce) {
+      .sr-sticker.slapped { animation: none; }
+    }
 
+    .mac-content {
+      padding: 24px;
+      max-height: min(480px, calc(100vh - 240px));
+      overflow-y: auto;
+    }
 
+    .mac-content::-webkit-scrollbar { width: 24px; }
+    .mac-content::-webkit-scrollbar-track { background: var(--identity-paper); border-left: 4px solid var(--identity-normal); }
+    /* No right border: the scrollbar is flush against the window's ink
+       frame, so a thumb border-right would stack with the frame into a
+       doubled 8px edge. The frame IS the right wall — keeps left/right even. */
+    .mac-content::-webkit-scrollbar-thumb { background: var(--identity-tint-mid); border: 4px solid var(--identity-normal); border-right: 0; }
 
-      </div>
-    </footer>
-  </div>
+    .pub-section + .pub-section { margin-top: 32px; }
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+    .pub-section-title {
+      margin: 0 0 16px;
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 24px;
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+    }
 
-<script src="/js/utils.js"></script>
+    /* One colored cell as the section marker — accent hue per category. */
+    .pub-section-title::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 8px;
+      vertical-align: 2px;
+      background: var(--identity-primary);
+    }
 
-<script src="/js/motion.js"></script>
+    .pub-section[data-section='journal'] .pub-section-title::before { background: var(--identity-accent-amber); }
+    .pub-section[data-section='international'] .pub-section-title::before { background: var(--identity-primary); }
+    .pub-section[data-section='domestic'] .pub-section-title::before { background: var(--identity-accent-green); }
+    .pub-section[data-section='preprint'] .pub-section-title::before { background: var(--identity-accent-cyan); }
+    .pub-section[data-section='other'] .pub-section-title::before { background: var(--identity-accent-pink); }
 
+    .pub-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-<script src="/js/schemes/pisces.js"></script>
+    .pub-list li + li { margin-top: 24px; }
 
+    /* Enter Command's caps at 24px optically match Silkscreen's at 16px.
+       Its ink is small within the em (44% cap height — terminal-font
+       design), so solid 24px leading reads normal, not cramped. */
+    .pub-title {
+      margin: 0 0 4px;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 24px;
+    }
 
-<script src="/js/next-boot.js"></script>
+    .pub-meta {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 24px;
+      color: var(--identity-gray);
+    }
 
+    /* The site owner's name stands out from the gray author list. */
+    .pub-self {
+      color: var(--identity-normal);
+      font-weight: 700;
+    }
 
+    .pub-year { color: var(--identity-primary-ink); }
 
+    /* Material buttons under a paper (slides / paper / poster). Clicking one
+       doesn't download straight off — it opens Messages and Jiali sends you the
+       file like a DM (chat.js ChatApp.share). Text-only pixel pills. */
+    .pub-actions { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .pub-material {
+      position: relative;
+      isolation: isolate;
+      display: inline-block;
+      padding: 4px 12px;
+      border: 0;               /* strip the UA <button> border (kept box at 28px) */
+      appearance: none;
+      -webkit-appearance: none;
+      /* Pixel-art fully-rounded pill, done as two stacked stepped shapes: this
+         element is the outline colour clipped to the OUTER stadium silhouette,
+         and ::before is the fill clipped to that same silhouette eroded ~2px
+         inward — so a crisp pixel outline traces the whole perimeter, stepped
+         end-caps included. (The old gradient-border trick left the corners un-
+         outlined: its square-cornered padding-box met the stepped silhouette
+         with no room for the border.) The caps are stepped semicircles of
+         radius = half the box height; the polygons assume a 24px-tall box
+         (16px line + 2×4px padding, no border) — the caps stay circular and
+         the straight mid-section (the calc(100% - …) run) stretches if it
+         changes. */
+      background: var(--identity-primary-ink);
+      color: var(--identity-primary-ink);
+      font: inherit;
+      font-size: 16px;
+      line-height: 16px;
+      cursor: pointer;
+      clip-path: polygon(
+        8px 0, calc(100% - 8px) 0,
+        calc(100% - 8px) 2px, calc(100% - 4px) 2px, calc(100% - 4px) 4px, calc(100% - 2px) 4px, calc(100% - 2px) 8px, 100% 8px,
+        100% calc(100% - 8px),
+        calc(100% - 2px) calc(100% - 8px), calc(100% - 2px) calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) calc(100% - 2px), calc(100% - 8px) calc(100% - 2px), calc(100% - 8px) 100%,
+        8px 100%,
+        8px calc(100% - 2px), 4px calc(100% - 2px), 4px calc(100% - 4px), 2px calc(100% - 4px), 2px calc(100% - 8px), 0 calc(100% - 8px),
+        0 8px,
+        2px 8px, 2px 4px, 4px 4px, 4px 2px, 8px 2px
+      );
+    }
+    .pub-material::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;             /* paints above this element's ink bg, below the label */
+      background: var(--identity-tint-soft);
+      clip-path: polygon(
+        8px 2px, calc(100% - 8px) 2px,
+        calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, calc(100% - 2px) 8px,
+        calc(100% - 2px) calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) calc(100% - 2px),
+        8px calc(100% - 2px),
+        8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 2px calc(100% - 8px),
+        2px 8px,
+        4px 8px, 4px 4px, 8px 4px
+      );
+    }
+    /* Hover deepens only the fill (::before); the outline is this element's own
+       background — a separate layer, so it can never vanish. */
+    .pub-material:hover::before { background: var(--identity-tint-mid); }
+    .pub-material:active { translate: 2px 2px; }
+    .pub-material:focus-visible {
+      outline: 2px solid var(--identity-primary);
+      outline-offset: 2px;
+    }
 
-  
+    /* ------------------------------------------------------------------ *
+     * Super-resolution mode — the one sanctioned exception to the pixel
+     * laws, scoped strictly to .mac-window.super-res (toggled by the zoom
+     * box). The window "renders at native resolution" in our own future:
+     * frosted glass built from the identity tokens (paper and primary at
+     * partial alpha), a primary light-line signature, glass controls.
+     * Nothing outside this window ever adopts these styles.
+     * ------------------------------------------------------------------ */
+    .mac-window.super-res {
+      --sr-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", sans-serif;
+      font-family: var(--sr-font);
+      -webkit-font-smoothing: antialiased;
+      font-smooth: auto;
+      border: 1px solid rgba(79, 70, 229, 0.22);
+      border-radius: 20px;
+      /* No overflow clipping — the sticker overhangs the corner. */
+      background: rgba(255, 255, 255, 0.58);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      backdrop-filter: blur(24px) saturate(1.5);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 24px 64px -16px rgba(79, 70, 229, 0.35),
+        0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    /* The title bar floats over the content with no explicit edge: content
+       scrolls beneath it, progressively blurred — the backdrop blur fades
+       out through a gradient mask instead of ending at a border. */
+    .super-res .mac-titlebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      height: 56px;
+      background: transparent;
+      border-bottom: none;
+      -webkit-backdrop-filter: blur(28px) saturate(1.2);
+      backdrop-filter: blur(28px) saturate(1.2);
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    }
+
+    /* The identity signature: a primary light-line along the top edge. */
+    .super-res .mac-titlebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--identity-primary), transparent);
+      opacity: 0.8;
+    }
+
+    .super-res .mac-title {
+      /* Left-aligned next to the close button, modern app-header style —
+         leaves the bar's right side to the classic pop-up. */
+      position: absolute;
+      left: 56px;
+      top: 50%;
+      translate: 0 -50%;
+      padding: 0;
+      font-family: var(--sr-font);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6b7280;
+      background: transparent;
+      -webkit-font-smoothing: antialiased;
+      font-smooth: auto;
+    }
+
+    /* Glass close control — fully round. */
+    .super-res .mac-close {
+      width: 28px;
+      height: 28px;
+      top: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      color: #6b7280;
+    }
+
+    .super-res .mac-close:hover,
+    .super-res .mac-close:focus-visible {
+      border-color: var(--identity-primary);
+      color: var(--identity-primary-ink);
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 0 14px rgba(79, 70, 229, 0.35);
+    }
+
+    .super-res .mac-close:active {
+      background: rgba(79, 70, 229, 0.16);
+    }
+
+    /* Close glyph: a thin x. */
+    .super-res .mac-close::before,
+    .super-res .mac-close::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 1.5px;
+      background: currentColor;
+      border-radius: 1px;
+    }
+
+    .super-res .mac-close::before { transform: translate(-50%, -50%) rotate(45deg); }
+    .super-res .mac-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+    .super-res .mac-content {
+      /* Title bar is out of flow — content starts beneath it and scrolls
+         under the progressive blur. */
+      padding: 64px 28px 24px;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .super-res .pub-section-title {
+      font-family: var(--sr-font);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+      -webkit-font-smoothing: antialiased;
+      font-smooth: auto;
+    }
+
+    .super-res .pub-section-title::before { border-radius: 2px; }
+
+    .super-res .pub-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .super-res .pub-title a { transition: color 150ms ease; }
+
+    .super-res .pub-meta {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .super-res .pub-self { font-weight: 600; }
+
+    .super-res .pub-year {
+      display: inline-block;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.12);
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .super-res .mac-content::-webkit-scrollbar { width: 10px; }
+    .super-res .mac-content::-webkit-scrollbar-track { background: transparent; border: none; }
+    .super-res .mac-content::-webkit-scrollbar-thumb {
+      background: rgba(79, 70, 229, 0.28);
+      border: none;
+      border-radius: 5px;
+    }
+
+    .super-res .mac-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(79, 70, 229, 0.45);
+    }
+
+    /* Dark-mode glass: the same frosted window over a dark room — dark
+       paper at partial alpha, softer inner highlight, primary glow tuned
+       to the brighter dark-primary. Text colors follow the tokens. */
+    html[data-theme="dark"] .mac-window.super-res {
+      border: 1px solid rgba(129, 140, 248, 0.28);
+      background: rgba(23, 21, 31, 0.62);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 24px 64px -16px rgba(129, 140, 248, 0.28),
+        0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    html[data-theme="dark"] .super-res .mac-close {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(23, 21, 31, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    html[data-theme="dark"] .super-res .mac-close:hover,
+    html[data-theme="dark"] .super-res .mac-close:focus-visible {
+      border-color: var(--identity-primary);
+      background: rgba(23, 21, 31, 0.85);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 14px rgba(129, 140, 248, 0.35);
+    }
+
+    html[data-theme="dark"] .super-res .mac-close:active {
+      background: rgba(129, 140, 248, 0.25);
+    }
+
+    html[data-theme="dark"] .super-res .pub-year {
+      background: rgba(129, 140, 248, 0.22);
+    }
+
+    html[data-theme="dark"] .super-res .mac-content::-webkit-scrollbar-thumb {
+      background: rgba(129, 140, 248, 0.35);
+    }
+
+    html[data-theme="dark"] .super-res .mac-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(129, 140, 248, 0.55);
+    }
+
+    /* Light switch: the dark-mode toggle as a physical wall plate, fixed
+       top-right. It sits flush on the glass — no cast shadow, no press
+       displacement; the rocker flip IS the feedback. Art follows icon law
+       (paper plate, currentColor outline, tint slot/rocker). */
+    .light-switch {
+      position: fixed;
+      z-index: 20;
+      top: 32px;
+      width: 48px;
+      height: 64px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .sw-plate  { left: 0;    top: 0;    width: 48px; height: 64px; background: currentColor; }
+    .sw-paper  { left: 8px;  top: 8px;  width: 32px; height: 48px; background: var(--identity-paper); }
+    .sw-slot   { left: 16px; top: 16px; width: 16px; height: 32px; background: var(--identity-tint-soft); }
+    .sw-rocker { left: 16px; top: 16px; width: 16px; height: 16px; background: var(--identity-tint-mid); }
+
+    /* Rocker down = lights off. */
+    html[data-theme="dark"] .sw-rocker { top: 32px; }
+
+  </style>
+</head>
+<body>
   <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
+    // Theme init, before first paint: stored choice wins, else the system
+    // preference. (The toggle itself is the light switch, top right.)
+    (() => {
+      const stored = localStorage.getItem('identity-theme');
+      const dark = stored ? stored === 'dark'
+        : matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark) document.documentElement.dataset.theme = 'dark';
+      const accent = localStorage.getItem('identity-accent');
+      if (accent === 'seafoam') document.documentElement.dataset.accent = accent;
     })();
   </script>
 
+  <button class="light-switch identity-pixel-color" type="button"
+    aria-label="Toggle dark mode" aria-pressed="false">
+    <span class="doc-px sw-plate"></span>
+    <span class="doc-px sw-paper"></span>
+    <span class="doc-px sw-slot"></span>
+    <span class="doc-px sw-rocker"></span>
+  </button>
 
+  <button class="contacts-icon pixel-icon draggable-item identity-pixel-color" type="button">
+    <span class="doc-px px-ct-shadow-r"></span>
+    <span class="doc-px px-ct-shadow-b"></span>
+    <span class="doc-px px-ct-depth-tr1"></span>
+    <span class="doc-px px-ct-depth-tr2"></span>
+    <span class="doc-px px-ct-depth-bl1"></span>
+    <span class="doc-px px-ct-depth-bl2"></span>
+    <span class="doc-px px-ct-pages-r"></span>
+    <span class="doc-px px-ct-pages-b"></span>
+    <span class="doc-px px-ct-block-r"></span>
+    <span class="doc-px px-ct-block-b"></span>
+    <span class="doc-px px-ct-top"></span>
+    <span class="doc-px px-ct-left"></span>
+    <span class="doc-px px-ct-right"></span>
+    <span class="doc-px px-ct-fill"></span>
+    <span class="doc-px px-ct-bottom"></span>
+    <span class="doc-px px-ct-tab-1"></span>
+    <span class="doc-px px-ct-tab-2"></span>
+    <span class="doc-px px-ct-tab-3"></span>
+    <span class="doc-px px-ct-head-top"></span>
+    <span class="doc-px px-ct-head-l"></span>
+    <span class="doc-px px-ct-head-r"></span>
+    <span class="doc-px px-ct-head-fill"></span>
+    <span class="doc-px px-ct-head-bottom"></span>
+    <span class="doc-px px-ct-torso-top"></span>
+    <span class="doc-px px-ct-torso-l"></span>
+    <span class="doc-px px-ct-torso-r"></span>
+    <span class="doc-px px-ct-torso-fill"></span>
+    <span class="doc-label">Contacts</span>
+  </button>
 
+  <button class="chat-icon pixel-icon draggable-item identity-pixel-color" type="button">
+    <span class="doc-px px-m-shadow-r"></span>
+    <span class="doc-px px-m-shadow-b"></span>
+    <span class="doc-px px-m-shadow-t1"></span>
+    <span class="doc-px px-m-shadow-t2"></span>
+    <span class="doc-px px-m-top"></span>
+    <span class="doc-px px-m-left"></span>
+    <span class="doc-px px-m-right"></span>
+    <span class="doc-px px-m-fill"></span>
+    <span class="doc-px px-m-shade-r"></span>
+    <span class="doc-px px-m-shade-b"></span>
+    <span class="doc-px px-m-line-1"></span>
+    <span class="doc-px px-m-line-2"></span>
+    <span class="doc-px px-m-bottom-l"></span>
+    <span class="doc-px px-m-throat"></span>
+    <span class="doc-px px-m-bottom-r"></span>
+    <span class="doc-px px-m-tail-l"></span>
+    <span class="doc-px px-m-tail-f"></span>
+    <span class="doc-px px-m-tail-r"></span>
+    <span class="doc-px px-m-tail-tip"></span>
+    <span class="doc-px px-m-badge"></span>
+    <span class="doc-label">Messages</span>
+  </button>
 
+  <button class="documentation-icon pixel-icon draggable-item identity-pixel-color" type="button">
+    <span class="doc-px px-shadow-b"></span>
+    <span class="doc-px px-shadow-r"></span>
+    <span class="doc-px px-paper-top"></span>
+    <span class="doc-px px-paper-main"></span>
+    <span class="doc-px px-shade-b"></span>
+    <span class="doc-px px-shade-r"></span>
+    <span class="doc-px px-fold-1"></span>
+    <span class="doc-px px-fold-2"></span>
+    <span class="doc-px px-fold-3"></span>
+    <span class="doc-px px-edge-left"></span>
+    <span class="doc-px px-edge-top"></span>
+    <span class="doc-px px-edge-step1"></span>
+    <span class="doc-px px-edge-step2"></span>
+    <span class="doc-px px-edge-step3"></span>
+    <span class="doc-px px-edge-right"></span>
+    <span class="doc-px px-edge-bottom"></span>
+    <span class="doc-px px-line-1"></span>
+    <span class="doc-px px-line-2"></span>
+    <span class="doc-px px-line-3"></span>
+    <span class="doc-px px-line-4"></span>
+    <span class="doc-label">Publications</span>
+  </button>
 
+  <button class="wallet-icon pixel-icon draggable-item identity-pixel-color" type="button">
+    <span class="doc-px px-w-shadow-r"></span>
+    <span class="doc-px px-w-shadow-b"></span>
+    <span class="doc-px px-w-back-fill"></span>
+    <span class="doc-px px-w-back-top"></span>
+    <span class="doc-px px-w-back-l"></span>
+    <span class="doc-px px-w-back-r"></span>
+    <span class="doc-px px-w-layer1"></span>
+    <span class="doc-px px-w-layer2"></span>
+    <span class="doc-px px-w-fill"></span>
+    <span class="doc-px px-w-shade-b2"></span>
+    <span class="doc-px px-w-shade-r2"></span>
+    <span class="doc-px px-w-reveal-a"></span>
+    <span class="doc-px px-w-reveal-b"></span>
+    <span class="doc-px px-w-rim-l"></span>
+    <span class="doc-px px-w-rim-r"></span>
+    <span class="doc-px px-w-scoop-wl"></span>
+    <span class="doc-px px-w-scoop-wr"></span>
+    <span class="doc-px px-w-scoop-b"></span>
+    <span class="doc-px px-w-side-l"></span>
+    <span class="doc-px px-w-side-r"></span>
+    <span class="doc-px px-w-bottom"></span>
+    <span class="doc-label">Wallet</span>
+  </button>
 
+  <button class="tv-icon pixel-icon draggable-item identity-pixel-color" type="button">
+    <span class="doc-px px-n-shadow-r"></span>
+    <span class="doc-px px-n-shadow-b"></span>
+    <span class="doc-px px-n-ant-l1"></span>
+    <span class="doc-px px-n-ant-l2"></span>
+    <span class="doc-px px-n-ant-l3"></span>
+    <span class="doc-px px-n-ant-l4"></span>
+    <span class="doc-px px-n-ant-r1"></span>
+    <span class="doc-px px-n-ant-r2"></span>
+    <span class="doc-px px-n-ant-r3"></span>
+    <span class="doc-px px-n-ant-r4"></span>
+    <span class="doc-px px-n-ant-base"></span>
+    <span class="doc-px px-n-tv-top"></span>
+    <span class="doc-px px-n-tv-left"></span>
+    <span class="doc-px px-n-tv-right"></span>
+    <span class="doc-px px-n-tv-bottom"></span>
+    <span class="doc-px px-n-tv-fill"></span>
+    <span class="doc-px px-n-scr-top"></span>
+    <span class="doc-px px-n-scr-bottom"></span>
+    <span class="doc-px px-n-scr-left"></span>
+    <span class="doc-px px-n-scr-right"></span>
+    <span class="doc-px px-n-scr-fill"></span>
+    <span class="doc-px px-n-glint-a"></span>
+    <span class="doc-px px-n-glint-b"></span>
+    <span class="doc-px px-n-knob-1"></span>
+    <span class="doc-px px-n-knob-2"></span>
+    <span class="doc-label">TV</span>
+  </button>
 
+  <button class="controls-icon pixel-icon draggable-item identity-pixel-color" type="button">
+    <span class="doc-px px-c-shadow-r"></span>
+    <span class="doc-px px-c-shadow-b"></span>
+    <span class="doc-px px-c-top"></span>
+    <span class="doc-px px-c-left"></span>
+    <span class="doc-px px-c-right"></span>
+    <span class="doc-px px-c-bottom"></span>
+    <span class="doc-px px-c-fill"></span>
+    <span class="doc-px px-c-track-1"></span>
+    <span class="doc-px px-c-track-2"></span>
+    <span class="doc-px px-c-track-3"></span>
+    <span class="doc-px px-c-knob-1"></span>
+    <span class="doc-px px-c-knob-2"></span>
+    <span class="doc-px px-c-knob-3"></span>
+    <span class="doc-px px-c-shade"></span>
+    <span class="doc-label">Controls</span>
+  </button>
 
+  <section class="mac-window" role="dialog" aria-labelledby="publications-title" tabindex="-1" hidden>
+    <header class="mac-titlebar">
+      <button class="mac-close" type="button" aria-label="Close publications window"></button>
+      <h2 class="mac-title" id="publications-title">Publications</h2>
+    </header>
+    <div class="mac-content">
+      <!-- Sections render from publications.bib.js (window.PUBLICATIONS_BIB) at load. -->
+    </div>
+    <button class="sr-sticker" type="button" aria-label="Toggle super resolution mode" aria-pressed="false">
+      <img class="face-modern" src="sr-sticker.svg" alt="" draggable="false" />
+      <svg class="face-classic" viewBox="0 0 112 48" width="112" height="48" aria-hidden="true">
+        <path fill="#000" d="M0 8H4V4H8V0H104V4H108V8H112V40H108V44H104V48H8V44H4V40H0Z"/>
+        <path class="face-classic-bg" d="M4 12H8V8H12V4H100V8H104V12H108V36H104V40H100V44H12V40H8V36H4Z"/>
+        <text x="56" y="20" text-anchor="middle">Back to</text>
+        <text x="56" y="42" text-anchor="middle">classic!</text>
+      </svg>
+    </button>
+  </section>
 
+  <script src="publications.bib.js"></script>
+  <script>
+    (() => {
+      const draggableItems = [...document.querySelectorAll('.draggable-item')];
+      const threshold = 4;
+      let startX, startY, originX, originY, pointerId;
+      let activeLink = null;
+      let pending = false, dragging = false, moved = false, leaving = false;
 
+      const startDrag = (event, target = event.currentTarget) => {
+        if (pending) return;
+        pending = true;
+        dragging = false;
+        moved = false;
+        pointerId = event.pointerId;
+        activeLink = target;
+        startX = event.clientX;
+        startY = event.clientY;
+        const bounds = activeLink.getBoundingClientRect();
+        originX = bounds.left;
+        originY = bounds.top;
+      };
 
+      draggableItems.forEach(link => link.addEventListener('pointerdown', startDrag));
 
+      const moveDrag = event => {
+        if (!pending || event.pointerId !== pointerId) return;
+        const deltaX = event.clientX - startX;
+        const deltaY = event.clientY - startY;
 
+        if (!dragging) {
+          if (Math.abs(deltaX) + Math.abs(deltaY) <= threshold) return;
+          dragging = true;
+          moved = true;
+          activeLink.dataset.userMoved = 'true';
+          activeLink.style.transform = 'none';
+          activeLink.style.left = `${VisualIdentity.snap(originX)}px`;
+          activeLink.style.top = `${VisualIdentity.snap(originY)}px`;
+          activeLink.style.bottom = 'auto';
+          activeLink.classList.add('dragging');
+        }
 
+        activeLink.style.left = `${VisualIdentity.snap(originX) + VisualIdentity.snapDelta(deltaX)}px`;
+        activeLink.style.top = `${VisualIdentity.snap(originY) + VisualIdentity.snapDelta(deltaY)}px`;
+      };
 
-  
+      const finishDrag = event => {
+        if (event && event.pointerId !== pointerId) return;
+        pending = false;
+        dragging = false;
+        pointerId = null;
+        activeLink?.classList.remove('dragging');
+        activeLink = null;
+      };
 
-  
+      addEventListener('pointermove', moveDrag);
+      addEventListener('pointerup', finishDrag);
+      addEventListener('pointercancel', finishDrag);
+      addEventListener('blur', () => finishDrag());
 
+      const VisualIdentity = {
+        pixelSize: Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--identity-pixel-size')) || 8,
+        pixelBlockSizes: [1, 2, 4, 8],
+        pixelFrameDelay: 70
+      };
+      window.VisualIdentity = VisualIdentity;
+
+      VisualIdentity.snap = value => Math.round(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+      VisualIdentity.snapDelta = value => Math.trunc(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+
+      // Window stacking: the active window rises above the others. Windows
+      // start at the z-index 30 tier; each raise takes the next slot (still
+      // far below the transition overlay at 9999). Any pointerdown inside a
+      // window counts as activating it; openers call raise() explicitly.
+      let windowZ = 30;
+      VisualIdentity.raiseWindow = windowElement => {
+        windowElement.style.zIndex = ++windowZ;
+      };
+
+      // Window placement: centred, but stepped down-right from the windows
+      // already on the desk — the way a classic desktop cascades them — so a
+      // newly opened window never lands exactly on top of the last. A window
+      // keeps the slot it was given the first time it opened, so reopening or
+      // resizing puts it back instead of drifting further down the stack; one
+      // the reader has dragged is left exactly where they put it.
+      VisualIdentity.windowStep = VisualIdentity.pixelSize * 4;   // 32px — leaves enough of the 48px title bar beneath to grab
+
+      const windowSlots = new WeakMap();
+      let nextWindowSlot = 0;
+
+      VisualIdentity.placeWindow = windowElement => {
+        if (windowElement.hidden || windowElement.dataset.userMoved) return;
+        if (!windowSlots.has(windowElement)) windowSlots.set(windowElement, nextWindowSlot++);
+        const slot = windowSlots.get(windowElement);
+        const step = VisualIdentity.windowStep;
+        const rect = windowElement.getBoundingClientRect();
+        const left = Math.max(16, (innerWidth - rect.width) / 2);
+        const top = Math.max(16, (innerHeight - rect.height) / 2);
+        // Each axis wraps on its own once the stack would run off the desk.
+        // They rarely run out at the same count, so the slots stay distinct
+        // even when one direction fills up first — and nothing marches off.
+        const stepsX = Math.max(1, Math.floor((innerWidth - 16 - rect.width - left) / step) + 1);
+        const stepsY = Math.max(1, Math.floor((innerHeight - 16 - rect.height - top) / step) + 1);
+        windowElement.style.left = `${VisualIdentity.snap(left + (slot % stepsX) * step)}px`;
+        windowElement.style.top = `${VisualIdentity.snap(top + (slot % stepsY) * step)}px`;
+      };
+
+      // Icon stacking: the touched icon rises above its siblings, but the
+      // whole tier must stay below the links (20) and windows (30+) — so
+      // instead of counting upward, the tier is renormalized to 2..N on
+      // every raise (the active icon takes the top slot).
+      VisualIdentity.raiseIcon = iconElement => {
+        const rest = [...document.querySelectorAll('.pixel-icon')]
+          .filter(el => el !== iconElement)
+          .sort((a, b) => (+a.style.zIndex || 2) - (+b.style.zIndex || 2));
+        rest.concat(iconElement).forEach((el, i) => {
+          el.style.zIndex = 2 + i;
+        });
+      };
+
+      document.addEventListener('pointerdown', event => {
+        const win = event.target.closest('.mac-window');
+        if (win && !win.hidden) {
+          VisualIdentity.raiseWindow(win);
+          return;
+        }
+        const icon = event.target.closest('.pixel-icon');
+        if (icon) VisualIdentity.raiseIcon(icon);
+      }, true);
+
+      // Snap every pixel-art element onto the low-resolution grid. CSS centering
+      // and bottom-anchoring land on arbitrary pixels, so this converts them to
+      // grid-aligned left/top. Items the user dragged away keep their spot.
+      VisualIdentity.alignToGrid = () => {
+        const gridCeil = value => Math.ceil(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+
+        // Icons flow as centered rows, wrapping when the viewport is too
+        // narrow for one row (rows fill greedily, whole block stays
+        // vertically centered).
+        const icons = [...document.querySelectorAll('.pixel-icon')];
+        if (icons.length) {
+          const iconGap = VisualIdentity.pixelSize * 6;
+          const maxRowWidth = innerWidth - 64;
+          const rows = [[]];
+          let runningWidth = 0;
+          icons.forEach(icon => {
+            const width = gridCeil(icon.offsetWidth);
+            const row = rows[rows.length - 1];
+            const nextWidth = runningWidth + (row.length ? iconGap : 0) + width;
+            if (row.length && nextWidth > maxRowWidth) {
+              rows.push([icon]);
+              runningWidth = width;
+            } else {
+              row.push(icon);
+              runningWidth = nextWidth;
+            }
+          });
+          const iconHeight = icons[0].offsetHeight;
+          const blockHeight = rows.length * iconHeight + (rows.length - 1) * iconGap;
+          let iconY = VisualIdentity.snap((innerHeight - blockHeight) / 2);
+          rows.forEach(row => {
+            const rowWidth = row.reduce((sum, icon) => sum + gridCeil(icon.offsetWidth), 0)
+              + iconGap * (row.length - 1);
+            let iconX = VisualIdentity.snap((innerWidth - rowWidth) / 2);
+            row.forEach(icon => {
+              if (!icon.dataset.userMoved) {
+                icon.style.transform = 'none';
+                icon.style.left = `${iconX}px`;
+                icon.style.top = `${iconY}px`;
+              }
+              iconX += gridCeil(icon.offsetWidth) + iconGap;
+            });
+            iconY += iconHeight + iconGap;
+          });
+        }
+
+        // The light switch is wall-mounted top-right; right-anchoring can't
+        // guarantee a grid-multiple left, so it is placed from the left.
+        const lightSwitch = document.querySelector('.light-switch');
+        if (lightSwitch) {
+          lightSwitch.style.left =
+            `${VisualIdentity.snap(innerWidth - lightSwitch.offsetWidth - 32)}px`;
+        }
+      };
+
+      addEventListener('resize', VisualIdentity.alignToGrid);
+      VisualIdentity.alignToGrid();
+      document.fonts?.ready.then(VisualIdentity.alignToGrid);
+
+      // Theme control, shared by the wall light switch and the Control
+      // Panel: setTheme() applies [data-theme], stores the choice, keeps
+      // the switch's aria state honest, and announces the change so any
+      // other control (the panel's checkbox) can follow. The swap is a
+      // single hard palette swap — no transition. With no stored choice,
+      // the page follows the system preference live.
+      const lightSwitch = document.querySelector('.light-switch');
+      const syncSwitch = () => {
+        lightSwitch.setAttribute('aria-pressed',
+          String(document.documentElement.dataset.theme === 'dark'));
+      };
+      VisualIdentity.setTheme = (dark, store = true) => {
+        if (dark) {
+          document.documentElement.dataset.theme = 'dark';
+        } else {
+          delete document.documentElement.dataset.theme;
+        }
+        if (store) localStorage.setItem('identity-theme', dark ? 'dark' : 'light');
+        syncSwitch();
+        document.dispatchEvent(new CustomEvent('identity-theme-change', { detail: { dark } }));
+      };
+
+      // Accent theme (indigo default, seafoam alternate): swaps the primary +
+      // tint ramp via [data-accent], persists, and announces the change so
+      // the Control Panel's picker can follow. 'indigo' clears the attribute.
+      const ACCENTS = ['seafoam'];
+      VisualIdentity.setAccent = (accent, store = true) => {
+        accent = ACCENTS.includes(accent) ? accent : 'indigo';
+        if (accent === 'indigo') {
+          delete document.documentElement.dataset.accent;
+        } else {
+          document.documentElement.dataset.accent = accent;
+        }
+        if (store) localStorage.setItem('identity-accent', accent);
+        document.dispatchEvent(new CustomEvent('identity-accent-change', { detail: { accent } }));
+      };
+
+      syncSwitch();
+      lightSwitch.addEventListener('click', () =>
+        VisualIdentity.setTheme(document.documentElement.dataset.theme !== 'dark'));
+      matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        if (localStorage.getItem('identity-theme')) return;
+        VisualIdentity.setTheme(event.matches, false);
+      });
+
+      // Publications come from publications.bib.js as plain BibTeX.
+      // Minimal parser: entry types, keys, and brace/quote-delimited fields.
+      const parseBibTeX = source => {
+        const entries = [];
+        let cursor = 0;
+        while ((cursor = source.indexOf('@', cursor)) !== -1) {
+          const open = source.indexOf('{', cursor);
+          if (open === -1) break;
+          const type = source.slice(cursor + 1, open).trim().toLowerCase();
+          let end = open + 1;
+          for (let depth = 1; end < source.length && depth > 0; end += 1) {
+            if (source[end] === '{') depth += 1;
+            else if (source[end] === '}') depth -= 1;
+          }
+          const body = source.slice(open + 1, end - 1);
+          cursor = end;
+          if (type === 'comment' || type === 'string' || type === 'preamble') continue;
+
+          const firstComma = body.indexOf(',');
+          const entry = { type, key: body.slice(0, firstComma).trim(), fields: {} };
+          let rest = body.slice(firstComma + 1);
+          let i = 0;
+          while (i < rest.length) {
+            while (i < rest.length && /[\s,]/.test(rest[i])) i += 1;
+            const eq = rest.indexOf('=', i);
+            if (eq === -1) break;
+            const name = rest.slice(i, eq).trim().toLowerCase();
+            i = eq + 1;
+            while (i < rest.length && /\s/.test(rest[i])) i += 1;
+            let value = '';
+            if (rest[i] === '{') {
+              const start = ++i;
+              for (let depth = 1; i < rest.length && depth > 0; i += 1) {
+                if (rest[i] === '{') depth += 1;
+                else if (rest[i] === '}') depth -= 1;
+              }
+              value = rest.slice(start, i - 1);
+            } else if (rest[i] === '"') {
+              const start = ++i;
+              while (i < rest.length && rest[i] !== '"') i += 1;
+              value = rest.slice(start, i);
+              i += 1;
+            } else {
+              const start = i;
+              while (i < rest.length && !/[,\s]/.test(rest[i])) i += 1;
+              value = rest.slice(start, i);
+            }
+            if (name) entry.fields[name] = value.replace(/\s+/g, ' ').trim();
+          }
+          entries.push(entry);
+        }
+        return entries;
+      };
+
+      // "Last, First" -> "F Last"; names without a comma (CJK) stay as written.
+      const formatAuthor = name => {
+        const clean = name.replace(/[{}]/g, '').trim();
+        const comma = clean.indexOf(',');
+        if (comma === -1) return clean;
+        const last = clean.slice(0, comma).trim();
+        const initials = clean.slice(comma + 1).trim()
+          .split(/[\s.]+/).filter(Boolean).map(part => part[0]).join(' ');
+        return `${initials} ${last}`;
+      };
+
+      const isSelfAuthor = name => (window.PUBLICATIONS_SELF ?? []).some(self =>
+        formatAuthor(name) === formatAuthor(self));
+
+      const PUB_SECTIONS = [
+        { id: 'journal', title: 'Journal Articles' },
+        { id: 'international', title: 'International Conferences' },
+        { id: 'domestic', title: 'Domestic Conferences & Workshops' },
+        { id: 'preprint', title: 'Preprints' },
+        { id: 'other', title: 'Other' }
+      ];
+
+      const PUB_TYPE_SECTIONS = {
+        article: 'journal',
+        inproceedings: 'international',
+        conference: 'international',
+        techreport: 'domestic',
+        unpublished: 'preprint'
+      };
+
+      const sectionFor = entry =>
+        entry.fields.category || PUB_TYPE_SECTIONS[entry.type] || 'other';
+
+      const renderPublications = () => {
+        const content = document.querySelector('.mac-window .mac-content');
+        if (!content || typeof window.PUBLICATIONS_BIB !== 'string') return;
+        const entries = parseBibTeX(window.PUBLICATIONS_BIB);
+
+        PUB_SECTIONS.forEach(section => {
+          const pubs = entries
+            .filter(entry => sectionFor(entry) === section.id)
+            .sort((a, b) => (Number.parseInt(b.fields.year, 10) || 0) - (Number.parseInt(a.fields.year, 10) || 0));
+          if (!pubs.length) return;
+
+          const wrap = document.createElement('section');
+          wrap.className = 'pub-section';
+          wrap.dataset.section = section.id;
+          const heading = document.createElement('h3');
+          heading.className = 'pub-section-title';
+          heading.textContent = section.title;
+          wrap.appendChild(heading);
+
+          const list = document.createElement('ol');
+          list.className = 'pub-list';
+          pubs.forEach(pub => {
+            const item = document.createElement('li');
+            item.className = 'pub';
+
+            const title = document.createElement('h4');
+            title.className = 'pub-title';
+            const displayTitle = (pub.fields.title || pub.key).replace(/[{}]/g, '');
+            if (pub.fields.url) {
+              const link = document.createElement('a');
+              link.href = pub.fields.url;
+              link.target = '_blank';
+              link.rel = 'noopener';
+              link.textContent = displayTitle;
+              title.appendChild(link);
+            } else {
+              title.textContent = displayTitle;
+            }
+
+            const meta = document.createElement('p');
+            meta.className = 'pub-meta';
+            const venue = pub.fields.shortvenue || pub.fields.booktitle || pub.fields.journal || '';
+            const authors = (pub.fields.author || '').split(/\s+and\s+/).filter(Boolean);
+            authors.forEach((name, index) => {
+              const display = formatAuthor(name);
+              if (isSelfAuthor(name)) {
+                const self = document.createElement('span');
+                self.className = 'pub-self';
+                self.textContent = display;
+                meta.appendChild(self);
+              } else {
+                meta.append(display);
+              }
+              if (index < authors.length - 1) meta.append(', ');
+            });
+            if (authors.length && venue) meta.append(` · ${venue}`);
+            else if (venue) meta.append(venue);
+            if (authors.length || venue) meta.append(' · ');
+            const year = document.createElement('span');
+            year.className = 'pub-year';
+            year.textContent = pub.fields.year || '';
+            meta.appendChild(year);
+
+            // Downloadable materials, if the entry declares any. Rather than a
+            // plain download, each opens Messages and Jiali "sends" the file.
+            const mats = [
+              { field: 'slides', kind: 'slides' },
+              { field: 'paper', kind: 'paper' },
+              { field: 'poster', kind: 'poster' },
+            ].filter(m => pub.fields[m.field]);
+            if (mats.length) {
+              const actions = document.createElement('div');
+              actions.className = 'pub-actions';
+              const venue = [pub.fields.shortvenue || pub.fields.booktitle, pub.fields.year]
+                .filter(Boolean).join(' ').replace(/[{}]/g, '');
+              const base = (pub.fields.shortvenue || 'materials').replace(/[{}]/g, '').replace(/\s+/g, '-');
+              mats.forEach(m => {
+                const btn = document.createElement('button');
+                btn.className = 'pub-material';
+                btn.type = 'button';
+                btn.textContent = m.kind;
+                const filename = `${base}${pub.fields.year ? '-' + pub.fields.year : ''}-${m.kind}.pdf`;
+                btn.addEventListener('click', () => {
+                  window.ChatApp?.share?.({ url: pub.fields[m.field], venue, kind: m.kind, filename });
+                });
+                actions.appendChild(btn);
+              });
+              item.append(title, meta, actions);
+            } else {
+              item.append(title, meta);
+            }
+            list.appendChild(item);
+          });
+          wrap.appendChild(list);
+          content.appendChild(wrap);
+        });
+      };
+      renderPublications();
+
+      // Publications window: opens from the doc icon, closes from the
+      // Mac-style close box (or Escape), drags by its title bar.
+      const pubsWindow = document.querySelector('.mac-window');
+      const docIcon = document.querySelector('.documentation-icon');
+
+      const placeWindow = () => VisualIdentity.placeWindow(pubsWindow);
+
+      // Restart the slap-on animation (remove + reflow + re-add). A peeled
+      // sticker is replaced by a fresh one.
+      const slapSticker = (delayMs = 220) => {
+        const sticker = pubsWindow.querySelector('.sr-sticker');
+        sticker.classList.remove('slapped', 'peeled', 'peeling');
+        sticker.style.transform = '';
+        sticker.style.setProperty('--sr-slap-delay', `${delayMs}ms`);
+        void sticker.offsetWidth;
+        sticker.classList.add('slapped');
+      };
+
+      const openPubs = () => {
+        pubsWindow.hidden = false;
+        VisualIdentity.raiseWindow(pubsWindow);
+        placeWindow();
+        pubsWindow.focus({ preventScroll: true });
+        // A long beat on open: the nudge surfaces after you've settled in.
+        slapSticker(10000);
+      };
+
+      const closePubs = () => {
+        pubsWindow.hidden = true;
+        docIcon.focus({ preventScroll: true });
+      };
+
+      docIcon.addEventListener('click', () => {
+        if (moved) return;
+        if (pubsWindow.hidden) {
+          openPubs();
+        } else {
+          closePubs();
+        }
+      });
+
+      pubsWindow.querySelector('.mac-close').addEventListener('click', closePubs);
+
+      const srSticker = pubsWindow.querySelector('.sr-sticker');
+
+      // Peel-off drag (pixel mode only — the glass-mode pop-up is screen
+      // content, not a physical sticker). A small tug re-sticks; pulling
+      // past the threshold tears the sticker off until a fresh one is
+      // slapped on at the next window open.
+      const PEEL_THRESHOLD = 80;
+      let peelPointer = null;
+      let peelStartX = 0;
+      let peelStartY = 0;
+      let peelMoved = false;
+
+      srSticker.addEventListener('pointerdown', event => {
+        if (pubsWindow.classList.contains('super-res')) return;
+        peelPointer = event.pointerId;
+        peelStartX = event.clientX;
+        peelStartY = event.clientY;
+        peelMoved = false;
+        srSticker.setPointerCapture(event.pointerId);
+      });
+
+      srSticker.addEventListener('pointermove', event => {
+        if (event.pointerId !== peelPointer) return;
+        const deltaX = event.clientX - peelStartX;
+        const deltaY = event.clientY - peelStartY;
+        if (!peelMoved && Math.abs(deltaX) + Math.abs(deltaY) <= threshold) return;
+        peelMoved = true;
+        srSticker.classList.add('peeling');
+        const tug = Math.min(1, Math.hypot(deltaX, deltaY) / PEEL_THRESHOLD);
+        srSticker.style.transform =
+          `translate(${deltaX}px, ${deltaY}px) rotate(${-12 + deltaX * 0.06}deg) scale(${1 + tug * 0.05})`;
+      });
+
+      const endPeel = event => {
+        if (event.pointerId !== peelPointer) return;
+        peelPointer = null;
+        if (!peelMoved) return;
+        const deltaX = event.clientX - peelStartX;
+        const deltaY = event.clientY - peelStartY;
+        srSticker.classList.remove('peeling');
+        if (Math.hypot(deltaX, deltaY) >= PEEL_THRESHOLD) {
+          srSticker.style.setProperty('--peel-x', `${deltaX * 1.4}px`);
+          srSticker.style.setProperty('--peel-y', `${deltaY * 1.4 + 60}px`);
+          // Drop the slap class — its animation shorthand would override
+          // the peel-away (equal specificity, later in the sheet).
+          srSticker.classList.remove('slapped');
+          srSticker.classList.add('peeled');
+        } else {
+          srSticker.style.transform = '';
+        }
+      };
+      srSticker.addEventListener('pointerup', endPeel);
+      srSticker.addEventListener('pointercancel', endPeel);
+
+      srSticker.addEventListener('click', () => {
+        if (peelMoved) {
+          peelMoved = false;
+          return;
+        }
+        const superRes = pubsWindow.classList.toggle('super-res');
+        srSticker.setAttribute('aria-pressed', String(superRes));
+        slapSticker();
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !pubsWindow.hidden) closePubs();
+      });
+
+      pubsWindow.querySelector('.mac-titlebar').addEventListener('pointerdown', event => {
+        if (event.target.closest('.mac-close')) return;
+        startDrag(event, pubsWindow);
+      });
+
+      addEventListener('resize', placeWindow);
+
+      VisualIdentity.drawPageSnapshot = canvas => {
+        const ctx = canvas.getContext('2d');
+        // Chrome colors come from the live tokens so the snapshot matches
+        // whichever theme is active.
+        const rootStyle = getComputedStyle(document.documentElement);
+        const token = name => rootStyle.getPropertyValue(name).trim();
+        const pageBackground = getComputedStyle(document.body).backgroundColor;
+        ctx.fillStyle = pageBackground === 'rgba(0, 0, 0, 0)'
+          ? token('--identity-paper') : pageBackground;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        document.querySelectorAll('.pixel-icon .doc-px, .light-switch .doc-px').forEach(px => {
+          const rect = px.getBoundingClientRect();
+          ctx.fillStyle = getComputedStyle(px).backgroundColor;
+          ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
+        });
+
+        const drawCenteredText = element => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          ctx.fillStyle = style.color;
+          ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'center';
+          ctx.fillText(element.textContent, rect.left + rect.width / 2, rect.top + rect.height / 2);
+          ctx.textAlign = 'left';
+        };
+
+        document.querySelectorAll('.doc-label').forEach(drawCenteredText);
+
+        document.querySelectorAll('.identity-color').forEach(link => {
+          const rect = link.getBoundingClientRect();
+          const style = getComputedStyle(link);
+          ctx.fillStyle = style.color;
+          ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+          ctx.textBaseline = 'middle';
+          ctx.fillText(link.textContent, rect.left, rect.top + rect.height / 2);
+        });
+
+        // Publications window chrome (body content is left as blank paper —
+        // the transition is too fast for it to read anyway).
+        const macWindow = document.querySelector('.mac-window');
+        if (macWindow && !macWindow.hidden) {
+          const rect = macWindow.getBoundingClientRect();
+          ctx.fillStyle = token('--identity-tint-shadow');
+          ctx.fillRect(rect.left + 8, rect.top + 8, rect.width, rect.height);
+          ctx.fillStyle = token('--identity-normal');
+          ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
+          ctx.fillStyle = token('--identity-paper');
+          ctx.fillRect(rect.left + 4, rect.top + 4, rect.width - 8, rect.height - 8);
+          ctx.fillStyle = token('--identity-normal');
+          for (let stripe = 0; stripe < 3; stripe += 1) {
+            ctx.fillRect(rect.left + 4, rect.top + 12 + stripe * 12, rect.width - 8, 4);
+          }
+          ctx.fillRect(rect.left + 4, rect.top + 48, rect.width - 8, 4);
+          ctx.fillStyle = token('--identity-paper');
+          ctx.fillRect(rect.left + 12, rect.top + 4, 40, 40);
+          ctx.fillStyle = token('--identity-normal');
+          ctx.fillRect(rect.left + 20, rect.top + 12, 24, 24);
+          ctx.fillStyle = token('--identity-paper');
+          ctx.fillRect(rect.left + 24, rect.top + 16, 16, 16);
+          const macTitle = macWindow.querySelector('.mac-title');
+          const titleRect = macTitle.getBoundingClientRect();
+          ctx.fillRect(titleRect.left, titleRect.top, titleRect.width, titleRect.height);
+          drawCenteredText(macTitle);
+
+          // The SR sticker — a physical object on the glass; draw its actual
+          // asset at the element's center with the resting tilt. Only the
+          // pixel-mode face is drawn (the snapshot renders pixel chrome).
+          const stickerImage = macWindow.querySelector('.sr-sticker .face-modern');
+          if (!macWindow.classList.contains('super-res') &&
+              stickerImage && stickerImage.complete && stickerImage.naturalWidth) {
+            const stickerRect = stickerImage.getBoundingClientRect();
+            const cx = stickerRect.left + stickerRect.width / 2;
+            const cy = stickerRect.top + stickerRect.height / 2;
+            const size = stickerImage.offsetWidth;
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(-12 * Math.PI / 180);
+            ctx.drawImage(stickerImage, -size / 2, -size / 2, size, size);
+            ctx.restore();
+          }
+        }
+      };
+
+      VisualIdentity.pixelateTo = url => {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          window.location.href = url;
+          return;
+        }
+
+        const width = innerWidth;
+        const height = innerHeight;
+        const canvas = document.createElement('canvas');
+        const source = document.createElement('canvas');
+        const tiny = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const tinyCtx = tiny.getContext('2d');
+        let frame = 0;
+
+        canvas.className = 'pixel-transition';
+        canvas.width = source.width = width;
+        canvas.height = source.height = height;
+        document.body.appendChild(canvas);
+        VisualIdentity.drawPageSnapshot(source);
+
+        const renderFrame = () => {
+          const blockSize = VisualIdentity.pixelBlockSizes[frame];
+          tiny.width = Math.max(1, Math.ceil(width / blockSize));
+          tiny.height = Math.max(1, Math.ceil(height / blockSize));
+          tinyCtx.imageSmoothingEnabled = true;
+          tinyCtx.clearRect(0, 0, tiny.width, tiny.height);
+          tinyCtx.drawImage(source, 0, 0, tiny.width, tiny.height);
+
+          ctx.imageSmoothingEnabled = false;
+          ctx.clearRect(0, 0, width, height);
+          ctx.drawImage(tiny, 0, 0, tiny.width, tiny.height, 0, 0, tiny.width * blockSize, tiny.height * blockSize);
+
+          frame += 1;
+          if (frame < VisualIdentity.pixelBlockSizes.length) {
+            setTimeout(renderFrame, VisualIdentity.pixelFrameDelay);
+          } else {
+            window.location.href = url;
+          }
+        };
+
+        renderFrame();
+      };
+
+      // Returning via the back/forward cache restores the page exactly as
+      // it was left: pixelation overlay still painted, leaving latch still
+      // set (which would also swallow every further click). Clean up.
+      addEventListener('pageshow', event => {
+        if (!event.persisted) return;
+        leaving = false;
+        document.querySelectorAll('.pixel-transition').forEach(el => el.remove());
+      });
+
+      document.addEventListener('click', event => {
+        const link = event.target instanceof Element ? event.target.closest('a[data-identity-transition]') : null;
+        if (moved && link?.classList.contains('draggable-item')) {
+          event.preventDefault();
+          return;
+        }
+
+        if (!link) return;
+        if (leaving) {
+          event.preventDefault();
+          return;
+        }
+
+        const href = link.getAttribute('href');
+        const opensElsewhere = link.target && link.target !== '_self';
+        if (!href || href === '#' || opensElsewhere || link.download || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+        event.preventDefault();
+        leaving = true;
+        if (link.dataset.identityTransition === 'pixelate') {
+          VisualIdentity.pixelateTo(link.href);
+        } else {
+          window.location.href = link.href;
+        }
+      }, true);
+      draggableItems.forEach(link => link.addEventListener('dragstart', event => event.preventDefault()));
+    })();
+  </script>
+  <script src="version.js"></script>
+  <script src="wallet.js"></script>
+  <script src="news.md.js"></script>
+  <script src="tv.js"></script>
+  <script src="control-panel.js"></script>
+  <script src="contacts.md.js"></script>
+  <script src="contacts.js"></script>
+  <script src="chat.data.js"></script>
+  <script src="chat.js"></script>
+
+  <!-- The welcome: an empty desk says nothing, so the reader arrives to the two
+       windows that introduce the place — Contacts (who this is) and the TV (what
+       is new). They are not there on load: the desk lands bare, then each icon
+       visibly presses itself and its window opens on the release, so the reader
+       reads it as something being opened rather than a page that rendered oddly.
+       Contacts goes first, so the TV lands stepped over it and both stay legible;
+       Messages is deliberately left shut, since its unread dot is the invitation.
+       This runs last on purpose: each app registers its own DOMContentLoaded boot
+       as it loads, so by the time this one fires their doors exist. -->
+  <script>
+    (() => {
+      const WAIT_MS  = 800;   // beat before the first icon, and between them
+      const PRESS_MS = 160;   // how long an icon stays pushed in
+
+      const doors = [
+        ['.contacts-icon', () => window.ContactsApp?.open?.()],
+        ['.tv-icon',       () => window.TVApp?.open?.()],
+      ];
+
+      const welcome = () => {
+        // Someone who asked for less motion just gets the windows, no theatre.
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          doors.forEach(([, open]) => open());
+          return;
+        }
+        doors.forEach(([selector, open], i) => {
+          setTimeout(() => {
+            const icon = document.querySelector(selector);
+            if (!icon) { open(); return; }
+            icon.classList.add('pressed');
+            setTimeout(() => {
+              icon.classList.remove('pressed');
+              open();                       // opens on the release, like a real click
+            }, PRESS_MS);
+          }, WAIT_MS * (i + 1));
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', welcome);
+      } else {
+        welcome();
+      }
+    })();
+  </script>
 </body>
 </html>
