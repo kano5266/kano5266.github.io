@@ -144,6 +144,24 @@
       min-width: 384px;
     }
 
+    /* Phone: the card's 384px floor is what clipped the profile on a 375px
+       display — it forced a sideways scrollbar inside the window. The list and
+       card stack instead of sitting side by side, and both drop their floors so
+       the CV can simply be narrow. (Breakpoint mirrors VisualIdentity.isPhone.) */
+    @media (max-width: 640px) {
+      /* Must repeat both classes: the width rule above is specificity 0-2-0, so
+         the page's own .mac-window phone rule can't reach it. This is why
+         Contacts alone stayed 327px wide while every other app filled. */
+      .mac-window.contacts-window { width: 100vw; }
+      .contacts-window .ct { flex-direction: column; }
+      .contacts-window .ct-card { min-width: 0; padding-left: 0; }
+      .contacts-window .ct-list {
+        min-width: 0;
+        padding-right: 0;
+        border-right: 0;
+      }
+    }
+
     .contacts-window .ct-head {
       display: flex;
       align-items: center;
@@ -549,6 +567,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
+      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

@@ -50,6 +50,7 @@
       padding: 24px;
     }
 
+
     /* CRT curvature: the glass corners step in — [2,1] cells at the 8px
        scale, covered with the set's bezel paper. Above everything on the
        glass (z 4): the corners are outside the tube even during static. */
@@ -405,6 +406,42 @@
       .tv-window .tv-screen.pwr-off::before,
       .tv-window .tv-screen.pwr-on::before { animation: none; }
     }
+    /* ---- phone ------------------------------------------------------- *
+     * Last on purpose: these rules share specificity with the base ones
+     * above, so they win on source order alone. Putting this block near the
+     * top is exactly why the control panel stayed a column on the first try.
+     *
+     * The set stands upright — glass on top, controls beneath — because
+     * 384px of glass beside a control column never fits a phone. The glass
+     * keeps its 4:3 and takes the width it is given instead of being
+     * crushed by the flex row, which is what broke the headline into one
+     * word per line. (Breakpoint mirrors VisualIdentity.isPhone.)
+     * ------------------------------------------------------------------ */
+    @media (max-width: 640px) {
+      .tv-window .tv-set {
+        flex-direction: column;
+        align-items: center;
+        padding: 8px;
+      }
+      .tv-window .tv-screen {
+        width: 100%;
+        max-width: 384px;
+        height: auto;
+        aspect-ratio: 4 / 3;
+      }
+      /* Sized for a 384px tube; give it back some room. */
+      .tv-window .tv-news-head { font-size: 24px; line-height: 24px; top: 64px; }
+      /* Beside the glass these were a column; beneath it they read as the
+         set's front bezel, so they run across rather than stacking into a
+         totem that eats the display. */
+      .tv-window .tv-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 8px;
+      }
+    }
   `;
 
   const boot = () => {
@@ -687,6 +724,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
+      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

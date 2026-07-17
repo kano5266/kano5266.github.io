@@ -108,6 +108,13 @@
       min-height: 264px;
     }
 
+    /* Phone: 448px is wider than the display. The thread just fills whatever
+       it is given — bubbles already cap themselves against their own row.
+       (Breakpoint mirrors VisualIdentity.isPhone.) */
+    @media (max-width: 640px) {
+      .chat-window .chat-log { width: 100%; }
+    }
+
     .chat-window .chat-day {
       align-self: center;
       margin: 0;
@@ -1020,6 +1027,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
+      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

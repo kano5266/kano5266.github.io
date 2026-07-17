@@ -75,6 +75,26 @@
       min-width: 336px;
     }
 
+    /* Phone: the sidebar plus a 336px pane wants ~460px, which no phone has.
+       The rail turns horizontal and sits above the pane — the same classic
+       shape, stacked. (Breakpoint mirrors VisualIdentity.isPhone.) */
+    @media (max-width: 640px) {
+      .panel-window .cp { flex-direction: column; }
+      .panel-window .cp-side {
+        flex-direction: row;
+        padding-right: 0;
+        padding-bottom: 8px;
+        border-right: 0;
+        border-bottom: 4px solid var(--identity-normal);
+      }
+      .panel-window .cp-tab { width: auto; flex: 1; }
+      .panel-window .cp-pane {
+        min-width: 0;
+        padding-left: 0;
+        padding-top: 16px;
+      }
+    }
+
     .panel-window .cp-pane h3 {
       margin: 0 0 8px;
       font-size: 24px;
@@ -494,6 +514,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
+      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

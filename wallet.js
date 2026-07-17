@@ -64,6 +64,16 @@
       filter: drop-shadow(${SHADOW}px ${SHADOW}px 0 var(--identity-tint-shadow));
     }
 
+    /* Phone: a ${CARD_W}px card is wider than the display. The deck takes the
+       width it is given and the cards keep their aspect; the stack itself is
+       driven by translateY, so the shuffle keeps working untouched.
+       (Breakpoint mirrors VisualIdentity.isPhone.) */
+    @media (max-width: 640px) {
+      .wallet-window .wallet-stage { width: 100%; max-width: ${CARD_W}px; }
+      .wallet-window .wcard { width: 100%; }
+      .wallet-window .wcard img { width: 100%; height: auto; }
+    }
+
     .wallet-window .wcard:focus-visible {
       outline: 2px solid var(--identity-primary);
       outline-offset: 4px;
@@ -204,6 +214,7 @@
 
     titlebar.addEventListener('pointerdown', e => {
       if (e.target.closest('.mac-close')) return;
+      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
       dragId = e.pointerId; startX = e.clientX; startY = e.clientY;
       const r = win.getBoundingClientRect(); originX = r.left; originY = r.top; dragged = false;
       titlebar.setPointerCapture(e.pointerId);

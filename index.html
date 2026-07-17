@@ -1105,6 +1105,50 @@
     /* Rocker down = lights off. */
     html[data-theme="dark"] .sw-rocker { top: 32px; }
 
+    /* ------------------------------------------------------------------ *
+     * Phone mode — System 8 as a phone would have shipped it.
+     *
+     * Overlapping, draggable windows are a big-screen idea: at 375px two of
+     * them simply cover each other (the 32px cascade step is meaningless when
+     * both are already as wide as the display). So below 640px the desk stops
+     * pretending to be a desk. The icons ARE the home screen — alignToGrid
+     * already flows them into centred rows, so they need no help — and an app
+     * fills the display instead of floating above one.
+     *
+     * The pixel laws are untouched: the 8px grid, the chunky chrome and Enter
+     * Command at 16px all hold at this width. Only the furniture moves.
+     *
+     * This block must stay LAST: a media query carries no extra weight, so it
+     * beats the base rules on source order alone. VisualIdentity.isPhone()
+     * mirrors the 640px so the JS side can't drift from it.
+     * ------------------------------------------------------------------ */
+    @media (max-width: 640px) {
+      /* The app IS the screen. No drop shadow — it would fall off the display,
+         and nothing floats above anything here to cast one. placeWindow clears
+         the desk's inline coords in this mode, so left/top land unopposed. */
+      .mac-window {
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100dvh;
+        border-width: 0;
+        box-shadow: none;
+      }
+
+      /* The title bar (48px + its 4px rule) is the app bar; the content takes
+         whatever is left. dvh, not vh, so the browser's own chrome sliding in
+         and out doesn't crop the last row. */
+      .mac-content {
+        max-height: calc(100dvh - 52px);
+        height: calc(100dvh - 52px);
+        padding: 16px;
+      }
+
+      /* Nothing to drag a full-screen app to. */
+      .mac-titlebar { cursor: default; }
+      .mac-window.dragging .mac-titlebar { cursor: default; }
+    }
+
   </style>
 </head>
 <body>
@@ -1389,8 +1433,26 @@
       const windowSlots = new WeakMap();
       let nextWindowSlot = 0;
 
+      // Phone mode. Overlapping draggable windows are a big-screen idea; there
+      // is no good version of them at 375px. So below this width the desk stops
+      // pretending to be a desk and becomes what System 8 would be on a phone:
+      // a home screen of icons, and one app filling the screen at a time.
+      // Kept in one place so CSS (@media 640px) and JS can't drift apart.
+      VisualIdentity.phoneQuery = matchMedia('(max-width: 640px)');
+      VisualIdentity.isPhone = () => VisualIdentity.phoneQuery.matches;
+
       VisualIdentity.placeWindow = windowElement => {
-        if (windowElement.hidden || windowElement.dataset.userMoved) return;
+        if (windowElement.hidden) return;
+        // On a phone the app fills the screen, so there is nowhere to place it
+        // and nothing to cascade past. Clear the desk's inline coords and let
+        // the stylesheet own the box — including for a window the reader
+        // dragged on a wider screen before rotating.
+        if (VisualIdentity.isPhone()) {
+          windowElement.style.left = '';
+          windowElement.style.top = '';
+          return;
+        }
+        if (windowElement.dataset.userMoved) return;
         if (!windowSlots.has(windowElement)) windowSlots.set(windowElement, nextWindowSlot++);
         const slot = windowSlots.get(windowElement);
         const step = VisualIdentity.windowStep;
@@ -2033,6 +2095,10 @@
       ];
 
       const welcome = () => {
+        // On a phone an app fills the whole display, so opening two would bury
+        // the first and hide the home screen the reader just arrived at. The
+        // icons are the welcome there; they tap in themselves.
+        if (window.VisualIdentity?.isPhone?.()) return;
         // Someone who asked for less motion just gets the windows, no theatre.
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
           doors.forEach(([, open]) => open());
