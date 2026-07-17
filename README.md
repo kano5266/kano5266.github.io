@@ -5,22 +5,12 @@ Contacts, Messages, Publications, TV, Wallet, and a Control Panel, all hand-
 pixeled on an 8px grid. Vanilla HTML / CSS / JavaScript, no build step — open
 `index.html`.
 
-## Using it
-
-This site is **© 2026 Jiali Ma — all rights reserved.** It's my personal work
-and visual identity, not a template.
-
-You're very welcome to look through the source and learn from it. Please don't
-reuse the code, design, icons, avatar, name, content, or colour themes without
-asking first. If you'd like to use any part of it, just get in touch (Contacts,
-inside the site) — I'm happy to be asked.
-
-Full terms: [LICENSE](LICENSE).
+© 2026 Jiali Ma. All rights reserved. See [LICENSE](LICENSE).
 
 ## Fonts
 
 The fonts are third-party. They stay under their own licences and are **not**
-covered by the notice above — nothing here grants any rights in them.
+covered by the copyright above — nothing here grants any rights in them.
 
 - **Enter Command** — © jeti ([Font End Dev](https://fontenddev.com/fonts/enter-command/)),
   licensed [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/). Bundled here;
