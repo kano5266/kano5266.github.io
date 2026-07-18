@@ -27,64 +27,10 @@
       min-height: 320px;
     }
 
-    /* A toolbar above the address book: its one control folds the contact
-       list in and out. The list is hidden by default, so the window opens
+    /* The fold control + chevron are shared window chrome (see .mac-fold in the
+       page); this app supplies only what "folded" hides — the contact list,
+       which is its menu. The list is hidden by default, so the window opens
        straight on the owner card. */
-    .contacts-window .ct-bar {
-      display: flex;
-      margin-bottom: 16px;
-    }
-
-    .contacts-window .ct-fold {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 12px;
-      border: 4px solid var(--identity-normal);
-      background: var(--identity-paper);
-      color: var(--identity-normal);
-      font: inherit;
-      cursor: pointer;
-    }
-
-    /* The chevron is drawn from pixels (a base square + box-shadow copies) in
-       the current text colour rather than an imported glyph, so it inverts
-       with the theme — ink-on-paper in light, paper-on-ink in dark. */
-    .contacts-window .ct-chev {
-      position: relative;
-      flex: none;
-      width: 8px;
-      height: 14px;
-    }
-
-    .contacts-window .ct-chev::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 2px;
-      height: 2px;
-      background: currentColor;
-      box-shadow:
-        0 2px 0 0 currentColor, 2px 2px 0 0 currentColor,
-        2px 4px 0 0 currentColor, 4px 4px 0 0 currentColor,
-        4px 6px 0 0 currentColor, 6px 6px 0 0 currentColor,
-        2px 8px 0 0 currentColor, 4px 8px 0 0 currentColor,
-        0 10px 0 0 currentColor, 2px 10px 0 0 currentColor,
-        0 12px 0 0 currentColor;
-    }
-
-    /* points right when the list is folded; flips to point back (left) open */
-    .contacts-window .ct-fold[aria-expanded="true"] .ct-chev { transform: rotate(180deg); }
-
-    .contacts-window .ct-fold:hover,
-    .contacts-window .ct-fold:focus-visible { background: var(--identity-tint-mid); }
-
-    .contacts-window .ct-fold:focus-visible {
-      outline: 2px solid var(--identity-primary);
-      outline-offset: 2px;
-    }
-
     .contacts-window .ct.folded .ct-list { display: none; }
 
     /* The list: avatar + name rows, the classic address-book spine. */
@@ -144,22 +90,18 @@
       min-width: 384px;
     }
 
-    /* Phone: the card's 384px floor is what clipped the profile on a 375px
-       display — it forced a sideways scrollbar inside the window. The list and
-       card stack instead of sitting side by side, and both drop their floors so
-       the CV can simply be narrow. (Breakpoint mirrors VisualIdentity.isPhone.) */
+    /* Narrow — the two panes can't sit side by side (the card's 384px floor
+       alone overflows a 375px display), so this becomes a two-level menu: one
+       pane fills the window and the fold control moves between them. Folded
+       shows the card (the base rule hides the list); open shows the list, full
+       width, and hides the card. Picking a contact folds back to the card.
+       A width query, not the maximized state: it is about the CONTENT having no
+       room to run two columns, so a window merely dragged this narrow on a wide
+       desk should fold to one pane for the same reason a phone does. */
     @media (max-width: 640px) {
-      /* Must repeat both classes: the width rule above is specificity 0-2-0, so
-         the page's own .mac-window phone rule can't reach it. This is why
-         Contacts alone stayed 327px wide while every other app filled. */
-      .mac-window.contacts-window { width: 100vw; }
-      .contacts-window .ct { flex-direction: column; }
+      .contacts-window .ct-list { min-width: 0; padding-right: 0; border-right: 0; flex: 1; }
       .contacts-window .ct-card { min-width: 0; padding-left: 0; }
-      .contacts-window .ct-list {
-        min-width: 0;
-        padding-right: 0;
-        border-right: 0;
-      }
+      .contacts-window .ct:not(.folded) .ct-card { display: none; }
     }
 
     .contacts-window .ct-head {
@@ -394,10 +336,10 @@
         <h2 class="mac-title" id="contacts-title">Contacts</h2>
       </header>
       <div class="mac-content">
-        <div class="ct-bar">
-          <button class="ct-fold" type="button" aria-label="Show contact list"
+        <div class="mac-foldbar">
+          <button class="mac-fold" type="button" aria-label="Show contact list"
             aria-expanded="false" aria-controls="ct-list" title="Contact list">
-            <span class="ct-chev" aria-hidden="true"></span>
+            <span class="mac-chev" aria-hidden="true"></span>
             <span>Contacts</span>
           </button>
         </div>
@@ -422,7 +364,7 @@
     // The foldable contact list — hidden by default, revealed by the toolbar
     // toggle (and folded back once a contact is picked, drawer-style).
     const ct = win.querySelector('.ct');
-    const foldBtn = win.querySelector('.ct-fold');
+    const foldBtn = win.querySelector('.mac-fold');
     const setFolded = folded => {
       ct.classList.toggle('folded', folded);
       foldBtn.setAttribute('aria-expanded', String(!folded));
@@ -567,7 +509,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
-      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
+      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

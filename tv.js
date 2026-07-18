@@ -442,6 +442,28 @@
         padding-top: 8px;
       }
     }
+
+    /* ---- desktop: the set is a fixed object --------------------------- *
+     * A TV is furniture, not a document. It has one true size, nothing to
+     * scroll to, and no reason to be dragged bigger — so on the desktop it
+     * opts out of the shared .mac-content height cap and of its scrollbar
+     * gutter, and out of the grow box entirely (see data-resize in boot).
+     * The window then sizes itself to the set exactly:
+     *   384 glass + 16 gap + 64 knob + 32 set padding + 8 set border
+     *   + 48 content padding + 8 window border = 560.
+     * No gutter in that sum: with overflow hidden there is no groove to pay
+     * for. While the shared overflow-y: scroll still applied here, the tube
+     * paid those 24px out of its own width and came out 360 instead of 384.
+     * The floor is a guard, not a request — the glass is a flex child, so it
+     * WILL squeeze if anything narrows the window, and a squeezed tube breaks
+     * the headline into one word per line, the same failure phones had.
+     * All of this is kept off the phone, where the window is 100vw, the box
+     * is the display, and the content must still scroll to be reachable.
+     * ------------------------------------------------------------------ */
+    @media (min-width: 641px) {
+      .tv-window { min-width: 560px; }
+      .tv-window .mac-content { max-height: none; overflow: hidden; }
+    }
   `;
 
   const boot = () => {
@@ -495,6 +517,9 @@
 
     const win = document.createElement('section');
     win.className = 'mac-window tv-window';
+    // A TV set has one true size. Not resizable on any axis, so the page
+    // gives this window no grow box at all.
+    win.dataset.resize = 'none';
     win.setAttribute('role', 'dialog');
     win.setAttribute('aria-labelledby', 'tv-title');
     win.tabIndex = -1;
@@ -724,7 +749,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
-      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
+      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

@@ -25,6 +25,12 @@
       min-height: 320px;
     }
 
+    /* Folded — on a wide desk the sidebar tucks away and the pane takes the
+       room; on a phone this is level two of the menu (the pane), the sidebar
+       being level one. The fold control + chevron are shared window chrome
+       (see .mac-fold in the page); this supplies only what folding hides. */
+    .panel-window .cp.folded .cp-side { display: none; }
+
     /* Sidebar: the classic icon list. */
     .panel-window .cp-side {
       display: flex;
@@ -75,24 +81,24 @@
       min-width: 336px;
     }
 
-    /* Phone: the sidebar plus a 336px pane wants ~460px, which no phone has.
-       The rail turns horizontal and sits above the pane — the same classic
-       shape, stacked. (Breakpoint mirrors VisualIdentity.isPhone.) */
+    /* Narrow — the sidebar plus a 336px pane wants ~460px, which no phone has,
+       so this becomes the same two-level menu as Contacts: the sidebar is level
+       one, a full-width list of sections; picking one folds to that pane, level
+       two; the fold control is the way back. One pane fills the window at a
+       time. The tabs become full-width rows (icon beside label) — a menu, not a
+       rail. The sidebar stays a column (its base direction); only its desk-side
+       border and floor come off. */
     @media (max-width: 640px) {
-      .panel-window .cp { flex-direction: column; }
-      .panel-window .cp-side {
+      .panel-window .cp-side { padding-right: 0; border-right: 0; flex: 1; }
+      .panel-window .cp-tab {
         flex-direction: row;
-        padding-right: 0;
-        padding-bottom: 8px;
-        border-right: 0;
-        border-bottom: 4px solid var(--identity-normal);
+        justify-content: flex-start;
+        gap: 16px;
+        width: auto;
+        padding: 8px;
       }
-      .panel-window .cp-tab { width: auto; flex: 1; }
-      .panel-window .cp-pane {
-        min-width: 0;
-        padding-left: 0;
-        padding-top: 16px;
-      }
+      .panel-window .cp-pane { min-width: 0; padding-left: 0; }
+      .panel-window .cp:not(.folded) .cp-pane { display: none; }
     }
 
     .panel-window .cp-pane h3 {
@@ -299,8 +305,15 @@
         <h2 class="mac-title" id="panel-title">Control Panel</h2>
       </header>
       <div class="mac-content">
+        <div class="mac-foldbar">
+          <button class="mac-fold" type="button" aria-label="Hide sections"
+            aria-expanded="true" aria-controls="cp-side" title="Sections">
+            <span class="mac-chev" aria-hidden="true"></span>
+            <span>Menu</span>
+          </button>
+        </div>
         <div class="cp">
-          <nav class="cp-side" aria-label="Control panel sections">
+          <nav class="cp-side" id="cp-side" aria-label="Control panel sections">
             ${PANES.map(pane => `
               <button class="cp-tab" type="button" data-pane="${pane.id}"
                 aria-selected="${pane.id === 'system'}">
@@ -315,6 +328,20 @@
 
     const paneHost = win.querySelector('.cp-pane');
     const tabs = [...win.querySelectorAll('.cp-tab')];
+
+    // The foldable sidebar — same drawer/two-level control as Contacts. Unlike
+    // Contacts (a card with an optional list), the sections ARE the navigation,
+    // so it opens UNFOLDED: sidebar beside the pane on a desk, the section menu
+    // on a phone. The fold button collapses it on a desk and, on a phone, is
+    // the way back up a level.
+    const cp = win.querySelector('.cp');
+    const foldBtn = win.querySelector('.mac-fold');
+    const setFolded = folded => {
+      cp.classList.toggle('folded', folded);
+      foldBtn.setAttribute('aria-expanded', String(!folded));
+      foldBtn.setAttribute('aria-label', folded ? 'Show sections' : 'Hide sections');
+    };
+    foldBtn.addEventListener('click', () => setFolded(!cp.classList.contains('folded')));
 
     // A few no-permission facts about the machine opening the page, read
     // fresh each time the pane shows. Everything here is displayed and never
@@ -457,7 +484,15 @@
       tabs.forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.pane === id)));
       renderers[id]();
     };
-    tabs.forEach(tab => tab.addEventListener('click', () => showPane(tab.dataset.pane)));
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      showPane(tab.dataset.pane);
+      // On a phone, choosing a section is drilling into level two — fold the
+      // menu to the pane. On a desk the sidebar stays put, the way real
+      // settings keep their rail while you click through it. (Folding lives
+      // here, on the user's tap, not in showPane — opening must land on the
+      // menu, and showPane also runs at boot and on open.)
+      if (win.dataset.maximized) setFolded(true);
+    }));
     showPane('system');
 
     // Keep the panel's dark-mode checkbox honest when the wall switch (or
@@ -474,6 +509,7 @@
       win.hidden = false;
       VI.raiseWindow(win);
       showPane('system');
+      setFolded(false);   // open on the menu (phone) / sidebar beside pane (desk)
       placeWindow();
       win.focus({ preventScroll: true });
     };
@@ -514,7 +550,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
-      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
+      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

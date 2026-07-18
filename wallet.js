@@ -74,6 +74,19 @@
       .wallet-window .wcard img { width: 100%; height: auto; }
     }
 
+    /* Desktop width floor: the deck must never be narrower than its cards.
+       ${CARD_W} card + 48 content padding + 24 scrollbar gutter + 8 window
+       border. The gutter is in the sum because .mac-content is overflow-y:
+       scroll — the groove is always there, taking its 24px whether or not the
+       stack is long enough to scroll. Miss it and the card is clipped, not
+       squeezed: the stage is a fixed ${CARD_W}px, so it overflows into
+       overflow-x: hidden and simply loses its right edge.
+       Off on the phone, where the window is 100vw and a floor this wide would
+       shove it off the display. */
+    @media (min-width: 641px) {
+      .wallet-window { min-width: ${CARD_W + 80}px; }
+    }
+
     .wallet-window .wcard:focus-visible {
       outline: 2px solid var(--identity-primary);
       outline-offset: 4px;
@@ -105,6 +118,10 @@
 
     const win = document.createElement('section');
     win.className = 'mac-window wallet-window';
+    // The deck is a fixed CARD_W of pixel art, so width is not the reader's to
+    // drag — only height, to show more of the stack at once. The page reads
+    // this and gives the grow box its down-stepping glyph.
+    win.dataset.resize = 'v';
     win.setAttribute('role', 'dialog');
     win.setAttribute('aria-labelledby', 'wallet-title');
     win.tabIndex = -1;
@@ -214,7 +231,7 @@
 
     titlebar.addEventListener('pointerdown', e => {
       if (e.target.closest('.mac-close')) return;
-      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
+      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
       dragId = e.pointerId; startX = e.clientX; startY = e.clientY;
       const r = win.getBoundingClientRect(); originX = r.left; originY = r.top; dragged = false;
       titlebar.setPointerCapture(e.pointerId);

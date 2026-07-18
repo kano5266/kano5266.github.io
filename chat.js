@@ -379,27 +379,18 @@
     }
 
     /* ---- the contact card (tap the avatar, like a real messenger) ---- */
+    /* The card is its own scroll container (it can be taller than the pane),
+       so it carries .mac-scroll in the markup and inherits the desk's pixel
+       scrollbar from the page. It used to redraw that bar here instead, and
+       the copy drifted — it stayed overflow-y: auto long after the windows
+       moved to always-on scroll, so this groove came and went while every
+       other one stayed put. Nothing about the bar belongs in this file. */
     .chat-window .chat-profile {
       position: absolute;
       inset: 0;
-      z-index: 3;
+      z-index: 3;   /* over the thread; still under the window's grow box */
       padding: 24px;
       background: var(--identity-paper);
-      overflow-y: auto;   /* the iOS card can be taller than the pane */
-    }
-
-    /* The pane is its own scroll container, so it needs the theme's pixel
-       scrollbar too (the .mac-content rule doesn't reach it). Same chunky
-       bar as the windows — this is a desktop app wearing an iOS card. */
-    .chat-window .chat-profile::-webkit-scrollbar { width: 24px; }
-    .chat-window .chat-profile::-webkit-scrollbar-track {
-      background: var(--identity-paper);
-      border-left: 4px solid var(--identity-normal);
-    }
-    .chat-window .chat-profile::-webkit-scrollbar-thumb {
-      background: var(--identity-tint-mid);
-      border: 4px solid var(--identity-normal);
-      border-right: 0;   /* the window frame is the right wall (see .mac-content) */
     }
 
     .chat-window .chat-profile[hidden] { display: none; }
@@ -607,7 +598,7 @@
       <div class="mac-content">
         <div class="chat-log" aria-live="polite"></div>
         <div class="chat-replies" hidden></div>
-        <div class="chat-profile" hidden>
+        <div class="chat-profile mac-scroll" hidden>
           <button class="chat-profile-back" type="button">&lt; back</button>
           <div class="chat-profile-card"></div>
         </div>
@@ -1027,7 +1018,7 @@
 
     titlebar.addEventListener('pointerdown', event => {
       if (event.target.closest('.mac-close')) return;
-      if (VI.isPhone()) return;   // full-screen app: nowhere to drag it to
+      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
       dragPointer = event.pointerId;
       dragStartX = event.clientX;
       dragStartY = event.clientY;

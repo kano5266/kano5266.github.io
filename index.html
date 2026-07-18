@@ -7,7 +7,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- viewport-fit=cover lets the desk fill the whole screen edge to edge on a
+       notched phone; the CSS then holds content clear of the notch, home
+       indicator and rounded corners with env(safe-area-inset-*). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jiali Ma</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -568,6 +571,159 @@
       outline-offset: 6px;
     }
 
+    /* Grow box: the bottom-right corner grip, the way this era resized a
+       window (edges are a later idea). Echoes the close box — 4px ink, paper
+       fill, primary on press — and carries the classic two-square glyph: a
+       small square nested in a larger one, drawn as ::before/::after so it
+       stays pixel art rather than an image. Every window that can be resized
+       has one; the JS (VisualIdentity.makeResizable) does the actual sizing
+       and decides which windows those are. */
+    .mac-grow {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 0;
+      background: var(--identity-paper);
+      /* An L of ink along the top and left — and with it the box IS ringed,
+         which is the point. It only draws two sides because the other two are
+         already there: the window's own 4px frame runs along this box's right
+         and bottom, and drawing over it would stack into a doubled 8px edge
+         (the same reason the scrollbar thumb drops its border on that side).
+         The two sides it does draw land exactly on the scrollbar walls above
+         and to the left, so they read as one continuous groove. Ring on all
+         four sides, 4px of ink each, out of only two borders — which leaves
+         the interior room for a glyph that keeps clear of it. */
+      border-top: 4px solid var(--identity-normal);
+      border-left: 4px solid var(--identity-normal);
+      --glyph: var(--identity-normal);
+      cursor: nwse-resize;
+      touch-action: none;
+      /* Above anything an app puts in its content box. The grow box is the
+         window's, not the app's, so a full-pane takeover must not bury it —
+         the Messages profile card (z-index 3, inset: 0) did exactly that and
+         the window became unresizable for as long as the card was open. App
+         content stays below 4; only the Publications sticker sits higher, and
+         it does so deliberately. */
+      z-index: 4;
+    }
+
+    /* The glyph is drawn as real 4px pixels: one seed square, and a box-shadow
+       per pixel placing a copy of it on the grid. A clip-path or a gradient
+       would give a true diagonal — and a true diagonal anti-aliases into a
+       soft grey ramp, which is exactly what this whole desk refuses to do.
+       Shadows keep every step square and every edge on the 4px grid. --glyph
+       carries the colour, so a state change repaints every pixel at once.
+       Offsets are from the PADDING box, so the ring's two borders are already
+       excluded and 0,0 here is the first pixel inside the ring. */
+    .mac-grow::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 4px;
+      /* Nothing is drawn at 0,0 — it is the gap. The seed stays clear and
+         every pixel below is a shadow. (Were one needed at 0,0 it could NOT
+         be a shadow: an outer box-shadow is clipped to outside the element's
+         own border box, so a shadow at offset 0 0 hides under the seed and
+         never paints. That silently cost an earlier glyph its corner pixel.) */
+      background: transparent;
+      /* One corner bracket — an L, three pixels to an arm, pointing into the
+         corner the box drags toward. It sits a full pixel clear of the ring on
+         every side, and that gap is the whole design, not padding for looks.
+         Drawn out to the edge instead, its arms land straight on the scrollbar
+         walls and dissolve into them: the bracket stops being a bracket and
+         merely makes the walls look longer and thicker. The gap is what keeps
+         it legible as a shape.
+         Ring, gap, bracket, gap, ring is 7 pixels — 28px — and this box is
+         24px because it fills the scrollbar corner exactly. It fits only
+         because the ring costs two borders instead of four: the window frame
+         supplies the right and bottom. */
+      box-shadow:
+                                                          12px   4px  0 0 var(--glyph),
+                                                          12px   8px  0 0 var(--glyph),
+          4px  12px  0 0 var(--glyph),   8px  12px  0 0 var(--glyph),  12px  12px  0 0 var(--glyph);
+    }
+
+    /* Height-only windows say so with a different glyph: two bars, straight
+       across. The diagonal pair above opens corner-ways because the window
+       grows both ways; bars stack because this one only grows down. Same box,
+       same corner, same press — only the direction of the story changes. The
+       Wallet opts in because its deck is a fixed 480px of pixel art: widening
+       the window only pads dead space around the cards, so the box does not
+       offer it. Sits ABOVE the :hover/:active rules on purpose — equal
+       specificity, so the press still flashes primary. */
+    .mac-window[data-resize="v"] .mac-grow { cursor: ns-resize; }
+
+    .mac-window[data-resize="v"] .mac-grow::before {
+      /* Two bars inside the same ring, on the same 5x5 of padding box the
+         bracket uses: a pixel of gap all round, a pixel of gap between them.
+         Everything stays clear of the ring for the same reason as above. */
+      box-shadow:
+          4px   4px  0 0 var(--glyph),   8px   4px  0 0 var(--glyph),  12px   4px  0 0 var(--glyph),
+          4px  12px  0 0 var(--glyph),   8px  12px  0 0 var(--glyph),  12px  12px  0 0 var(--glyph);
+    }
+
+    .mac-grow:hover { background: var(--identity-tint-mid); }
+
+    /* Press: the box floods primary and the glyph stays ink, exactly as the
+       old two squares kept their ink borders when their fill went primary.
+       --glyph is deliberately NOT repointed here: --identity-primary-ink is
+       not "ink to use on primary", it is the primary colour used AS ink, so
+       it is #4f46e5 — the very colour flooding the box behind it. Setting it
+       paints the triangles in the background colour and they vanish. */
+    .mac-grow:active { background: var(--identity-primary); }
+
+    .mac-grow:focus-visible {
+      outline: 2px solid var(--identity-primary);
+      outline-offset: 4px;
+    }
+
+    /* Edge grips: invisible strips down the window's four sides. Resizing from
+       an edge is a later idea than this desk — the era did it from the corner
+       only — so these run ALONGSIDE the grow box rather than replacing it, and
+       a reader can reach for whichever they know. They paint nothing: the
+       cursor is the entire affordance, and the frame they sit on is already
+       drawn.
+       -4px reaches back over the window's own 4px border, so the visible frame
+       is itself grabbable and the zone is 12px deep — border plus 8px inside.
+       It stops exactly at the border box, so a window never steals a pointer
+       aimed past it. The 12px along the top ends precisely where the close box
+       starts (16px in, 8px down, behind a 4px frame): they never overlap.
+       z-index sits with the grow box, above app content — a full-pane takeover
+       must not swallow the edges any more than it may swallow the box. */
+    .mac-edge {
+      position: absolute;
+      z-index: 4;
+      touch-action: none;
+    }
+
+    .mac-edge-n { top: -4px;    left: -4px;  right: -4px;  height: 12px; cursor: ns-resize; }
+    .mac-edge-s { bottom: -4px; left: -4px;  right: -4px;  height: 12px; cursor: ns-resize; }
+    .mac-edge-e { right: -4px;  top: -4px;   bottom: -4px; width: 12px;  cursor: ew-resize; }
+    .mac-edge-w { left: -4px;   top: -4px;   bottom: -4px; width: 12px;  cursor: ew-resize; }
+
+    /* Corners take both axes at once, the way the grow box does — the
+       bottom-right IS the grow box; these are the other three. 16px square, a
+       little deeper than the 12px edges that cross there, because a corner is
+       the harder thing to hit and should win the overlap. They are appended
+       after the edges and share their z-index, so the later child takes the
+       pointer.
+       The top-left stops at 16px from the window's outer edge; the close box
+       starts at 20px in (16px inside a 4px frame). Four pixels of daylight —
+       they never fight over the pointer. */
+    .mac-edge-ne { right: -4px; top: -4px;    width: 16px; height: 16px; cursor: nesw-resize; }
+    .mac-edge-nw { left: -4px;  top: -4px;    width: 16px; height: 16px; cursor: nwse-resize; }
+    .mac-edge-sw { left: -4px;  bottom: -4px; width: 16px; height: 16px; cursor: nesw-resize; }
+    .mac-edge-se { right: -4px; bottom: -4px; width: 16px; height: 16px; cursor: nwse-resize; }
+
+    /* A window the reader has sized owns its own box; the shared caps that
+       kept an un-sized window sensible must stop applying to it. */
+    .mac-window[data-user-sized] .mac-content { max-height: none; }
+
     /* Super-resolution sticker: a physical vinyl sticker (sr-sticker.svg)
        stuck on the window's bottom-right corner. As a real-world object on
        the screen glass (like the cursor), it is exempt from the pixel laws.
@@ -588,6 +744,13 @@
       touch-action: none;
       transition: transform 150ms ease;
     }
+
+    /* Super resolution is a desk-only game — a vinyl sticker you peel to swap
+       the whole desktop between crisp and chunky. A phone has one true
+       resolution and no room for the joke, and the sticker (stuck to the
+       window's overhanging corner) would peek through a maximized window's
+       margin. So it stays on the desk. */
+    @media (max-width: 640px) { .sr-sticker { display: none; } }
 
     /* Peeling: the sticker is physical — it can be tugged and torn off. */
     .sr-sticker.peeling {
@@ -724,15 +887,68 @@
     .mac-content {
       padding: 24px;
       max-height: min(480px, calc(100vh - 240px));
-      overflow-y: auto;
     }
 
-    .mac-content::-webkit-scrollbar { width: 24px; }
-    .mac-content::-webkit-scrollbar-track { background: var(--identity-paper); border-left: 4px solid var(--identity-normal); }
-    /* No right border: the scrollbar is flush against the window's ink
-       frame, so a thumb border-right would stack with the frame into a
-       doubled 8px edge. The frame IS the right wall — keeps left/right even. */
-    .mac-content::-webkit-scrollbar-thumb { background: var(--identity-tint-mid); border: 4px solid var(--identity-normal); border-right: 0; }
+    /* ---- the pixel scrollbar, defined once for the whole desk ----------
+       Every .mac-content has it. Any OTHER scroll container an app invents
+       wears it by adding .mac-scroll — do not redraw this block inside an
+       app. The Messages profile pane used to carry its own copy and it
+       drifted: it was still overflow-y: auto long after the windows moved to
+       `scroll`, so its groove came and went while theirs stayed put.
+       An app opts OUT the same way it opts out of the grow box — by saying
+       so in its own stylesheet, as the TV does (`overflow: hidden`, because a
+       television is not a document). */
+    .mac-content,
+    .mac-scroll {
+      /* `scroll`, never `auto`: this era kept the groove on show at all times
+         and simply left the thumb out when there was nothing to scroll to, so
+         the chrome reads the same whatever the window holds. It also reserves
+         the 24px gutter up front — with `auto` a window jerks 24px narrower
+         the moment its content grows past the box. Every window's width floor
+         downstream budgets for this gutter. */
+      overflow-y: scroll;
+    }
+
+    /* BOTH dimensions, always. `width` sizes the vertical bar and `height`
+       sizes the horizontal one — they are not aliases for each other. With
+       only `width` set, a sideways bar falls back to the browser's own ~15px
+       and turns up beside our 24px one looking like a part off a different
+       machine. It appears the moment a window is dragged narrower than its
+       content, so it is not a rare case. */
+    .mac-content::-webkit-scrollbar,
+    .mac-scroll::-webkit-scrollbar { width: 24px; height: 24px; }
+
+    /* The wall between content and groove runs down the LEFT of the vertical
+       bar and along the TOP of the horizontal one. The two are mirror images,
+       so this border cannot be written once for both. */
+    .mac-content::-webkit-scrollbar-track,
+    .mac-scroll::-webkit-scrollbar-track { background: var(--identity-paper); }
+
+    .mac-content::-webkit-scrollbar-track:vertical,
+    .mac-scroll::-webkit-scrollbar-track:vertical { border-left: 4px solid var(--identity-normal); }
+
+    .mac-content::-webkit-scrollbar-track:horizontal,
+    .mac-scroll::-webkit-scrollbar-track:horizontal { border-top: 4px solid var(--identity-normal); }
+
+    .mac-content::-webkit-scrollbar-thumb,
+    .mac-scroll::-webkit-scrollbar-thumb { background: var(--identity-tint-mid); border: 4px solid var(--identity-normal); }
+
+    /* Drop the thumb's border on the side the window frame already walls off:
+       the bar sits flush against that frame, so the border would stack with it
+       into a doubled 8px edge. The frame IS the outer wall, and this keeps the
+       groove's two long edges even. Right for the vertical bar, bottom for the
+       horizontal one — mirror images again. */
+    .mac-content::-webkit-scrollbar-thumb:vertical,
+    .mac-scroll::-webkit-scrollbar-thumb:vertical { border-right: 0; }
+
+    .mac-content::-webkit-scrollbar-thumb:horizontal,
+    .mac-scroll::-webkit-scrollbar-thumb:horizontal { border-bottom: 0; }
+
+    /* Where the two grooves meet. The grow box parks over this square, so it
+       shows only on a window that has no box — but left unpainted it flashes
+       the UA's own grey, which belongs to no theme here. */
+    .mac-content::-webkit-scrollbar-corner,
+    .mac-scroll::-webkit-scrollbar-corner { background: var(--identity-paper); }
 
     .pub-section + .pub-section { margin-top: 32px; }
 
@@ -1024,15 +1240,28 @@
       line-height: 20px;
     }
 
-    .super-res .mac-content::-webkit-scrollbar { width: 10px; }
-    .super-res .mac-content::-webkit-scrollbar-track { background: transparent; border: none; }
-    .super-res .mac-content::-webkit-scrollbar-thumb {
+    /* The modern bar. Follows .mac-scroll as well as .mac-content, so an
+       app's own scroll container crosses into this mode with the desk rather
+       than keeping its pixel groove in a hi-res room. */
+    .super-res .mac-content::-webkit-scrollbar,
+    .super-res .mac-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+
+    .super-res .mac-content::-webkit-scrollbar-track,
+    .super-res .mac-scroll::-webkit-scrollbar-track { background: transparent; border: none; }
+
+    /* The pixel corner is opaque paper; on glass it has to disappear too. */
+    .super-res .mac-content::-webkit-scrollbar-corner,
+    .super-res .mac-scroll::-webkit-scrollbar-corner { background: transparent; }
+
+    .super-res .mac-content::-webkit-scrollbar-thumb,
+    .super-res .mac-scroll::-webkit-scrollbar-thumb {
       background: rgba(79, 70, 229, 0.28);
       border: none;
       border-radius: 5px;
     }
 
-    .super-res .mac-content::-webkit-scrollbar-thumb:hover {
+    .super-res .mac-content::-webkit-scrollbar-thumb:hover,
+    .super-res .mac-scroll::-webkit-scrollbar-thumb:hover {
       background: rgba(79, 70, 229, 0.45);
     }
 
@@ -1071,11 +1300,13 @@
       background: rgba(129, 140, 248, 0.22);
     }
 
-    html[data-theme="dark"] .super-res .mac-content::-webkit-scrollbar-thumb {
+    html[data-theme="dark"] .super-res .mac-content::-webkit-scrollbar-thumb,
+    html[data-theme="dark"] .super-res .mac-scroll::-webkit-scrollbar-thumb {
       background: rgba(129, 140, 248, 0.35);
     }
 
-    html[data-theme="dark"] .super-res .mac-content::-webkit-scrollbar-thumb:hover {
+    html[data-theme="dark"] .super-res .mac-content::-webkit-scrollbar-thumb:hover,
+    html[data-theme="dark"] .super-res .mac-scroll::-webkit-scrollbar-thumb:hover {
       background: rgba(129, 140, 248, 0.55);
     }
 
@@ -1086,7 +1317,12 @@
     .light-switch {
       position: fixed;
       z-index: 20;
-      top: 32px;
+      /* Rides below the safe top, so it clears a status bar or notch. --safe-t
+         is max(8px, inset), so with no cutout this is 8 + 24 = 32px, exactly
+         where it sat before. The horizontal pin is set from the left in JS off
+         innerWidth, which already clears the side in portrait — the only
+         orientation the wall switch is placed in. */
+      top: calc(var(--safe-t) + 24px);
       width: 48px;
       height: 64px;
       padding: 0;
@@ -1105,49 +1341,155 @@
     /* Rocker down = lights off. */
     html[data-theme="dark"] .sw-rocker { top: 32px; }
 
-    /* ------------------------------------------------------------------ *
-     * Phone mode — System 8 as a phone would have shipped it.
-     *
-     * Overlapping, draggable windows are a big-screen idea: at 375px two of
-     * them simply cover each other (the 32px cascade step is meaningless when
-     * both are already as wide as the display). So below 640px the desk stops
-     * pretending to be a desk. The icons ARE the home screen — alignToGrid
-     * already flows them into centred rows, so they need no help — and an app
-     * fills the display instead of floating above one.
-     *
-     * The pixel laws are untouched: the 8px grid, the chunky chrome and Enter
-     * Command at 16px all hold at this width. Only the furniture moves.
-     *
-     * This block must stay LAST: a media query carries no extra weight, so it
-     * beats the base rules on source order alone. VisualIdentity.isPhone()
-     * mirrors the 640px so the JS side can't drift from it.
-     * ------------------------------------------------------------------ */
-    @media (max-width: 640px) {
-      /* The app IS the screen. No drop shadow — it would fall off the display,
-         and nothing floats above anything here to cast one. placeWindow clears
-         the desk's inline coords in this mode, so left/top land unopposed. */
-      .mac-window {
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100dvh;
-        border-width: 0;
-        box-shadow: none;
-      }
+    /* Foldable sidebar control — shared by every app whose window splits into a
+       left MENU and a right DETAIL (Contacts, Control Panel). One button folds
+       the menu away on a wide desk; on a phone, where the two panes can't sit
+       side by side, it is the hinge of a two-level menu — the menu is one
+       screen, the detail another, and this moves between them. The app owns
+       which element is the menu and what `folded` hides; this is only the
+       control and its chevron, kept here so both apps wear the same one. */
+    .mac-foldbar { display: flex; margin-bottom: 16px; }
 
-      /* The title bar (48px + its 4px rule) is the app bar; the content takes
-         whatever is left. dvh, not vh, so the browser's own chrome sliding in
-         and out doesn't crop the last row. */
-      .mac-content {
-        max-height: calc(100dvh - 52px);
-        height: calc(100dvh - 52px);
-        padding: 16px;
-      }
-
-      /* Nothing to drag a full-screen app to. */
-      .mac-titlebar { cursor: default; }
-      .mac-window.dragging .mac-titlebar { cursor: default; }
+    .mac-fold {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border: 4px solid var(--identity-normal);
+      background: var(--identity-paper);
+      color: var(--identity-normal);
+      font: inherit;
+      cursor: pointer;
     }
+
+    .mac-fold:hover,
+    .mac-fold:focus-visible { background: var(--identity-tint-mid); }
+
+    .mac-fold:focus-visible { outline: 2px solid var(--identity-primary); outline-offset: 2px; }
+
+    /* The chevron is drawn from pixels (a base square + box-shadow copies) in
+       the current text colour, so it inverts with the theme — ink-on-paper in
+       light, paper-on-ink in dark — where an imported glyph could not. */
+    .mac-chev {
+      position: relative;
+      flex: none;
+      width: 8px;
+      height: 14px;
+    }
+
+    .mac-chev::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: 2px;
+      background: currentColor;
+      box-shadow:
+        0 2px 0 0 currentColor, 2px 2px 0 0 currentColor,
+        2px 4px 0 0 currentColor, 4px 4px 0 0 currentColor,
+        4px 6px 0 0 currentColor, 6px 6px 0 0 currentColor,
+        2px 8px 0 0 currentColor, 4px 8px 0 0 currentColor,
+        0 10px 0 0 currentColor, 2px 10px 0 0 currentColor,
+        0 12px 0 0 currentColor;
+    }
+
+    /* Points right to open the menu; flips to point back once it is showing. */
+    .mac-fold[aria-expanded="true"] .mac-chev { transform: rotate(180deg); }
+
+    /* Safe-area cushions. On a notched phone (viewport-fit=cover is set in the
+       meta) each resolves to the space a status bar, notch, home indicator or
+       rounded corner takes, so nothing maximized sits under browser or OS
+       chrome. Everywhere else — a desk, or a phone with no cutout — env() is 0
+       and each falls back to the 8px desk margin, so the layout is unchanged.
+       max() keeps at least that margin even where an inset is smaller. Defined
+       once; the maximized window and the wall switch both draw from them. */
+    :root {
+      --safe-t: max(8px, env(safe-area-inset-top, 0px));
+      --safe-r: max(8px, env(safe-area-inset-right, 0px));
+      --safe-b: max(8px, env(safe-area-inset-bottom, 0px));
+      --safe-l: max(8px, env(safe-area-inset-left, 0px));
+    }
+
+    /* ------------------------------------------------------------------ *
+     * Maximized — the window IS the desk, but still a WINDOW.
+     *
+     * This is a STATE a window is in, not a place the code goes. There is no
+     * phone layout: a phone is simply a desk where every window opens
+     * maximized, and that is the whole of it. Everything downstream (drag,
+     * resize, placeWindow) asks whether THIS WINDOW is maximized, never what
+     * device it is on, so there is only ever one window model to reason about
+     * and it cannot drift out of step with a second one.
+     *
+     * It stays a window, not a full-screen takeover: it keeps its 4px ink frame
+     * — the black-in-light, white-in-dark outline that reads as "window" — and
+     * a grid unit of desk shows around it. Laid out as a flex column so the
+     * content fills whatever the frame and the title bar leave, with no magic
+     * height constant to drift out of date. dvh, not vh, so the browser's own
+     * chrome sliding in and out doesn't crop the last row. The drop shadow goes
+     * (an 8px offset would fall off the display, and nothing floats here to
+     * cast one).
+     *
+     * The `html` prefix is load-bearing, not decoration. An app that sets its
+     * own width does it at 0-2-0 (`.mac-window.contacts-window`) from a
+     * stylesheet injected at boot — LATER in the head than this one — so a
+     * plain `.mac-window[data-maximized]` would tie on specificity and lose on
+     * source order. Contacts sat at 720px on a 375px display for exactly that
+     * reason. The type selector takes this to 0-2-1 and settles it, which is
+     * also why no app needs a rule of its own here any more.
+     *
+     * `:not([hidden])` is NOT optional. This rule sets `display`, and a
+     * maximized window keeps its data-maximized after it is closed (close just
+     * flips the `hidden` attribute). At 0-2-1 that `display: flex` outranks the
+     * UA's `[hidden] { display: none }` (0-1-0) — so a CLOSED window would keep
+     * showing, and tapping the close box would look like it did nothing. Gating
+     * on :not([hidden]) lets `hidden` win and actually hide the window.
+     * ------------------------------------------------------------------ */
+    html .mac-window[data-maximized]:not([hidden]) {
+      left: var(--safe-l);
+      top: var(--safe-t);
+      width: calc(100vw - var(--safe-l) - var(--safe-r));
+      height: calc(100dvh - var(--safe-t) - var(--safe-b));
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    html .mac-window[data-maximized] .mac-content {
+      flex: 1;
+      min-height: 0;      /* a flex item won't scroll unless it may shrink under its content */
+      max-height: none;
+      height: auto;
+      padding: 16px;
+    }
+
+    /* No scrollbar on a phone. The chunky pixel bar is desktop furniture; here
+       the content scrolls under a finger and the groove is only noise. Hidden,
+       not removed — overflow still scrolls, the bar simply isn't painted. */
+    html .mac-window[data-maximized] .mac-content,
+    html .mac-window[data-maximized] .mac-scroll { scrollbar-width: none; }
+    html .mac-window[data-maximized] .mac-content::-webkit-scrollbar,
+    html .mac-window[data-maximized] .mac-scroll::-webkit-scrollbar { display: none; }
+
+    /* The TV is a physical set: it does not stretch to fill the desk. Its width
+       is maximized and it centres, keeping its true 4:3 tube, its frame and its
+       shadow — a set sitting on the desk, not a screen bolted to the wall. It
+       opts out of the flex-fill; only the width rule above still reaches it. */
+    html .mac-window.tv-window[data-maximized]:not([hidden]) {
+      top: 50%;
+      height: auto;
+      transform: translateY(-50%);
+      box-shadow: 8px 8px 0 var(--identity-tint-shadow);
+      display: block;
+    }
+
+    /* Nowhere to drag it to, nothing to resize. The JS turns both away on a
+       maximized window; this takes the grips out of the layout as well, so
+       they cannot swallow a touch meant for the app underneath. */
+    html .mac-window[data-maximized] .mac-titlebar,
+    html .mac-window[data-maximized].dragging .mac-titlebar { cursor: default; }
+    html .mac-window[data-maximized] .mac-edge,
+    html .mac-window[data-maximized] .mac-grow { display: none; }
 
   </style>
 </head>
@@ -1420,6 +1762,18 @@
       let windowZ = 30;
       VisualIdentity.raiseWindow = windowElement => {
         windowElement.style.zIndex = ++windowZ;
+        // On a phone the desk holds ONE window at a time, the way a phone OS
+        // shows one app. Bringing a window to the front there makes it the only
+        // one: opening an app closes the rest, and closing that app (its close
+        // box) drops back to the home screen. This is the single choke point —
+        // every open and every tap-to-front (see the pointerdown handler below)
+        // routes through here, so the invariant can't be dodged. On a desk it
+        // stays a plain z-bump and windows overlap as before.
+        if (VisualIdentity.isPhone()) {
+          document.querySelectorAll('.mac-window').forEach(other => {
+            if (other !== windowElement) other.hidden = true;
+          });
+        }
       };
 
       // Window placement: centred, but stepped down-right from the windows
@@ -1433,25 +1787,210 @@
       const windowSlots = new WeakMap();
       let nextWindowSlot = 0;
 
-      // Phone mode. Overlapping draggable windows are a big-screen idea; there
-      // is no good version of them at 375px. So below this width the desk stops
-      // pretending to be a desk and becomes what System 8 would be on a phone:
-      // a home screen of icons, and one app filling the screen at a time.
-      // Kept in one place so CSS (@media 640px) and JS can't drift apart.
+      // Overlapping draggable windows are a big-screen idea; there is no good
+      // version of them at 375px, where the 32px cascade step means nothing
+      // because both windows are already as wide as the display. So below this
+      // width the desk stops pretending to be a desk and becomes what System 8
+      // would be on a phone: a home screen of icons (alignToGrid already flows
+      // them into centred rows), and one app filling the screen at a time.
+      // Kept in one place so CSS and JS can't drift apart.
       VisualIdentity.phoneQuery = matchMedia('(max-width: 640px)');
       VisualIdentity.isPhone = () => VisualIdentity.phoneQuery.matches;
 
-      VisualIdentity.placeWindow = windowElement => {
-        if (windowElement.hidden) return;
-        // On a phone the app fills the screen, so there is nowhere to place it
-        // and nothing to cascade past. Clear the desk's inline coords and let
-        // the stylesheet own the box — including for a window the reader
-        // dragged on a wider screen before rotating.
-        if (VisualIdentity.isPhone()) {
+      // Two callers, and there should never be a third. Here, to decide that a
+      // phone maximizes every window; and in welcome(), to decide not to stage
+      // an opening that would bury itself. Both are DECISIONS taken once.
+      //
+      // No window behaviour may ask it. Filling the screen is not a phone
+      // behaviour — it is what a maximized window does — so drag, resize and
+      // placeWindow all ask the WINDOW whether it is maximized rather than
+      // asking what it is running on. That leaves one window model instead of
+      // two that have to be kept in step, and it is why there is no phone
+      // layout in this file to drift out of date.
+      VisualIdentity.setMaximized = (windowElement, on) => {
+        if (on) {
+          windowElement.dataset.maximized = 'true';
+          // Inline coords outrank the maximized rule and would strand the window
+          // at whatever the desk — or the reader — last set. A box dragged or
+          // sized on a wide screen must not survive a rotation into this.
+          // Nothing is lost by clearing them: leaving the state places it afresh.
           windowElement.style.left = '';
           windowElement.style.top = '';
-          return;
+          windowElement.style.width = '';
+          const content = windowElement.querySelector('.mac-content');
+          if (content) content.style.height = '';
+        } else {
+          delete windowElement.dataset.maximized;
         }
+      };
+
+      // The one decision, applied to every window: at the phone width they all
+      // maximize; leaving it, they are placed back on the desk.
+      VisualIdentity.syncMaximized = () => {
+        const on = VisualIdentity.isPhone();
+        const windows = [...document.querySelectorAll('.mac-window')];
+        // Crossing INTO the phone, at most one window may stay open. A deskful
+        // of windows maximized where they sit would stack invisibly and read as
+        // unclosable (closing the front just uncovers the next, identical one).
+        // Keep the frontmost — the one the reader was last on, by z-index — and
+        // close the rest, so they land on a single app or the home screen.
+        if (on) {
+          const open = windows.filter(w => !w.hidden);
+          if (open.length > 1) {
+            const front = open.reduce((a, b) =>
+              (parseInt(b.style.zIndex) || 0) >= (parseInt(a.style.zIndex) || 0) ? b : a);
+            open.forEach(w => { if (w !== front) w.hidden = true; });
+          }
+        }
+        windows.forEach(windowElement => {
+          VisualIdentity.setMaximized(windowElement, on);
+          if (!on) VisualIdentity.placeWindow(windowElement);
+        });
+      };
+      VisualIdentity.phoneQuery.addEventListener('change', VisualIdentity.syncMaximized);
+
+      // Resizing, in two idioms at once. The grow box in the bottom-right is
+      // how this era did it; dragging the edges is a later idea, and both are
+      // wired here so a reader can reach for either. Attached from one place
+      // (see the foot of the page) rather than by each app, so the resizing
+      // lives here whole. An app's only say in it is the data-resize
+      // attribute below, declaring a fact about its own content. Sizing snaps
+      // to the 8px grid like everything else, and each window's floor comes
+      // from its own CSS min-width.
+      VisualIdentity.makeResizable = windowElement => {
+        if (windowElement.querySelector('.mac-grow')) return;   // idempotent
+        const content = windowElement.querySelector('.mac-content');
+        if (!content) return;
+
+        // An app can opt out of an axis, or out of the whole idea:
+        //   "v"    — content is fixed-width pixel art (the Wallet's 480px
+        //            card), so height is the only axis worth dragging. The box
+        //            drops the width arm and wears the two-bar glyph, and only
+        //            the top and bottom edges are live.
+        //   "none" — the window has one true size (the TV is a physical set),
+        //            so it gets no grow box and no edges at all.
+        // Anything else resizes both ways, which is the default.
+        if (windowElement.dataset.resize === 'none') return;
+        const heightOnly = windowElement.dataset.resize === 'v';
+
+        const MIN_H = 120;
+        const MARGIN = 16;   // never let a window be sized off the desk
+
+        // One sizing step for every grip. `dir` names the edges that move:
+        // n/s the top/bottom, e/w the right/left. Dragging n or w moves the
+        // window's origin as well, because the opposite edge has to stay put —
+        // so those anchor on the far edge and solve back for the near one.
+        const resizeTo = (dir, start, dx, dy) => {
+          const snap = VisualIdentity.snap, snapD = VisualIdentity.snapDelta;
+          // snap() rounds to the NEAREST grid line, so it can round a clamped
+          // edge back out past the very limit that just clamped it. Where a
+          // bound must hold, round toward the window instead of nearest.
+          const snapDown = v => Math.floor(v / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+          const floorW = () => parseInt(getComputedStyle(windowElement).minWidth) || 240;
+          let left = start.left, top = start.top, w = start.w, h = start.h;
+
+          if (!heightOnly && dir.includes('e')) {
+            w = snap(Math.min(Math.max(start.w + snapD(dx), floorW()),
+                              innerWidth - start.left - MARGIN));
+          }
+          if (!heightOnly && dir.includes('w')) {
+            const right = start.left + start.w;
+            // Snap the edge the reader is actually holding, THEN solve the
+            // width back from the far edge. Snapping the two independently
+            // lets them disagree, and the edge that is supposed to be nailed
+            // down creeps a few px per drag.
+            // The floor is applied to the SNAPPED edge with snapDown, not to
+            // the raw one: clamp-then-snap rounds left back over the limit and
+            // the window ends up narrower than its floor.
+            left = Math.min(snap(Math.max(start.left + snapD(dx), MARGIN)),
+                            snapDown(right - floorW()));
+            w = right - left;
+          }
+          if (dir.includes('s')) {
+            h = snap(Math.min(Math.max(start.h + snapD(dy), MIN_H),
+                              innerHeight - start.top - start.chrome - MARGIN));
+          }
+          if (dir.includes('n')) {
+            const bottom = start.top + start.chrome + start.h;
+            top = Math.min(snap(Math.max(start.top + snapD(dy), MARGIN)),
+                           snapDown(bottom - start.chrome - MIN_H));
+            h = bottom - start.chrome - top;   // far edge stays; solve back
+          }
+
+          // Marks the window as the reader's: placeWindow and the shared
+          // max-height cap both stand down once this is set.
+          windowElement.dataset.userSized = 'true';
+          if (dir.includes('n') || (dir.includes('w') && !heightOnly)) {
+            windowElement.dataset.userMoved = 'true';   // the origin moved too
+          }
+          // Already snapped above — do not round again here, or the solved-back
+          // dimension drifts off the edge it was solved from.
+          if (!heightOnly) windowElement.style.width = `${w}px`;
+          content.style.height = `${h}px`;
+          if (!heightOnly && dir.includes('w')) windowElement.style.left = `${left}px`;
+          if (dir.includes('n')) windowElement.style.top = `${top}px`;
+        };
+
+        const wire = (grip, dir) => {
+          let pointer = null, start = null;
+          grip.addEventListener('pointerdown', event => {
+            if (windowElement.dataset.maximized) return;   // it IS the desk; nothing to size it to
+            const rect = windowElement.getBoundingClientRect();
+            const box = content.getBoundingClientRect();
+            pointer = event.pointerId;
+            start = {
+              x: event.clientX, y: event.clientY,
+              left: rect.left, top: rect.top, w: rect.width, h: box.height,
+              chrome: rect.height - box.height,   // title bar + borders, measured
+            };
+            grip.setPointerCapture(pointer);
+            event.preventDefault();
+          });
+          grip.addEventListener('pointermove', event => {
+            if (event.pointerId !== pointer) return;
+            resizeTo(dir, start, event.clientX - start.x, event.clientY - start.y);
+          });
+          const release = event => {
+            if (pointer === null || (event && event.pointerId !== pointer)) return;
+            pointer = null;
+          };
+          grip.addEventListener('pointerup', release);
+          grip.addEventListener('pointercancel', release);
+        };
+
+        // Order is load-bearing: every grip shares one z-index, so the later
+        // child takes the pointer wherever they overlap. Edges first, then the
+        // corners that cross them, then the grow box last of all, keeping the
+        // 24px it paints. resizeTo reads each letter of `dir` separately, so a
+        // corner is simply two edges named at once and needs no special case.
+        // 'se' gets a strip too, even though the grow box is already there: the
+        // box sits INSIDE the frame (right/bottom: 0) while the strips reach
+        // out over it (-4px), so without one the frame's own corner pixels fall
+        // through to the 'e' edge and resize width alone. The strip and the box
+        // both say 'se', so whichever takes the pointer does the same thing.
+        // A height-only window gets only the two edges it can act on: a corner
+        // would promise a width it is not allowed to change.
+        (heightOnly ? ['n', 's'] : ['n', 's', 'e', 'w', 'ne', 'nw', 'sw', 'se']).forEach(dir => {
+          const edge = document.createElement('div');
+          edge.className = `mac-edge mac-edge-${dir}`;
+          windowElement.appendChild(edge);
+          wire(edge, dir);
+        });
+
+        const grip = document.createElement('button');
+        grip.className = 'mac-grow';
+        grip.type = 'button';
+        grip.setAttribute('aria-label', heightOnly ? 'Resize window height' : 'Resize window');
+        windowElement.appendChild(grip);
+        wire(grip, heightOnly ? 's' : 'se');
+      };
+
+      VisualIdentity.placeWindow = windowElement => {
+        if (windowElement.hidden) return;
+        // A maximized window IS the desk: nowhere to place it, nothing to
+        // cascade past. setMaximized has already cleared the inline coords that
+        // would outrank its rule, so there is nothing left to do here.
+        if (windowElement.dataset.maximized) return;
         if (windowElement.dataset.userMoved) return;
         if (!windowSlots.has(windowElement)) windowSlots.set(windowElement, nextWindowSlot++);
         const slot = windowSlots.get(windowElement);
@@ -1894,6 +2433,7 @@
 
       pubsWindow.querySelector('.mac-titlebar').addEventListener('pointerdown', event => {
         if (event.target.closest('.mac-close')) return;
+        if (pubsWindow.dataset.maximized) return;   // phone: it fills the screen, nowhere to drag
         startDrag(event, pubsWindow);
       });
 
@@ -2095,9 +2635,10 @@
       ];
 
       const welcome = () => {
-        // On a phone an app fills the whole display, so opening two would bury
-        // the first and hide the home screen the reader just arrived at. The
-        // icons are the welcome there; they tap in themselves.
+        // Where windows open maximized, each one fills the display — so staging
+        // two would bury the first and hide the home screen the reader just
+        // arrived at. The icons are the welcome there; they tap in themselves.
+        // (One of only two places allowed to ask this; see isPhone above.)
         if (window.VisualIdentity?.isPhone?.()) return;
         // Someone who asked for less motion just gets the windows, no theatre.
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -2117,10 +2658,23 @@
         });
       };
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', welcome);
-      } else {
+      // Every window gets its grow box from here rather than each app wiring
+      // its own — this runs after every app has booted, so they all exist, and
+      // the apps stay ignorant of resizing entirely.
+      const ready = () => {
+        document.querySelectorAll('.mac-window')
+          .forEach(win => window.VisualIdentity?.makeResizable?.(win));
+        // Every window exists by now, so this is where the phone's one decision
+        // lands. After this the width is never consulted again — a rotation is
+        // caught by the phoneQuery listener, and both go through the same call.
+        window.VisualIdentity?.syncMaximized?.();
         welcome();
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ready);
+      } else {
+        ready();
       }
     })();
   </script>
