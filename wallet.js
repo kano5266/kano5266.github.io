@@ -122,15 +122,10 @@
     // drag — only height, to show more of the stack at once. The page reads
     // this and gives the grow box its down-stepping glyph.
     win.dataset.resize = 'v';
-    win.setAttribute('role', 'dialog');
-    win.setAttribute('aria-labelledby', 'wallet-title');
-    win.tabIndex = -1;
     win.hidden = true;
+    // Titlebar, dialog role and door wiring come from attachWindowChrome
+    // below; this template is only what is the Wallet's own.
     win.innerHTML = `
-      <header class="mac-titlebar">
-        <button class="mac-close" type="button" aria-label="Close wallet window"></button>
-        <h2 class="mac-title" id="wallet-title">Wallet</h2>
-      </header>
       <div class="mac-content">
         <div class="wallet-stage">
           ${CARDS.map((card, i) => `
@@ -177,76 +172,37 @@
       layout();
     }));
 
-    // ---- window placement (grid-snapped, centred until the user moves it) -
-    const placeWindow = () => VI.placeWindow(win);
-
     const dealCards = () => {
       win.classList.remove('dealing');
       void win.offsetWidth;
       win.classList.add('dealing');
     };
 
-    // ---- open / close ----------------------------------------------------
+    // ---- window plumbing: shared chrome; only the deal ritual is ours ----
     let openTimer = 0;
 
-    const openWallet = () => {
-      win.hidden = false;
-      VI.raiseWindow(win);
-      // Two-beat entrance: deal every card in FOLDED, then once the deal
-      // settles, open the first card (spring).
-      clearTimeout(openTimer);
-      openId = null;
-      win.classList.add('no-anim');
-      layout();
-      void win.offsetWidth;
-      win.classList.remove('no-anim');
-      content.scrollTop = 0;
-      placeWindow();
-      win.focus({ preventScroll: true });
-      dealCards();
-      openTimer = setTimeout(() => { openId = CARDS[0].id; layout(); }, dealTotal);
-    };
-
-    const closeWallet = () => {
-      clearTimeout(openTimer);
-      win.hidden = true;
-      icon.focus({ preventScroll: true });
-    };
-
-    // ---- icon: click opens/closes, drag is ignored -----------------------
-    let pressX = 0, pressY = 0;
-    icon.addEventListener('pointerdown', e => { pressX = e.clientX; pressY = e.clientY; });
-    icon.addEventListener('click', e => {
-      if (Math.hypot(e.clientX - pressX, e.clientY - pressY) > 4) return;
-      if (win.hidden) openWallet(); else closeWallet();
+    const { open: openWallet } = VI.attachWindowChrome(win, {
+      title: 'Wallet',
+      closeLabel: 'Close wallet window',
+      icon,
+      onOpen: () => {
+        // Two-beat entrance: deal every card in FOLDED, then once the deal
+        // settles, open the first card (spring).
+        clearTimeout(openTimer);
+        openId = null;
+        win.classList.add('no-anim');
+        layout();
+        void win.offsetWidth;
+        win.classList.remove('no-anim');
+        content.scrollTop = 0;
+        dealCards();
+        openTimer = setTimeout(() => { openId = CARDS[0].id; layout(); }, dealTotal);
+      },
+      onClose: () => clearTimeout(openTimer),
     });
 
-    win.querySelector('.mac-close').addEventListener('click', closeWallet);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !win.hidden) closeWallet(); });
-    addEventListener('resize', placeWindow);
-
-    // ---- titlebar drag (grid-snapped) ------------------------------------
-    const titlebar = win.querySelector('.mac-titlebar');
-    let dragId = null, startX = 0, startY = 0, originX = 0, originY = 0, dragged = false;
-
-    titlebar.addEventListener('pointerdown', e => {
-      if (e.target.closest('.mac-close')) return;
-      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
-      dragId = e.pointerId; startX = e.clientX; startY = e.clientY;
-      const r = win.getBoundingClientRect(); originX = r.left; originY = r.top; dragged = false;
-      titlebar.setPointerCapture(e.pointerId);
-    });
-    titlebar.addEventListener('pointermove', e => {
-      if (e.pointerId !== dragId) return;
-      const dx = e.clientX - startX, dy = e.clientY - startY;
-      if (!dragged && Math.abs(dx) + Math.abs(dy) <= 4) return;
-      dragged = true; win.dataset.userMoved = 'true'; win.classList.add('dragging');
-      win.style.left = `${VI.snap(originX) + VI.snapDelta(dx)}px`;
-      win.style.top  = `${VI.snap(originY) + VI.snapDelta(dy)}px`;
-    });
-    const endDrag = e => { if (e.pointerId === dragId) { dragId = null; win.classList.remove('dragging'); } };
-    titlebar.addEventListener('pointerup', endDrag);
-    titlebar.addEventListener('pointercancel', endDrag);
+    // Public door: #wallet deep-links here (see the page's welcome script).
+    window.WalletApp = { open: openWallet };
   };
 
   if (document.readyState === 'loading') {

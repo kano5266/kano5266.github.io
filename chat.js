@@ -577,15 +577,10 @@
     // ---- window ----
     const win = document.createElement('section');
     win.className = 'mac-window chat-window';
-    win.setAttribute('role', 'dialog');
-    win.setAttribute('aria-labelledby', 'chat-title');
-    win.tabIndex = -1;
     win.hidden = true;
+    // Titlebar, dialog role and door wiring come from attachWindowChrome
+    // below; this template is only what is Messages' own.
     win.innerHTML = `
-      <header class="mac-titlebar">
-        <button class="mac-close" type="button" aria-label="Close messages window"></button>
-        <h2 class="mac-title" id="chat-title">Messages</h2>
-      </header>
       <div class="chat-head">
         <button class="chat-head-avatar" type="button" aria-label="Open profile">
           <img src="avatars/jiali-rect.svg" alt="" draggable="false" />
@@ -935,41 +930,41 @@
       drainOutbox();
     };
 
-    // ---- window plumbing (same contract as the other apps) ----
-    const placeWindow = () => VI.placeWindow(win);
-
-    const openChat = () => {
-      win.hidden = false;
-      VI.raiseWindow(win);
-      closeProfile();
-      ensureBase();                              // build once; reopen keeps it
-      if (greetingsQueued) setStatus('online');  // reopened: she's still here
-      else queueGreetings({ wake: true });       // first open: she wakes + greets
-      placeWindow();
-      win.focus({ preventScroll: true });
-      read = true;
-      syncBadge();
-    };
-
-    const closeChat = () => {
-      win.hidden = true;
-      setStatus('offline');
-      icon.focus({ preventScroll: true });
-    };
+    // ---- window plumbing: shared chrome; the rituals are Messages' own ----
+    const { open: openChat, show } = VI.attachWindowChrome(win, {
+      title: 'Messages',
+      closeLabel: 'Close messages window',
+      icon,
+      onOpen: () => {
+        closeProfile();
+        ensureBase();                              // build once; reopen keeps it
+        if (greetingsQueued) setStatus('online');  // reopened: she's still here
+        else queueGreetings({ wake: true });       // first open: she wakes + greets
+        read = true;
+        syncBadge();
+      },
+      onClose: () => setStatus('offline'),
+      // profile first, then the window — like backing out of a real app
+      onEscape: () => {
+        if (profilePane.hidden) return false;
+        closeProfile();
+        return true;
+      },
+    });
 
     // Publications' material buttons call this: open Messages and Jiali "sends"
     // the file — a typed line plus a tappable file bubble that downloads it. It's
     // just another queued message, so tapping several download buttons (or one
-    // plus the greeting) delivers them in order, one at a time.
+    // plus the greeting) delivers them in order, one at a time. Deliberately NOT
+    // the open ritual: the file must queue BEFORE any first-time greeting, so
+    // this reveals the window around its own ritual and lets the greeting follow.
     const share = ({ url, venue, kind, filename }) => {
-      win.hidden = false;
-      VI.raiseWindow(win);
-      closeProfile();
-      ensureBase();
-      placeWindow();
-      win.focus({ preventScroll: true });
-      read = true;
-      syncBadge();
+      show(() => {
+        closeProfile();
+        ensureBase();
+        read = true;
+        syncBadge();
+      });
       const text = (window.CHAT_SHARE_MESSAGE || 'here you go — my {kind} from {venue} ! (^-^)')
         .replace('{kind}', kind || 'slides')
         .replace('{venue}', venue || 'the talk');
@@ -980,74 +975,6 @@
     // Public door: Contacts' "message me" bubble opens Messages here; the
     // Publications material buttons call share().
     window.ChatApp = { open: openChat, share };
-
-    let pressX = 0;
-    let pressY = 0;
-    icon.addEventListener('pointerdown', event => {
-      pressX = event.clientX;
-      pressY = event.clientY;
-    });
-    icon.addEventListener('click', event => {
-      if (Math.hypot(event.clientX - pressX, event.clientY - pressY) > 4) return;
-      if (win.hidden) {
-        openChat();
-      } else {
-        closeChat();
-      }
-    });
-
-    win.querySelector('.mac-close').addEventListener('click', closeChat);
-    document.addEventListener('keydown', event => {
-      if (event.key !== 'Escape' || win.hidden) return;
-      // profile first, then the window — like backing out of a real app
-      if (!profilePane.hidden) {
-        closeProfile();
-      } else {
-        closeChat();
-      }
-    });
-    addEventListener('resize', placeWindow);
-
-    const titlebar = win.querySelector('.mac-titlebar');
-    let dragPointer = null;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let dragOriginX = 0;
-    let dragOriginY = 0;
-    let dragMoved = false;
-
-    titlebar.addEventListener('pointerdown', event => {
-      if (event.target.closest('.mac-close')) return;
-      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
-      dragPointer = event.pointerId;
-      dragStartX = event.clientX;
-      dragStartY = event.clientY;
-      const rect = win.getBoundingClientRect();
-      dragOriginX = rect.left;
-      dragOriginY = rect.top;
-      dragMoved = false;
-      titlebar.setPointerCapture(event.pointerId);
-    });
-
-    titlebar.addEventListener('pointermove', event => {
-      if (event.pointerId !== dragPointer) return;
-      const deltaX = event.clientX - dragStartX;
-      const deltaY = event.clientY - dragStartY;
-      if (!dragMoved && Math.abs(deltaX) + Math.abs(deltaY) <= 4) return;
-      dragMoved = true;
-      win.dataset.userMoved = 'true';
-      win.classList.add('dragging');
-      win.style.left = `${VI.snap(dragOriginX) + VI.snapDelta(deltaX)}px`;
-      win.style.top = `${VI.snap(dragOriginY) + VI.snapDelta(deltaY)}px`;
-    });
-
-    const endDrag = event => {
-      if (event.pointerId !== dragPointer) return;
-      dragPointer = null;
-      win.classList.remove('dragging');
-    };
-    titlebar.addEventListener('pointerup', endDrag);
-    titlebar.addEventListener('pointercancel', endDrag);
   };
 
   if (document.readyState === 'loading') {

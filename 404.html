@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 · Jiali Ma</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+  <style>
+    /* Self-contained on purpose: a 404 can be reached from any bad path, so
+       everything it needs is absolute or inline. Same chrome recipe as the
+       desk (4px ink frame, pinstriped titlebar, tint shadow), both themes. */
+    @font-face {
+      font-family: "Enter Command";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("/fonts/EnterCommand.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Enter Command";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("/fonts/EnterCommand-Bold.woff2") format("woff2");
+    }
+
+    :root {
+      --paper: #ffffff;
+      --ink: #000000;
+      --gray: #6b7280;
+      --primary: #4f46e5;
+      --shadow: #c7d2fe;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #17151f;
+        --ink: #ffffff;
+        --gray: #9ca3af;
+        --primary: #818cf8;
+        --shadow: #312e81;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Enter Command", monospace;
+      font-size: 24px;
+      line-height: 24px;
+      -webkit-font-smoothing: none;
+    }
+
+    .window {
+      width: min(480px, calc(100vw - 48px));
+      border: 4px solid var(--ink);
+      background: var(--paper);
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .titlebar {
+      position: relative;
+      height: 48px;
+      border-bottom: 4px solid var(--ink);
+      background: linear-gradient(
+        to bottom,
+        var(--paper) 0 8px, var(--ink) 8px 12px,
+        var(--paper) 12px 20px, var(--ink) 20px 24px,
+        var(--paper) 24px 32px, var(--ink) 32px 36px,
+        var(--paper) 36px 100%);
+    }
+
+    .title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0 16px;
+      background: var(--paper);
+      font-weight: 700;
+    }
+
+    .content { padding: 24px; }
+
+    /* The sad face: the classic crash-screen face in 8px pixels, drawn as
+       box-shadow copies of one seed square (the seed IS the X-eye's top-left
+       pixel — an offset of 0 0 would hide beneath it and never paint). The
+       box is sized to hold every shadow, so nothing bleeds into the text. */
+    .face {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin: 8px 0 24px 8px;
+    }
+
+    .face::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 8px;
+      height: 8px;
+      background: var(--ink);
+      box-shadow:
+        /* left eye: an X */
+        32px 0 var(--ink), 16px 16px var(--ink), 0 32px var(--ink), 32px 32px var(--ink),
+        /* right eye: a straight bar */
+        80px 0 var(--ink), 80px 8px var(--ink), 80px 16px var(--ink),
+        80px 24px var(--ink), 80px 32px var(--ink),
+        /* the mouth, crooked the sad way */
+        8px 72px var(--ink), 16px 64px var(--ink), 24px 64px var(--ink),
+        32px 64px var(--ink), 40px 64px var(--ink), 48px 64px var(--ink),
+        56px 72px var(--ink), 64px 80px var(--ink), 72px 80px var(--ink);
+    }
+
+    p { margin: 0 0 16px; }
+
+    .quiet { color: var(--gray); }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 4px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <main class="window">
+    <header class="titlebar"><span class="title">404</span></header>
+    <div class="content">
+      <div class="face" aria-hidden="true"></div>
+      <p>this window doesn't exist.</p>
+      <p class="quiet">the file may have been moved, renamed, or never pixeled at all.</p>
+      <p><a href="/">back to the desk</a></p>
+    </div>
+  </main>
+</body>
+</html>

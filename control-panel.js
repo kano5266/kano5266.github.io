@@ -295,15 +295,10 @@
     // ---- the window ----
     const win = document.createElement('section');
     win.className = 'mac-window panel-window';
-    win.setAttribute('role', 'dialog');
-    win.setAttribute('aria-labelledby', 'panel-title');
-    win.tabIndex = -1;
     win.hidden = true;
+    // Titlebar, dialog role and door wiring come from attachWindowChrome
+    // below; this template is only what is the Control Panel's own.
     win.innerHTML = `
-      <header class="mac-titlebar">
-        <button class="mac-close" type="button" aria-label="Close control panel"></button>
-        <h2 class="mac-title" id="panel-title">Control Panel</h2>
-      </header>
       <div class="mac-content">
         <div class="mac-foldbar">
           <button class="mac-fold" type="button" aria-label="Hide sections"
@@ -335,13 +330,8 @@
     // on a phone. The fold button collapses it on a desk and, on a phone, is
     // the way back up a level.
     const cp = win.querySelector('.cp');
-    const foldBtn = win.querySelector('.mac-fold');
-    const setFolded = folded => {
-      cp.classList.toggle('folded', folded);
-      foldBtn.setAttribute('aria-expanded', String(!folded));
-      foldBtn.setAttribute('aria-label', folded ? 'Show sections' : 'Hide sections');
-    };
-    foldBtn.addEventListener('click', () => setFolded(!cp.classList.contains('folded')));
+    const setFolded = VI.makeFoldable(win.querySelector('.mac-fold'), cp,
+      { show: 'Show sections', hide: 'Hide sections' });
 
     // A few no-permission facts about the machine opening the page, read
     // fresh each time the pane shows. Everything here is displayed and never
@@ -502,84 +492,19 @@
       if (check) check.setAttribute('aria-pressed', String(event.detail.dark));
     });
 
-    // ---- window plumbing (same contract as wallet/news) ----
-    const placeWindow = () => VI.placeWindow(win);
-
-    const openPanel = () => {
-      win.hidden = false;
-      VI.raiseWindow(win);
-      showPane('system');
-      setFolded(false);   // open on the menu (phone) / sidebar beside pane (desk)
-      placeWindow();
-      win.focus({ preventScroll: true });
-    };
-
-    const closePanel = () => {
-      win.hidden = true;
-      icon.focus({ preventScroll: true });
-    };
-
-    let pressX = 0;
-    let pressY = 0;
-    icon.addEventListener('pointerdown', event => {
-      pressX = event.clientX;
-      pressY = event.clientY;
-    });
-    icon.addEventListener('click', event => {
-      if (Math.hypot(event.clientX - pressX, event.clientY - pressY) > 4) return;
-      if (win.hidden) {
-        openPanel();
-      } else {
-        closePanel();
-      }
+    // ---- window plumbing: shared chrome; only the open ritual is ours ----
+    const { open: openPanel } = VI.attachWindowChrome(win, {
+      title: 'Control Panel',
+      closeLabel: 'Close control panel',
+      icon,
+      onOpen: () => {
+        showPane('system');
+        setFolded(false);   // open on the menu (phone) / sidebar beside pane (desk)
+      },
     });
 
-    win.querySelector('.mac-close').addEventListener('click', closePanel);
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && !win.hidden) closePanel();
-    });
-    addEventListener('resize', placeWindow);
-
-    const titlebar = win.querySelector('.mac-titlebar');
-    let dragPointer = null;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let dragOriginX = 0;
-    let dragOriginY = 0;
-    let dragMoved = false;
-
-    titlebar.addEventListener('pointerdown', event => {
-      if (event.target.closest('.mac-close')) return;
-      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
-      dragPointer = event.pointerId;
-      dragStartX = event.clientX;
-      dragStartY = event.clientY;
-      const rect = win.getBoundingClientRect();
-      dragOriginX = rect.left;
-      dragOriginY = rect.top;
-      dragMoved = false;
-      titlebar.setPointerCapture(event.pointerId);
-    });
-
-    titlebar.addEventListener('pointermove', event => {
-      if (event.pointerId !== dragPointer) return;
-      const deltaX = event.clientX - dragStartX;
-      const deltaY = event.clientY - dragStartY;
-      if (!dragMoved && Math.abs(deltaX) + Math.abs(deltaY) <= 4) return;
-      dragMoved = true;
-      win.dataset.userMoved = 'true';
-      win.classList.add('dragging');
-      win.style.left = `${VI.snap(dragOriginX) + VI.snapDelta(deltaX)}px`;
-      win.style.top = `${VI.snap(dragOriginY) + VI.snapDelta(deltaY)}px`;
-    });
-
-    const endDrag = event => {
-      if (event.pointerId !== dragPointer) return;
-      dragPointer = null;
-      win.classList.remove('dragging');
-    };
-    titlebar.addEventListener('pointerup', endDrag);
-    titlebar.addEventListener('pointercancel', endDrag);
+    // Public door: #controls deep-links here (see the page's welcome script).
+    window.ControlPanelApp = { open: openPanel };
   };
 
   if (document.readyState === 'loading') {

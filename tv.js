@@ -520,15 +520,10 @@
     // A TV set has one true size. Not resizable on any axis, so the page
     // gives this window no grow box at all.
     win.dataset.resize = 'none';
-    win.setAttribute('role', 'dialog');
-    win.setAttribute('aria-labelledby', 'tv-title');
-    win.tabIndex = -1;
     win.hidden = true;
+    // Titlebar, dialog role and door wiring come from attachWindowChrome
+    // below; this template is only what is the TV's own.
     win.innerHTML = `
-      <header class="mac-titlebar">
-        <button class="mac-close" type="button" aria-label="Close TV window"></button>
-        <h2 class="mac-title" id="tv-title">TV</h2>
-      </header>
       <div class="mac-content">
         <div class="tv-set">
           <div class="tv-screen">
@@ -692,93 +687,26 @@
         restartAuto();
       }));
 
-    const placeWindow = () => VI.placeWindow(win);
-
-    const openTV = () => {
-      win.hidden = false;
-      VI.raiseWindow(win);
-      channel = 0;
-      render();
-      placeWindow();
-      win.focus({ preventScroll: true });
-      restartAuto();
-    };
-
-    const closeTV = () => {
-      win.hidden = true;
-      clearTimeout(autoTimer);
-      stopMotion();
-      icon.focus({ preventScroll: true });
-    };
+    // ---- window plumbing: shared chrome; only the set's rituals are ours --
+    const { open: openTV } = VI.attachWindowChrome(win, {
+      title: 'TV',
+      closeLabel: 'Close TV window',
+      icon,
+      onOpen: () => {
+        channel = 0;
+        render();
+        restartAuto();
+      },
+      onClose: () => {
+        clearTimeout(autoTimer);
+        stopMotion();
+      },
+    });
 
     // Public door: the page switches the TV on when the reader arrives (see the
     // welcome script at the foot of index.html). Opening always
     // lands on CH 1 and starts the news roll.
     window.TVApp = { open: openTV };
-
-    // Click-vs-drag guard (same contract as the wallet icon).
-    let pressX = 0;
-    let pressY = 0;
-    icon.addEventListener('pointerdown', event => {
-      pressX = event.clientX;
-      pressY = event.clientY;
-    });
-    icon.addEventListener('click', event => {
-      if (Math.hypot(event.clientX - pressX, event.clientY - pressY) > 4) return;
-      if (win.hidden) {
-        openTV();
-      } else {
-        closeTV();
-      }
-    });
-
-    win.querySelector('.mac-close').addEventListener('click', closeTV);
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && !win.hidden) closeTV();
-    });
-    addEventListener('resize', placeWindow);
-
-    // Title-bar drag, grid-snapped (same implementation as the wallet).
-    const titlebar = win.querySelector('.mac-titlebar');
-    let dragPointer = null;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let dragOriginX = 0;
-    let dragOriginY = 0;
-    let dragMoved = false;
-
-    titlebar.addEventListener('pointerdown', event => {
-      if (event.target.closest('.mac-close')) return;
-      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
-      dragPointer = event.pointerId;
-      dragStartX = event.clientX;
-      dragStartY = event.clientY;
-      const rect = win.getBoundingClientRect();
-      dragOriginX = rect.left;
-      dragOriginY = rect.top;
-      dragMoved = false;
-      titlebar.setPointerCapture(event.pointerId);
-    });
-
-    titlebar.addEventListener('pointermove', event => {
-      if (event.pointerId !== dragPointer) return;
-      const deltaX = event.clientX - dragStartX;
-      const deltaY = event.clientY - dragStartY;
-      if (!dragMoved && Math.abs(deltaX) + Math.abs(deltaY) <= 4) return;
-      dragMoved = true;
-      win.dataset.userMoved = 'true';
-      win.classList.add('dragging');
-      win.style.left = `${VI.snap(dragOriginX) + VI.snapDelta(deltaX)}px`;
-      win.style.top = `${VI.snap(dragOriginY) + VI.snapDelta(deltaY)}px`;
-    });
-
-    const endDrag = event => {
-      if (event.pointerId !== dragPointer) return;
-      dragPointer = null;
-      win.classList.remove('dragging');
-    };
-    titlebar.addEventListener('pointerup', endDrag);
-    titlebar.addEventListener('pointercancel', endDrag);
   };
 
   if (document.readyState === 'loading') {

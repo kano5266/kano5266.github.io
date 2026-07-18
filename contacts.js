@@ -326,15 +326,10 @@
 
     const win = document.createElement('section');
     win.className = 'mac-window contacts-window';
-    win.setAttribute('role', 'dialog');
-    win.setAttribute('aria-labelledby', 'contacts-title');
-    win.tabIndex = -1;
     win.hidden = true;
+    // Titlebar, dialog role and door wiring come from attachWindowChrome
+    // below; this template is only what is Contacts' own.
     win.innerHTML = `
-      <header class="mac-titlebar">
-        <button class="mac-close" type="button" aria-label="Close contacts window"></button>
-        <h2 class="mac-title" id="contacts-title">Contacts</h2>
-      </header>
       <div class="mac-content">
         <div class="mac-foldbar">
           <button class="mac-fold" type="button" aria-label="Show contact list"
@@ -364,13 +359,8 @@
     // The foldable contact list — hidden by default, revealed by the toolbar
     // toggle (and folded back once a contact is picked, drawer-style).
     const ct = win.querySelector('.ct');
-    const foldBtn = win.querySelector('.mac-fold');
-    const setFolded = folded => {
-      ct.classList.toggle('folded', folded);
-      foldBtn.setAttribute('aria-expanded', String(!folded));
-      foldBtn.setAttribute('aria-label', folded ? 'Show contact list' : 'Hide contact list');
-    };
-    foldBtn.addEventListener('click', () => setFolded(!ct.classList.contains('folded')));
+    const setFolded = VI.makeFoldable(win.querySelector('.mac-fold'), ct,
+      { show: 'Show contact list', hide: 'Hide contact list' });
 
     const ACT_CORNERS = '<span class="ac ac-tl"></span><span class="ac ac-tr"></span>'
       + '<span class="ac ac-bl"></span><span class="ac ac-br"></span>';
@@ -457,88 +447,20 @@
 
     show(contacts[0].id);
 
-    // ---- window plumbing (same contract as the other apps) ----
-    const placeWindow = () => VI.placeWindow(win);
-
-    const openContacts = () => {
-      win.hidden = false;
-      VI.raiseWindow(win);
-      show(contacts[0].id);
-      setFolded(true);            // always open on the owner card, list tucked away
-      placeWindow();
-      win.focus({ preventScroll: true });
-    };
-
-    const closeContacts = () => {
-      win.hidden = true;
-      icon.focus({ preventScroll: true });
-    };
+    // ---- window plumbing: shared chrome; only the open ritual is ours ----
+    const { open: openContacts } = VI.attachWindowChrome(win, {
+      title: 'Contacts',
+      closeLabel: 'Close contacts window',
+      icon,
+      onOpen: () => {
+        show(contacts[0].id);
+        setFolded(true);   // always open on the owner card, list tucked away
+      },
+    });
 
     // Public door: the page opens Contacts on arrival (see the welcome script
     // at the foot of index.html).
     window.ContactsApp = { open: openContacts };
-
-    let pressX = 0;
-    let pressY = 0;
-    icon.addEventListener('pointerdown', event => {
-      pressX = event.clientX;
-      pressY = event.clientY;
-    });
-    icon.addEventListener('click', event => {
-      if (Math.hypot(event.clientX - pressX, event.clientY - pressY) > 4) return;
-      if (win.hidden) {
-        openContacts();
-      } else {
-        closeContacts();
-      }
-    });
-
-    win.querySelector('.mac-close').addEventListener('click', closeContacts);
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && !win.hidden) closeContacts();
-    });
-    addEventListener('resize', placeWindow);
-
-    const titlebar = win.querySelector('.mac-titlebar');
-    let dragPointer = null;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let dragOriginX = 0;
-    let dragOriginY = 0;
-    let dragMoved = false;
-
-    titlebar.addEventListener('pointerdown', event => {
-      if (event.target.closest('.mac-close')) return;
-      if (win.dataset.maximized) return;   // it IS the desk; nowhere to drag it to
-      dragPointer = event.pointerId;
-      dragStartX = event.clientX;
-      dragStartY = event.clientY;
-      const rect = win.getBoundingClientRect();
-      dragOriginX = rect.left;
-      dragOriginY = rect.top;
-      dragMoved = false;
-      titlebar.setPointerCapture(event.pointerId);
-    });
-
-    titlebar.addEventListener('pointermove', event => {
-      if (event.pointerId !== dragPointer) return;
-      const deltaX = event.clientX - dragStartX;
-      const deltaY = event.clientY - dragStartY;
-      if (!dragMoved && Math.abs(deltaX) + Math.abs(deltaY) <= 4) return;
-      dragMoved = true;
-      win.dataset.userMoved = 'true';
-      win.classList.add('dragging');
-      win.style.left = `${VI.snap(dragOriginX) + VI.snapDelta(deltaX)}px`;
-      win.style.top = `${VI.snap(dragOriginY) + VI.snapDelta(deltaY)}px`;
-    });
-
-    const endDrag = event => {
-      if (event.pointerId !== dragPointer) return;
-      dragPointer = null;
-      win.classList.remove('dragging');
-    };
-    titlebar.addEventListener('pointerup', endDrag);
-    titlebar.addEventListener('pointercancel', endDrag);
   };
 
   if (document.readyState === 'loading') {

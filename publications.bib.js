@@ -31,6 +31,16 @@ window.PUBLICATIONS_BIB = String.raw`
   url        = {https://scholar.google.com/citations?view_op=view_citation&hl=en&user=DxWQw84AAAAJ&citation_for_view=DxWQw84AAAAJ:u5HHmVD_uO8C}
 }
 
+@misc{ma2025specfree,
+  title        = {Counterfactual Explanations without Predefined Specifications},
+  author       = {Ma, Jiali and Takigawa, Ichigaku and Yamamoto, Akihiro},
+  howpublished = {Poster presentation at 第28回情報論的学習理論ワークショップ (IBIS 2025)},
+  shortvenue   = {IBIS 2025},
+  category     = {domestic},
+  note         = {Presentation 2b-R-38; no archival paper},
+  year         = {2025}
+}
+
 @inproceedings{ma2025portfolio,
   title      = {ポートフォリオマネジメントにおける深層強化学習を解釈するための反実仮想説明法},
   author     = {馬嘉利 and 山本章博 and 伊藤青葉},
@@ -38,8 +48,7 @@ window.PUBLICATIONS_BIB = String.raw`
   shortvenue = {JSAI Annual Conference 39},
   category   = {domestic},
   pages      = {3Win562},
-  year       = {2025},
-  url        = {https://scholar.google.com/citations?view_op=view_citation&hl=en&user=DxWQw84AAAAJ&citation_for_view=DxWQw84AAAAJ:2osOgNQ5qMEC}
+  year       = {2025}
 }
 
 @techreport{ma2025propagation,
@@ -48,8 +57,7 @@ window.PUBLICATIONS_BIB = String.raw`
   booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第131回 (SIG-FPAI)},
   shortvenue = {JSAI SIG-FPAI 131},
   pages      = {56-61},
-  year       = {2025},
-  url        = {https://scholar.google.com/citations?view_op=view_citation&hl=en&user=DxWQw84AAAAJ&citation_for_view=DxWQw84AAAAJ:u-x6o8ySG0sC}
+  year       = {2025}
 }
 
 @techreport{ma2024recourse,
@@ -58,8 +66,7 @@ window.PUBLICATIONS_BIB = String.raw`
   booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第129回 (SIG-FPAI)},
   shortvenue = {JSAI SIG-FPAI 129},
   pages      = {02-07},
-  year       = {2024},
-  url        = {https://scholar.google.com/citations?view_op=view_citation&hl=en&user=DxWQw84AAAAJ&citation_for_view=DxWQw84AAAAJ:9yKSN-GCB0IC}
+  year       = {2024}
 }
 
 @techreport{ma2024nonsubgraph,
@@ -68,8 +75,7 @@ window.PUBLICATIONS_BIB = String.raw`
   booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第128回 (SIG-FPAI)},
   shortvenue = {JSAI SIG-FPAI 128},
   pages      = {28-33},
-  year       = {2024},
-  url        = {https://scholar.google.com/citations?view_op=view_citation&hl=en&user=DxWQw84AAAAJ&citation_for_view=DxWQw84AAAAJ:d1gkVwhDpl0C}
+  year       = {2024}
 }
 
 `;

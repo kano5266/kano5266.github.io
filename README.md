@@ -20,5 +20,11 @@ covered by the copyright above — nothing here grants any rights in them.
   ([Fontworks Inc.](https://github.com/fontworks-fonts/DotGothic16)), licensed under
   the SIL Open Font License 1.1. Bundled here; the full licence travels with it in
   [fonts/DotGothic16-OFL.txt](fonts/DotGothic16-OFL.txt), as the OFL requires.
-- **Silkscreen** — loaded from Google Fonts at runtime, not redistributed by this
-  repo, so no licence file ships for it. See its Google Fonts entry for terms.
+  The published site ships a **subset** (the glyphs the site uses, plus all kana)
+  built by [fonts/subset-dotgothic16.sh](fonts/subset-dotgothic16.sh); the full
+  font stays in this repo as the source. The OFL permits subsetting, and
+  DotGothic16 declares no Reserved Font Name.
+- **Silkscreen** — © 2001 The Silkscreen Project Authors
+  ([Jason Kottke](https://github.com/googlefonts/silkscreen)), licensed under the
+  SIL Open Font License 1.1. Self-hosted (it used to load from Google Fonts);
+  the licence travels with it in [fonts/Silkscreen-OFL.txt](fonts/Silkscreen-OFL.txt).

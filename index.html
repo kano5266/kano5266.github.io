@@ -12,9 +12,75 @@
        indicator and rounded corners with env(safe-area-inset-*). -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jiali Ma</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- What the outside world sees before the desk boots: search snippets,
+       link unfurls (Slack/X/LINE all read OpenGraph), and the machine-readable
+       Person record. The og.png card is generated from the site's own chrome —
+       a System 8 window with the owner card on it. -->
+  <meta name="description" content="The pixel desktop of Jiali Ma — PhD student at Kyoto University and the University of Tokyo researching explainable AI: counterfactual explanation, algorithmic recourse, and graph neural networks." />
+  <link rel="canonical" href="https://www.jialima.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="System 8" />
+  <meta property="og:title" content="Jiali Ma" />
+  <meta property="og:description" content="PhD student at Kyoto University and the University of Tokyo researching explainable AI — served as a System 8 pixel desktop." />
+  <meta property="og:url" content="https://www.jialima.com/" />
+  <meta property="og:image" content="https://www.jialima.com/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Jiali Ma" />
+  <meta name="twitter:description" content="PhD student at Kyoto University and the University of Tokyo researching explainable AI — served as a System 8 pixel desktop." />
+  <meta name="twitter:image" content="https://www.jialima.com/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jiali Ma",
+    "alternateName": "まかり",
+    "url": "https://www.jialima.com/",
+    "image": "https://www.jialima.com/og.png",
+    "email": "mailto:ma.jiali.28s@st.kyoto-u.ac.jp",
+    "jobTitle": "PhD student",
+    "affiliation": [
+      { "@type": "Organization", "name": "Kyoto University" },
+      { "@type": "Organization", "name": "University of Tokyo" }
+    ],
+    "knowsAbout": ["Explainable AI", "Counterfactual Explanation", "Algorithmic Recourse", "Graph Neural Networks"],
+    "sameAs": ["https://scholar.google.com/citations?user=DxWQw84AAAAJ"]
+  }
+  </script>
+
+  <!-- Identity for browser tabs and home screens. The manifest's standalone
+       display (plus the apple metas) means the site added to a phone's home
+       screen launches with no browser chrome at all — a full-screen System 8. -->
+  <link rel="icon" href="favicon.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17151f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Jiali Ma" />
+  <!-- All fonts are self-hosted (Silkscreen included — it used to come from
+       Google's CDN, the page's one external dependency): the site works
+       offline and as a home-screen app, and phones no visitor home. -->
+  <style>
+    @font-face {
+      font-family: "Silkscreen";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("fonts/Silkscreen-400.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Silkscreen";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("fonts/Silkscreen-700.woff2") format("woff2");
+    }
+  </style>
   <style>
     /* DotGothic16 (SIL OFL) — self-hosted so it can carry size-adjust:
        its CJK glyphs fill the em and read oversized next to Enter Command;
@@ -25,7 +91,12 @@
       font-weight: 400;
       font-display: swap;
       size-adjust: 70%;
-      src: url("fonts/DotGothic16.woff2") format("woff2");
+      /* The SUBSET, not the full font: 36 KB instead of 488. It carries every
+         glyph the site's text uses plus all kana and CJK punctuation, so prose
+         edits in kana never need a rebuild — a NEW KANJI does. Regenerate with
+         fonts/subset-dotgothic16.sh (the full font stays in the workshop as
+         the source; only the subset ships). */
+      src: url("fonts/DotGothic16.subset.woff2") format("woff2");
     }
 
     /* Enter Command by jeti (public domain) — self-hosted pixel display
@@ -840,8 +911,8 @@
        label stays Silkscreen. */
     .super-res .sr-sticker .face-classic {
       display: block;
-      width: 112px;
-      height: 48px;
+      width: 88px;
+      height: 44px;
     }
 
     .super-res .sr-sticker .face-classic path { shape-rendering: crispEdges; }
@@ -850,6 +921,10 @@
 
     .super-res .sr-sticker .face-classic text {
       font-family: var(--font-display);
+      /* Enter Command at 24 — the site's universal display size — with the
+         baselines in the SVG only 16 apart: negative leading, the two rows
+         nearly touching, the way a tight pixel dialog sets its lines. The box
+         is drawn at display size so this never scales to a blurry in-between. */
       font-size: 24px;
       fill: #000;
     }
@@ -1081,33 +1156,47 @@
 
     /* ------------------------------------------------------------------ *
      * Super-resolution mode — the one sanctioned exception to the pixel
-     * laws, scoped strictly to .mac-window.super-res (toggled by the zoom
-     * box). The window "renders at native resolution" in our own future:
-     * frosted glass built from the identity tokens (paper and primary at
-     * partial alpha), a primary light-line signature, glass controls.
-     * Nothing outside this window ever adopts these styles.
+     * laws, scoped strictly to .mac-window.super-res (toggled by the
+     * sticker). The conceit: the SAME System 8 window, rendered at native
+     * resolution — not a different OS. Every piece of the pixel anatomy
+     * survives, redrawn smooth: the pinstriped title bar with its centred
+     * title chip, the EMPTY SQUARE close box (hover tint, primary press —
+     * the pixel box's exact states), the down-right identity shadow, the
+     * token palette. What changes is the rendering: frosted glass, hairline
+     * strokes, antialiased type. Nothing outside this window ever adopts
+     * these styles.
      * ------------------------------------------------------------------ */
     .mac-window.super-res {
       --sr-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", sans-serif;
+      /* The title chip and close-box halo must MATCH so the stripes read as
+         one system; a token so dark mode swaps both at once. */
+      --sr-chip: rgba(255, 255, 255, 0.78);
+      --sr-stripe: rgba(0, 0, 0, 0.22);
       font-family: var(--sr-font);
       -webkit-font-smoothing: antialiased;
       font-smooth: auto;
       border: 1px solid rgba(79, 70, 229, 0.22);
-      border-radius: 20px;
+      border-radius: 14px;
       /* No overflow clipping — the sticker overhangs the corner. */
       background: rgba(255, 255, 255, 0.58);
       -webkit-backdrop-filter: blur(24px) saturate(1.5);
       backdrop-filter: blur(24px) saturate(1.5);
+      /* The pixel window's shadow is tint-shadow offset down-right; this is
+         that same shadow with the hard edge let go — direction kept, so the
+         light still comes from the same corner of the room. */
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.7),
-        0 24px 64px -16px rgba(79, 70, 229, 0.35),
-        0 4px 16px rgba(0, 0, 0, 0.06);
+        12px 12px 48px -12px rgba(79, 70, 229, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     /* The title bar floats over the content with no explicit edge: content
-       scrolls beneath it, progressively blurred — the backdrop blur fades
-       out through a gradient mask instead of ending at a border. */
+       scrolls beneath it, progressively blurred through a gradient mask.
+       The pinstripes are the pixel bar's, at hairline weight — five 1px
+       lines in a band down the middle, ending under the title chip and the
+       close box exactly as the chunky ones do. (background-size pins the
+       band's height; center places it.) */
     .super-res .mac-titlebar {
       position: absolute;
       top: 0;
@@ -1115,12 +1204,17 @@
       right: 0;
       z-index: 2;
       height: 56px;
-      background: transparent;
+      background-color: transparent;
+      background-image: repeating-linear-gradient(
+        to bottom, var(--sr-stripe) 0 1px, transparent 1px 5px);
+      background-size: 100% 21px;
+      background-position: center;
+      background-repeat: no-repeat;
       border-bottom: none;
       -webkit-backdrop-filter: blur(28px) saturate(1.2);
       backdrop-filter: blur(28px) saturate(1.2);
-      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-      mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
     }
 
     /* The identity signature: a primary light-line along the top edge. */
@@ -1135,73 +1229,88 @@
       opacity: 0.8;
     }
 
+    /* Centred in a chip that interrupts the stripes — the classic title,
+       antialiased. */
     .super-res .mac-title {
-      /* Left-aligned next to the close button, modern app-header style —
-         leaves the bar's right side to the classic pop-up. */
       position: absolute;
-      left: 56px;
+      left: 50%;
       top: 50%;
-      translate: 0 -50%;
-      padding: 0;
+      translate: -50% -50%;
+      padding: 3px 14px;
+      border-radius: 7px;
       font-family: var(--sr-font);
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #6b7280;
-      background: transparent;
+      background: var(--sr-chip);
       -webkit-font-smoothing: antialiased;
       font-smooth: auto;
     }
 
-    /* Glass close control — fully round. */
+    /* The close box, kept SQUARE and kept EMPTY — System 8's close box has
+       no glyph, and that stays true at native resolution. Same states as
+       the pixel one: paper face, tint on hover, solid primary when pressed.
+       The halo is the classic paper gap punched through the stripes. */
     .super-res .mac-close {
-      width: 28px;
-      height: 28px;
-      top: 14px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.55);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-      color: #6b7280;
+      width: 24px;
+      height: 24px;
+      left: 18px;
+      top: 16px;
+      border: 1.5px solid rgba(0, 0, 0, 0.55);
+      border-radius: 6px;
+      background: var(--sr-chip);
+      box-shadow: 0 0 0 6px var(--sr-chip);
     }
 
     .super-res .mac-close:hover,
     .super-res .mac-close:focus-visible {
       border-color: var(--identity-primary);
-      color: var(--identity-primary-ink);
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.8),
-        0 0 14px rgba(79, 70, 229, 0.35);
+      background: rgba(79, 70, 229, 0.16);
+      box-shadow: 0 0 0 6px var(--sr-chip);
     }
 
     .super-res .mac-close:active {
-      background: rgba(79, 70, 229, 0.16);
+      border-color: var(--identity-primary);
+      background: var(--identity-primary);
     }
 
-    /* Close glyph: a thin x. */
-    .super-res .mac-close::before,
-    .super-res .mac-close::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 12px;
-      height: 1.5px;
-      background: currentColor;
-      border-radius: 1px;
-    }
-
-    .super-res .mac-close::before { transform: translate(-50%, -50%) rotate(45deg); }
-    .super-res .mac-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+    /* The pixel grow box does not cross into this mode — a native-resolution
+       window resizes by its edges, and the edge grips are still there. */
+    .super-res .mac-grow { display: none; }
 
     .super-res .mac-content {
       /* Title bar is out of flow — content starts beneath it and scrolls
          under the progressive blur. */
       padding: 64px 28px 24px;
-      border-radius: 0 0 20px 20px;
+      border-radius: 0 0 14px 14px;
     }
+
+    /* The material pills, translated: the pixel version is a stepped stadium
+       with an ink outline and tint fill; here it is the same stadium with
+       the staircase resolved into a true curve. Same hover (deeper tint),
+       same press (a nudge down-right), same primary-ink label. */
+    .super-res .pub-material {
+      padding: 3px 14px;
+      background: rgba(79, 70, 229, 0.10);
+      color: var(--identity-primary-ink);
+      clip-path: none;
+      border: 1px solid rgba(79, 70, 229, 0.35);
+      border-radius: 999px;
+      font-family: var(--sr-font);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 20px;
+      -webkit-font-smoothing: antialiased;
+      font-smooth: auto;
+    }
+
+    .super-res .pub-material::before { content: none; }
+
+    .super-res .pub-material:hover { background: rgba(79, 70, 229, 0.2); }
+
+    .super-res .pub-material:active { translate: 1px 1px; }
 
     .super-res .pub-section-title {
       font-family: var(--sr-font);
@@ -1265,35 +1374,40 @@
       background: rgba(79, 70, 229, 0.45);
     }
 
-    /* Dark-mode glass: the same frosted window over a dark room — dark
-       paper at partial alpha, softer inner highlight, primary glow tuned
-       to the brighter dark-primary. Text colors follow the tokens. */
+    /* Dark-mode glass: the same frosted window over a dark room. The chip
+       and stripe tokens swap — everything built from them (title chip, close
+       box face and halo, stripe band) follows in one move; the close box's
+       press state already resolves through --identity-primary. */
     html[data-theme="dark"] .mac-window.super-res {
+      --sr-chip: rgba(23, 21, 31, 0.8);
+      --sr-stripe: rgba(255, 255, 255, 0.22);
       border: 1px solid rgba(129, 140, 248, 0.28);
       background: rgba(23, 21, 31, 0.62);
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 24px 64px -16px rgba(129, 140, 248, 0.28),
-        0 4px 16px rgba(0, 0, 0, 0.5);
+        12px 12px 48px -12px rgba(129, 140, 248, 0.35),
+        0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
+    html[data-theme="dark"] .super-res .mac-title { color: #9ca3af; }
+
     html[data-theme="dark"] .super-res .mac-close {
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(23, 21, 31, 0.55);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.65);
     }
 
     html[data-theme="dark"] .super-res .mac-close:hover,
     html[data-theme="dark"] .super-res .mac-close:focus-visible {
       border-color: var(--identity-primary);
-      background: rgba(23, 21, 31, 0.85);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 0 14px rgba(129, 140, 248, 0.35);
+      background: rgba(129, 140, 248, 0.22);
     }
 
-    html[data-theme="dark"] .super-res .mac-close:active {
-      background: rgba(129, 140, 248, 0.25);
+    html[data-theme="dark"] .super-res .pub-material {
+      background: rgba(129, 140, 248, 0.16);
+      border-color: rgba(129, 140, 248, 0.45);
+    }
+
+    html[data-theme="dark"] .super-res .pub-material:hover {
+      background: rgba(129, 140, 248, 0.28);
     }
 
     html[data-theme="dark"] .super-res .pub-year {
@@ -1494,6 +1608,28 @@
   </style>
 </head>
 <body>
+  <!-- The desk is JavaScript; without it the icons would pile up unstyled.
+       This overlay covers that and carries the essentials — who this is and
+       how to reach her — for JS-off readers and for crawlers that don't run
+       scripts. Inline styles on purpose: it must not depend on anything. -->
+  <noscript>
+    <div style="position: fixed; inset: 0; z-index: 9999; background: #ffffff; color: #000000;
+                font-family: monospace; padding: 48px 24px; overflow: auto;">
+      <div style="max-width: 560px; margin: 0 auto; border: 4px solid #000; padding: 24px;">
+        <h1 style="margin: 0 0 8px; font-size: 28px;">Jiali Ma · まかり</h1>
+        <p style="margin: 0 0 16px; color: #555;">PhD student · explainable AI<br />
+          Kyoto University · University of Tokyo</p>
+        <p style="margin: 0 0 16px;">Research: counterfactual explanation, algorithmic
+          recourse, graph neural networks.</p>
+        <p style="margin: 0 0 16px;">
+          <a href="mailto:ma.jiali.28s@st.kyoto-u.ac.jp" style="color: #4f46e5;">mail</a> ·
+          <a href="https://scholar.google.com/citations?user=DxWQw84AAAAJ" style="color: #4f46e5;">Google Scholar</a>
+        </p>
+        <p style="margin: 0; color: #555;">This site is an interactive pixel desktop
+          ("System 8") — enable JavaScript to open it.</p>
+      </div>
+    </div>
+  </noscript>
   <script>
     // Theme init, before first paint: stored choice wins, else the system
     // preference. (The toggle itself is the light switch, top right.)
@@ -1676,11 +1812,15 @@
     </div>
     <button class="sr-sticker" type="button" aria-label="Toggle super resolution mode" aria-pressed="false">
       <img class="face-modern" src="sr-sticker.svg" alt="" draggable="false" />
-      <svg class="face-classic" viewBox="0 0 112 48" width="112" height="48" aria-hidden="true">
-        <path fill="#000" d="M0 8H4V4H8V0H104V4H108V8H112V40H108V44H104V48H8V44H4V40H0Z"/>
-        <path class="face-classic-bg" d="M4 12H8V8H12V4H100V8H104V12H108V36H104V40H100V44H12V40H8V36H4Z"/>
-        <text x="56" y="20" text-anchor="middle">Back to</text>
-        <text x="56" y="42" text-anchor="middle">classic!</text>
+      <!-- Drawn at its display size on the 4px unit — never scaled, so the
+           stepped corners stay whole pixels and the 16px Enter Command (a
+           crisp size on its grid) rasterizes clean. Shrinking via CSS instead
+           would land the type off-grid and blur it. -->
+      <svg class="face-classic" viewBox="0 0 88 44" width="88" height="44" aria-hidden="true">
+        <path fill="#000" d="M0 8H4V4H8V0H80V4H84V8H88V36H84V40H80V44H8V40H4V36H0Z"/>
+        <path class="face-classic-bg" d="M4 12H8V8H12V4H76V8H80V12H84V32H80V36H76V40H12V36H8V32H4Z"/>
+        <text x="44" y="21" text-anchor="middle">Back to</text>
+        <text x="44" y="37" text-anchor="middle">classic!</text>
       </svg>
     </button>
   </section>
@@ -1985,6 +2125,150 @@
         wire(grip, heightOnly ? 's' : 'se');
       };
 
+      // ---- shared window chrome ----------------------------------------
+      // One call wires everything a .mac-window has in common: the titlebar
+      // (built here unless the window ships its own, as Publications does),
+      // the close box, Escape, the desk icon's click-vs-drag guard, title-bar
+      // drag, and re-centring on resize. The apps used to carry private
+      // copies of all of this and the copies drifted — the phone drag guard
+      // missed one window of six, the chat scrollbar aged out of step with
+      // the others. Behaviour lives here once; an app's own character goes
+      // through the hooks:
+      //   title      build the standard titlebar with this text (id derived
+      //              from the window class: contacts-window -> contacts-title)
+      //   closeLabel the close box's aria-label
+      //   icon       desk icon — click toggles open/closed, a drag does not
+      //   onOpen     the app's open ritual: runs after the window is raised,
+      //              before it is placed and focused
+      //   onClose    runs on close, before the window hides
+      //   onEscape   optional; return true to consume the key (Messages
+      //              closes its profile card first, the window second)
+      // Returns { open, close, show }. `open` is the public door apps
+      // re-export; `show` runs the same reveal dance around a DIFFERENT
+      // ritual, for doors with their own choreography (Messages' share()).
+      VisualIdentity.attachWindowChrome = (windowElement, options = {}) => {
+        const { title, closeLabel, icon, onOpen, onClose, onEscape } = options;
+
+        if (title && !windowElement.querySelector('.mac-titlebar')) {
+          // The app class, not the base: "mac-window contacts-window" must
+          // slug to "contacts" — matching the raw className finds "mac" first
+          // and every window would share one id.
+          const slug = (windowElement.className.replace('mac-window', '')
+            .match(/(\w+)-window/) || [])[1] || 'window';
+          windowElement.setAttribute('role', 'dialog');
+          windowElement.setAttribute('aria-labelledby', `${slug}-title`);
+          windowElement.tabIndex = -1;
+          windowElement.insertAdjacentHTML('afterbegin', `
+      <header class="mac-titlebar">
+        <button class="mac-close" type="button" aria-label="${closeLabel || `Close ${title} window`}"></button>
+        <h2 class="mac-title" id="${slug}-title">${title}</h2>
+      </header>`);
+        }
+
+        // The reveal dance every door shares: show, raise, run the ritual
+        // while the window is real but not yet placed (so content it builds
+        // counts toward the size placeWindow centres), then place and focus.
+        const show = ritual => {
+          windowElement.hidden = false;
+          VisualIdentity.raiseWindow(windowElement);
+          ritual?.();
+          VisualIdentity.placeWindow(windowElement);
+          windowElement.focus({ preventScroll: true });
+        };
+
+        const open = () => show(onOpen);
+
+        const close = () => {
+          onClose?.();
+          windowElement.hidden = true;
+          icon?.focus({ preventScroll: true });
+        };
+
+        windowElement.querySelector('.mac-close').addEventListener('click', close);
+
+        document.addEventListener('keydown', event => {
+          if (event.key !== 'Escape' || windowElement.hidden) return;
+          if (onEscape?.()) return;
+          close();
+        });
+
+        if (icon) {
+          let pressX = 0;
+          let pressY = 0;
+          icon.addEventListener('pointerdown', event => {
+            pressX = event.clientX;
+            pressY = event.clientY;
+          });
+          icon.addEventListener('click', event => {
+            if (Math.hypot(event.clientX - pressX, event.clientY - pressY) > 4) return;
+            if (windowElement.hidden) open(); else close();
+          });
+        }
+
+        // Title-bar drag, grid-snapped: whole cells via snapDelta, a 4px
+        // threshold separating a click from a drag. A maximized window IS the
+        // desk — nowhere to drag it to.
+        const titlebar = windowElement.querySelector('.mac-titlebar');
+        let dragPointer = null;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let dragOriginX = 0;
+        let dragOriginY = 0;
+        let dragMoved = false;
+
+        titlebar.addEventListener('pointerdown', event => {
+          if (event.target.closest('.mac-close')) return;
+          if (windowElement.dataset.maximized) return;
+          dragPointer = event.pointerId;
+          dragStartX = event.clientX;
+          dragStartY = event.clientY;
+          const rect = windowElement.getBoundingClientRect();
+          dragOriginX = rect.left;
+          dragOriginY = rect.top;
+          dragMoved = false;
+          titlebar.setPointerCapture(event.pointerId);
+        });
+
+        titlebar.addEventListener('pointermove', event => {
+          if (event.pointerId !== dragPointer) return;
+          const deltaX = event.clientX - dragStartX;
+          const deltaY = event.clientY - dragStartY;
+          if (!dragMoved && Math.abs(deltaX) + Math.abs(deltaY) <= 4) return;
+          dragMoved = true;
+          windowElement.dataset.userMoved = 'true';
+          windowElement.classList.add('dragging');
+          windowElement.style.left = `${VisualIdentity.snap(dragOriginX) + VisualIdentity.snapDelta(deltaX)}px`;
+          windowElement.style.top = `${VisualIdentity.snap(dragOriginY) + VisualIdentity.snapDelta(deltaY)}px`;
+        });
+
+        const endDrag = event => {
+          if (event.pointerId !== dragPointer) return;
+          dragPointer = null;
+          windowElement.classList.remove('dragging');
+        };
+        titlebar.addEventListener('pointerup', endDrag);
+        titlebar.addEventListener('pointercancel', endDrag);
+
+        addEventListener('resize', () => VisualIdentity.placeWindow(windowElement));
+
+        return { open, close, show };
+      };
+
+      // The foldable sidebar's behaviour — the .mac-fold control both split
+      // apps wear (Contacts, Control Panel). `folded` goes on the region, the
+      // aria labels swap on the button. The markup stays with each app (the
+      // text and what the button controls are the app's own); only the
+      // behaviour is shared.
+      VisualIdentity.makeFoldable = (foldButton, foldRegion, labels) => {
+        const setFolded = folded => {
+          foldRegion.classList.toggle('folded', folded);
+          foldButton.setAttribute('aria-expanded', String(!folded));
+          foldButton.setAttribute('aria-label', folded ? labels.show : labels.hide);
+        };
+        foldButton.addEventListener('click', () => setFolded(!foldRegion.classList.contains('folded')));
+        return setFolded;
+      };
+
       VisualIdentity.placeWindow = windowElement => {
         if (windowElement.hidden) return;
         // A maximized window IS the desk: nowhere to place it, nothing to
@@ -2149,11 +2433,12 @@
             else if (source[end] === '}') depth -= 1;
           }
           const body = source.slice(open + 1, end - 1);
+          const raw = source.slice(cursor, end).trim();   // the entry verbatim, for the bibtex button
           cursor = end;
           if (type === 'comment' || type === 'string' || type === 'preamble') continue;
 
           const firstComma = body.indexOf(',');
-          const entry = { type, key: body.slice(0, firstComma).trim(), fields: {} };
+          const entry = { type, key: body.slice(0, firstComma).trim(), raw, fields: {} };
           let rest = body.slice(firstComma + 1);
           let i = 0;
           while (i < rest.length) {
@@ -2284,6 +2569,9 @@
             year.textContent = pub.fields.year || '';
             meta.appendChild(year);
 
+            const actions = document.createElement('div');
+            actions.className = 'pub-actions';
+
             // Downloadable materials, if the entry declares any. Rather than a
             // plain download, each opens Messages and Jiali "sends" the file.
             const mats = [
@@ -2291,27 +2579,46 @@
               { field: 'paper', kind: 'paper' },
               { field: 'poster', kind: 'poster' },
             ].filter(m => pub.fields[m.field]);
-            if (mats.length) {
-              const actions = document.createElement('div');
-              actions.className = 'pub-actions';
-              const venue = [pub.fields.shortvenue || pub.fields.booktitle, pub.fields.year]
-                .filter(Boolean).join(' ').replace(/[{}]/g, '');
-              const base = (pub.fields.shortvenue || 'materials').replace(/[{}]/g, '').replace(/\s+/g, '-');
-              mats.forEach(m => {
-                const btn = document.createElement('button');
-                btn.className = 'pub-material';
-                btn.type = 'button';
-                btn.textContent = m.kind;
-                const filename = `${base}${pub.fields.year ? '-' + pub.fields.year : ''}-${m.kind}.pdf`;
-                btn.addEventListener('click', () => {
-                  window.ChatApp?.share?.({ url: pub.fields[m.field], venue, kind: m.kind, filename });
-                });
-                actions.appendChild(btn);
+            // (matVenue, not venue — the display line above already owns that
+            // name in this scope; this one is the share-message's phrasing.)
+            const matVenue = [pub.fields.shortvenue || pub.fields.booktitle, pub.fields.year]
+              .filter(Boolean).join(' ').replace(/[{}]/g, '');
+            const base = (pub.fields.shortvenue || 'materials').replace(/[{}]/g, '').replace(/\s+/g, '-');
+            mats.forEach(m => {
+              const btn = document.createElement('button');
+              btn.className = 'pub-material';
+              btn.type = 'button';
+              btn.textContent = m.kind;
+              const filename = `${base}${pub.fields.year ? '-' + pub.fields.year : ''}-${m.kind}.pdf`;
+              btn.addEventListener('click', () => {
+                window.ChatApp?.share?.({ url: pub.fields[m.field], venue: matVenue, kind: m.kind, filename });
               });
-              item.append(title, meta, actions);
-            } else {
-              item.append(title, meta);
+              actions.appendChild(btn);
+            });
+
+            // BibTeX copy — international conference entries only, the owner's
+            // call: those are the citable records. The button is the receipt.
+            if (section.id === 'international') {
+              const bib = document.createElement('button');
+              bib.className = 'pub-material';
+              bib.type = 'button';
+              bib.textContent = 'bibtex';
+              bib.title = 'Copy BibTeX';
+              bib.addEventListener('click', async () => {
+                try {
+                  await navigator.clipboard.writeText(pub.raw);
+                  bib.textContent = 'copied!';
+                } catch {
+                  bib.textContent = 'copy failed';
+                }
+                setTimeout(() => { bib.textContent = 'bibtex'; }, 1200);
+              });
+              actions.appendChild(bib);
             }
+
+            // A row with nothing in it (no materials, no bibtex) isn't drawn.
+            if (actions.childElementCount) item.append(title, meta, actions);
+            else item.append(title, meta);
             list.appendChild(item);
           });
           wrap.appendChild(list);
@@ -2320,12 +2627,12 @@
       };
       renderPublications();
 
-      // Publications window: opens from the doc icon, closes from the
-      // Mac-style close box (or Escape), drags by its title bar.
+      // Publications window: every shared behaviour (open/close, Escape, the
+      // icon's click-vs-drag guard, title-bar drag) is attachWindowChrome —
+      // the titlebar ships in the page's own HTML, so none is built. The one
+      // thing that is this window's own is the sticker ritual on open.
       const pubsWindow = document.querySelector('.mac-window');
       const docIcon = document.querySelector('.documentation-icon');
-
-      const placeWindow = () => VisualIdentity.placeWindow(pubsWindow);
 
       // Restart the slap-on animation (remove + reflow + re-add). A peeled
       // sticker is replaced by a fresh one.
@@ -2338,30 +2645,14 @@
         sticker.classList.add('slapped');
       };
 
-      const openPubs = () => {
-        pubsWindow.hidden = false;
-        VisualIdentity.raiseWindow(pubsWindow);
-        placeWindow();
-        pubsWindow.focus({ preventScroll: true });
+      const { open: openPubs } = VisualIdentity.attachWindowChrome(pubsWindow, {
+        icon: docIcon,
         // A long beat on open: the nudge surfaces after you've settled in.
-        slapSticker(10000);
-      };
-
-      const closePubs = () => {
-        pubsWindow.hidden = true;
-        docIcon.focus({ preventScroll: true });
-      };
-
-      docIcon.addEventListener('click', () => {
-        if (moved) return;
-        if (pubsWindow.hidden) {
-          openPubs();
-        } else {
-          closePubs();
-        }
+        onOpen: () => slapSticker(10000),
       });
 
-      pubsWindow.querySelector('.mac-close').addEventListener('click', closePubs);
+      // Public door: #publications deep-links here (see the welcome script).
+      window.PublicationsApp = { open: openPubs };
 
       const srSticker = pubsWindow.querySelector('.sr-sticker');
 
@@ -2426,18 +2717,6 @@
         srSticker.setAttribute('aria-pressed', String(superRes));
         slapSticker();
       });
-
-      document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && !pubsWindow.hidden) closePubs();
-      });
-
-      pubsWindow.querySelector('.mac-titlebar').addEventListener('pointerdown', event => {
-        if (event.target.closest('.mac-close')) return;
-        if (pubsWindow.dataset.maximized) return;   // phone: it fills the screen, nowhere to drag
-        startDrag(event, pubsWindow);
-      });
-
-      addEventListener('resize', placeWindow);
 
       VisualIdentity.drawPageSnapshot = canvas => {
         const ctx = canvas.getContext('2d');
@@ -2634,6 +2913,26 @@
         ['.tv-icon',       () => window.TVApp?.open?.()],
       ];
 
+      // Deep links: www.jialima.com/#publications is the desk with that app
+      // already open — linkable from a paper footer or an email signature.
+      // One-way (URL -> desk): opening apps by hand never rewrites the URL,
+      // so browsing the desk doesn't pollute the reader's history.
+      const APP_DOORS = {
+        contacts:     () => window.ContactsApp?.open?.(),
+        messages:     () => window.ChatApp?.open?.(),
+        publications: () => window.PublicationsApp?.open?.(),
+        wallet:       () => window.WalletApp?.open?.(),
+        tv:           () => window.TVApp?.open?.(),
+        controls:     () => window.ControlPanelApp?.open?.(),
+      };
+
+      const openFromHash = () => {
+        const door = APP_DOORS[location.hash.slice(1).toLowerCase()];
+        if (door) door();
+        return Boolean(door);
+      };
+      addEventListener('hashchange', openFromHash);
+
       const welcome = () => {
         // Where windows open maximized, each one fills the display — so staging
         // two would bury the first and hide the home screen the reader just
@@ -2668,7 +2967,9 @@
         // lands. After this the width is never consulted again — a rotation is
         // caught by the phoneQuery listener, and both go through the same call.
         window.VisualIdentity?.syncMaximized?.();
-        welcome();
+        // A deep link IS the requested arrival: the reader asked for one app,
+        // so the two-window welcome stands down and that app opens instead.
+        if (!openFromHash()) welcome();
       };
 
       if (document.readyState === 'loading') {
