@@ -759,11 +759,19 @@
        a reader can reach for whichever they know. They paint nothing: the
        cursor is the entire affordance, and the frame they sit on is already
        drawn.
-       -4px reaches back over the window's own 4px border, so the visible frame
-       is itself grabbable and the zone is 12px deep — border plus 8px inside.
-       It stops exactly at the border box, so a window never steals a pointer
-       aimed past it. The 12px along the top ends precisely where the close box
-       starts (16px in, 8px down, behind a 4px frame): they never overlap.
+       Offsets are from the PADDING box — absolute children position inside
+       the border, so reaching the frame's outer face costs -8, not -4 (a -4
+       lands ON the outer face and reaches nothing outside; the first cut of
+       these strips made exactly that mistake and lay 8px deep in the content
+       instead). Every strip here spans 4px of outside air plus the 4px ink
+       frame, and only then differs:
+       East and south host the scrollbars, flush against the frame — any reach
+       inside sits on top of the groove and eats its clicks (the right 8px of
+       the vertical bar used to start a resize instead of a scroll). Those two
+       stop at the frame's inner face: 8px total, all air and ink. North and
+       west cover nothing (the top 4px of a 52px titlebar leaves plenty to
+       drag by), so they run 4px deeper for easier grabbing. The top strip
+       still ends before the close box (16px in, behind the frame).
        z-index sits with the grow box, above app content — a full-pane takeover
        must not swallow the edges any more than it may swallow the box. */
     .mac-edge {
@@ -772,10 +780,10 @@
       touch-action: none;
     }
 
-    .mac-edge-n { top: -4px;    left: -4px;  right: -4px;  height: 12px; cursor: ns-resize; }
-    .mac-edge-s { bottom: -4px; left: -4px;  right: -4px;  height: 12px; cursor: ns-resize; }
-    .mac-edge-e { right: -4px;  top: -4px;   bottom: -4px; width: 12px;  cursor: ew-resize; }
-    .mac-edge-w { left: -4px;   top: -4px;   bottom: -4px; width: 12px;  cursor: ew-resize; }
+    .mac-edge-n { top: -8px;    left: -8px;  right: -8px;  height: 12px; cursor: ns-resize; }
+    .mac-edge-s { bottom: -8px; left: -8px;  right: -8px;  height: 8px;  cursor: ns-resize; }
+    .mac-edge-e { right: -8px;  top: -8px;   bottom: -8px; width: 8px;   cursor: ew-resize; }
+    .mac-edge-w { left: -8px;   top: -8px;   bottom: -8px; width: 12px;  cursor: ew-resize; }
 
     /* Corners take both axes at once, the way the grow box does — the
        bottom-right IS the grow box; these are the other three. 16px square, a
@@ -786,10 +794,10 @@
        The top-left stops at 16px from the window's outer edge; the close box
        starts at 20px in (16px inside a 4px frame). Four pixels of daylight —
        they never fight over the pointer. */
-    .mac-edge-ne { right: -4px; top: -4px;    width: 16px; height: 16px; cursor: nesw-resize; }
-    .mac-edge-nw { left: -4px;  top: -4px;    width: 16px; height: 16px; cursor: nwse-resize; }
-    .mac-edge-sw { left: -4px;  bottom: -4px; width: 16px; height: 16px; cursor: nesw-resize; }
-    .mac-edge-se { right: -4px; bottom: -4px; width: 16px; height: 16px; cursor: nwse-resize; }
+    .mac-edge-ne { right: -8px; top: -8px;    width: 16px; height: 16px; cursor: nesw-resize; }
+    .mac-edge-nw { left: -8px;  top: -8px;    width: 16px; height: 16px; cursor: nwse-resize; }
+    .mac-edge-sw { left: -8px;  bottom: -8px; width: 16px; height: 16px; cursor: nesw-resize; }
+    .mac-edge-se { right: -8px; bottom: -8px; width: 16px; height: 16px; cursor: nwse-resize; }
 
     /* A window the reader has sized owns its own box; the shared caps that
        kept an un-sized window sensible must stop applying to it. */
