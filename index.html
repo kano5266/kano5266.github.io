@@ -238,7 +238,9 @@
       cursor: grab;
     }
 
-    .draggable-item.dragging { cursor: grabbing; }
+    /* A thing in the hand rides above every window (still under the
+       transition overlay at 9999) — the OS way. */
+    .draggable-item.dragging { cursor: grabbing; z-index: 9990; }
 
     .identity-color,
     .identity-pixel-color,
@@ -436,8 +438,12 @@
     .px-m-tail-tip { left: 16px; top: 104px; width: 16px; height: 8px; background: currentColor; }
 
     /* The unread badge: accent-pink (the palette's red), paper halo like
-       the close box, blinking in hard steps. Hidden once read. */
+       the close box, blinking in hard steps. Hidden by DEFAULT and shown
+       only on the live unread icon — a badge is presence, not artwork, so
+       a clone of the icon (an item in the trash, a carried copy) must
+       never ring. */
     .px-m-badge {
+      display: none;
       left: 88px;
       top: 32px;
       width: 16px;
@@ -446,9 +452,8 @@
       box-shadow: 0 0 0 4px var(--identity-paper);
     }
 
-    .chat-icon:not(.unread) .px-m-badge { display: none; }
-
     .chat-icon.unread .px-m-badge {
+      display: block;
       animation: chat-badge 1200ms step-end infinite;
     }
 
@@ -526,9 +531,9 @@
        so the icon reads as physically pushed in. Instant, no easing — pixel style.
        .pressed is the same look driven from script, so the welcome can show the
        reader an icon being opened instead of windows just appearing. */
-    .pixel-icon:is(:active, .pressed) .doc-px { translate: 8px 8px; }
+    :is(.pixel-icon, .trash-can, .trash-out):is(:active, .pressed) .doc-px { translate: 8px 8px; }
 
-    .pixel-icon:is(:active, .pressed) :is(
+    :is(.pixel-icon, .trash-can, .trash-out):is(:active, .pressed) :is(
       .px-shadow-b,
       .px-shadow-r,
       .px-w-shadow-r,
@@ -542,7 +547,12 @@
       .px-m-shadow-t1,
       .px-m-shadow-t2,
       .px-ct-shadow-r,
-      .px-ct-shadow-b) { translate: none; }
+      .px-ct-shadow-b,
+      .px-t-shadow-r,
+      .px-t-shadow-r2,
+      .px-t-shadow-l,
+      .px-t-shadow-b,
+      .f-px-shadow) { translate: none; }
 
     .doc-label {
       position: absolute;
@@ -556,6 +566,17 @@
       font-smooth: never;
       text-align: center;
       color: inherit;
+    }
+
+    /* Wrapped pixel text at chrome size. Enter Command carries its own
+       air inside the em box — the ink is shorter than the 16px it is set
+       at — so even 16px lines stack gappy; 12px lines (still on the 4px
+       grid) bring the rows to a classic label tightness. Single-line
+       16px chrome keeps its 24px box for bar alignment; anything that
+       can wrap wears this. */
+    .px-wrap-16 {
+      font-size: 16px;
+      line-height: 12px;
     }
 
     /* Retro Macintosh-style window: striped title bar, close box on the
@@ -1463,6 +1484,84 @@
     /* Rocker down = lights off. */
     html[data-theme="dark"] .sw-rocker { top: 32px; }
 
+    /* The Trash — the other room fixture. Not a seventh app icon: the desk
+       keeps its six labeled apps, and the can stands alone in the corner
+       like a can on the curb — unlabeled, furniture scale, pinned
+       bottom-right. Wall fixtures sit flush on the glass; a floor-standing
+       one casts the family shadow and keeps the icons' press physics.
+       Desk-level z, so open windows cover it.
+       The art is authored pixel work — geometry transcribed cell for
+       cell from a drawn mockup (change it only against a new drawing),
+       colors aligned with the app icons' shared formula: ink outline,
+       an OPEN body (no fill — the desk shows through, like every
+       icon), ONE primary accent, tint support, family shadows. The
+       slats run tint-deep / PRIMARY / tint-deep — the Controls tabs'
+       exact rhythm — and one tint-soft row shades the mouth under the
+       brim, the same inner-edge shading the wallet flap and doc fold
+       use. ONE look, full or not: the straight can reads best, so it
+       never bulges — the Trash app behind it says what is inside. */
+    .trash-can {
+      position: fixed;
+      z-index: 2;
+      /* Corner cushions mirror the switch's, and the bottom one rides the
+         safe inset so a home indicator can't crowd the can. They only
+         seat it: alignToGrid re-pins left/top on the grid (corner
+         anchoring can't guarantee grid-multiple offsets). */
+      right: 32px;
+      bottom: calc(var(--safe-b) + 24px);
+      width: 88px;
+      height: 136px;   /* 8 of lid headroom + 104 of can + a 24px label row */
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* The label row sits right under the can's shadow, not at the desk
+       icons' 136px — the fixture is shorter than an app shell. */
+    .trash-can .doc-label { top: 112px; }
+
+    /* The can is sana's, not the guest's: it stands on the desk only
+       while she is signed in (Control Panel → Users). Guests keep the
+       clean six-app desk; the play layer is opt-in. */
+    html:not([data-user="sana"]) .trash-can { display: none; }
+
+    /* Phones have no floor. A real phone OS keeps its home screen all
+       apps, and the centered icon rows need the corner anyway (three
+       rows of icons plus the can cannot both fit an 812px screen —
+       let alone an SE). The can is room furniture; it stays in the
+       room. (Breakpoint mirrors VisualIdentity.isPhone.) */
+    @media (max-width: 640px) {
+      .trash-can { display: none; }
+    }
+
+    /* One headroom row above the grip: the lid needs somewhere to go
+       when the can opens. */
+    .px-t-grip      { left: 32px; top: 8px;  width: 24px; height: 8px;  background: currentColor; }
+    .px-t-brim      { left: 0;    top: 16px; width: 88px; height: 8px;  background: currentColor; }
+    .px-t-mouth     { left: 16px; top: 24px; width: 56px; height: 8px;  background: var(--identity-tint-soft); }
+    .px-t-slat-m    { left: 40px; top: 32px; width: 8px;  height: 56px; background: var(--identity-primary); }
+    .px-t-base      { left: 16px; top: 96px; width: 56px; height: 8px;  background: currentColor; }
+    .px-t-shadow-r  { left: 80px; top: 88px; width: 8px;  height: 8px;  background: var(--identity-tint-shadow); }
+    .px-t-shadow-r2 { left: 72px; top: 96px; width: 16px; height: 8px;  background: var(--identity-tint-shadow); }
+    .px-t-shadow-l  { left: 8px;  top: 96px; width: 8px;  height: 8px;  background: var(--identity-tint-shadow); }
+    .px-t-shadow-b  { left: 16px; top: 104px; width: 72px; height: 8px; background: var(--identity-tint-shadow); }
+
+    .px-t-wall-l    { left: 8px;  top: 24px; width: 8px;  height: 72px; background: currentColor; }
+    .px-t-wall-r    { left: 72px; top: 24px; width: 8px;  height: 72px; background: currentColor; }
+    .px-t-slat-l    { left: 24px; top: 32px; width: 8px;  height: 56px; background: var(--identity-tint-deep); }
+    .px-t-slat-r    { left: 56px; top: 32px; width: 8px;  height: 56px; background: var(--identity-tint-deep); }
+
+    /* Open — a carry hovering the can: the lid lifts one cell up and
+       aside and the mouth goes deep, the classic 'this will take it'
+       signal. Carriers toggle .open per move (VisualIdentity.setCanOpen)
+       and clear it on release. */
+    .trash-can.open .px-t-grip { left: 40px; top: 0; }
+    .trash-can.open .px-t-brim { left: 8px;  top: 8px; }
+    .trash-can.open .px-t-mouth { background: var(--identity-tint-deep); }
+
     /* Foldable sidebar control — shared by every app whose window splits into a
        left MENU and a right DETAIL (Contacts, Control Panel). One button folds
        the menu away on a wide desk; on a phone, where the two panes can't sit
@@ -1648,6 +1747,8 @@
       if (dark) document.documentElement.dataset.theme = 'dark';
       const accent = localStorage.getItem('identity-accent');
       if (accent === 'seafoam') document.documentElement.dataset.accent = accent;
+      const user = localStorage.getItem('identity-user');
+      if (user === 'sana') document.documentElement.dataset.user = user;
     })();
   </script>
 
@@ -1810,6 +1911,31 @@
     <span class="doc-label">Controls</span>
   </button>
 
+  <!-- The Trash — a room fixture, not a seventh app: pinned to the
+       bottom-right corner (alignToGrid seats it on the grid there), at
+       furniture scale. It wears its name: the can only stands signed-in,
+       so the guest desk stays clean either way, and a labeled can reads
+       the classic way. One look, full or not: the straight can reads
+       best, so it never bulges — the Trash app behind it says what is
+       inside. It stays last in DOM order so it tabs after the apps: desk
+       first, floor last. -->
+  <button class="trash-can identity-pixel-color" type="button">
+    <span class="doc-px px-t-shadow-r"></span>
+    <span class="doc-px px-t-shadow-r2"></span>
+    <span class="doc-px px-t-shadow-l"></span>
+    <span class="doc-px px-t-shadow-b"></span>
+    <span class="doc-px px-t-grip"></span>
+    <span class="doc-px px-t-brim"></span>
+    <span class="doc-px px-t-mouth"></span>
+    <span class="doc-px px-t-slat-m"></span>
+    <span class="doc-px px-t-base"></span>
+    <span class="doc-px px-t-wall-l"></span>
+    <span class="doc-px px-t-wall-r"></span>
+    <span class="doc-px px-t-slat-l"></span>
+    <span class="doc-px px-t-slat-r"></span>
+    <span class="doc-label">Trash</span>
+  </button>
+
   <section class="mac-window" role="dialog" aria-labelledby="publications-title" tabindex="-1" hidden>
     <header class="mac-titlebar">
       <button class="mac-close" type="button" aria-label="Close publications window"></button>
@@ -1836,62 +1962,13 @@
   <script src="publications.bib.js"></script>
   <script>
     (() => {
+      // Desk items drag through the shared surface physics — defined with
+      // the VisualIdentity helpers below and wired to the desk right
+      // after. These two flags outlive any single drag: `moved` guards
+      // the transition links from a drag that ends on one; `leaving`
+      // latches the exit transition.
       const draggableItems = [...document.querySelectorAll('.draggable-item')];
-      const threshold = 4;
-      let startX, startY, originX, originY, pointerId;
-      let activeLink = null;
-      let pending = false, dragging = false, moved = false, leaving = false;
-
-      const startDrag = (event, target = event.currentTarget) => {
-        if (pending) return;
-        pending = true;
-        dragging = false;
-        moved = false;
-        pointerId = event.pointerId;
-        activeLink = target;
-        startX = event.clientX;
-        startY = event.clientY;
-        const bounds = activeLink.getBoundingClientRect();
-        originX = bounds.left;
-        originY = bounds.top;
-      };
-
-      draggableItems.forEach(link => link.addEventListener('pointerdown', startDrag));
-
-      const moveDrag = event => {
-        if (!pending || event.pointerId !== pointerId) return;
-        const deltaX = event.clientX - startX;
-        const deltaY = event.clientY - startY;
-
-        if (!dragging) {
-          if (Math.abs(deltaX) + Math.abs(deltaY) <= threshold) return;
-          dragging = true;
-          moved = true;
-          activeLink.dataset.userMoved = 'true';
-          activeLink.style.transform = 'none';
-          activeLink.style.left = `${VisualIdentity.snap(originX)}px`;
-          activeLink.style.top = `${VisualIdentity.snap(originY)}px`;
-          activeLink.style.bottom = 'auto';
-          activeLink.classList.add('dragging');
-        }
-
-        activeLink.style.left = `${VisualIdentity.snap(originX) + VisualIdentity.snapDelta(deltaX)}px`;
-        activeLink.style.top = `${VisualIdentity.snap(originY) + VisualIdentity.snapDelta(deltaY)}px`;
-      };
-
-      const finishDrag = event => {
-        if (event && event.pointerId !== pointerId) return;
-        pending = false;
-        dragging = false;
-        pointerId = null;
-        activeLink?.classList.remove('dragging');
-        activeLink = null;
-      };
-
-      addEventListener('pointermove', moveDrag);
-      addEventListener('pointerup', finishDrag);
-      addEventListener('pointercancel', finishDrag);
-      addEventListener('blur', () => finishDrag());
+      let moved = false, leaving = false;
 
       const VisualIdentity = {
         pixelSize: Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--identity-pixel-size')) || 8,
@@ -1902,6 +1979,263 @@
 
       VisualIdentity.snap = value => Math.round(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
       VisualIdentity.snapDelta = value => Math.trunc(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+
+      // One drag behaviour for every surface. The desk is a surface —
+      // unit 8, viewport space; a folder's pane is the same surface at
+      // unit 4 in its own box (folder.js). attach() arms an element: past
+      // a 4px threshold it lifts (user-moved, 'dragging', snapped to the
+      // surface's grid) and follows the pointer in whole cells. Release
+      // hands the owner a verdict: onTap for a press that never moved,
+      // onDrop — with the grab's origin and prior state — for one that
+      // did, onCancel for a drag the pointer abandoned. An owner may
+      // supply `place` to carry the element its own way per move (the
+      // folder kit floats a carry above the windows); the surface still
+      // owns thresholds, lifecycle and verdicts either way.
+      VisualIdentity.makeDragSurface = ({ unit, space = null, onGrab, onLift, onDrop, onTap, onCancel, place }) => {
+        const snapTo = value => Math.round(value / unit) * unit;
+        const stepTo = value => Math.trunc(value / unit) * unit;
+        const base = () => space ? space.getBoundingClientRect() : { left: 0, top: 0 };
+
+        let pointerId = null;
+        let element = null;
+        let payload = null;
+        let lifted = false;
+        let startX = 0, startY = 0;
+        let grab = null;
+
+        const down = (event, dragElement, dragPayload) => {
+          if (pointerId !== null) return;
+          pointerId = event.pointerId;
+          element = dragElement;
+          payload = dragPayload;
+          lifted = false;
+          startX = event.clientX;
+          startY = event.clientY;
+          const rect = dragElement.getBoundingClientRect();
+          const at = base();
+          grab = {
+            originX: rect.left - at.left,
+            originY: rect.top - at.top,
+            grabDX: event.clientX - rect.left,
+            grabDY: event.clientY - rect.top,
+            wasUserMoved: Boolean(dragElement.dataset.userMoved),
+          };
+          // Capture is an enhancement — a pointer that cannot be captured
+          // (synthetic events have no active id) still drags fine through
+          // the element's own listeners.
+          try { dragElement.setPointerCapture?.(pointerId); } catch { /* uncapturable */ }
+          // What is in the hand, readable by anyone (the console's slot
+          // lights only for the disk). One pointer, one carry.
+          VisualIdentity.carrying = dragPayload;
+          onGrab?.(dragElement, dragPayload, event);
+        };
+
+        const move = event => {
+          if (event.pointerId !== pointerId || !element) return;
+          const deltaX = event.clientX - startX;
+          const deltaY = event.clientY - startY;
+          if (!lifted) {
+            if (Math.abs(deltaX) + Math.abs(deltaY) <= 4) return;
+            lifted = true;
+            element.dataset.userMoved = 'true';
+            element.classList.add('dragging');
+            onLift?.(element, payload, event);
+          }
+          if (place) {
+            place(element, event.clientX, event.clientY, grab);
+          } else {
+            element.style.left = `${snapTo(grab.originX) + stepTo(deltaX)}px`;
+            element.style.top = `${snapTo(grab.originY) + stepTo(deltaY)}px`;
+          }
+        };
+
+        const up = (event, cancelled) => {
+          if (event && event.pointerId !== pointerId) return;
+          const wasLifted = lifted;
+          const dropElement = element;
+          const dropPayload = payload;
+          const dropGrab = grab;
+          pointerId = null;
+          element = null;
+          payload = null;
+          grab = null;
+          lifted = false;
+          VisualIdentity.carrying = null;
+          if (!dropElement) return;
+          dropElement.classList.remove('dragging');
+          if (cancelled || !event) {
+            if (wasLifted) onCancel?.(dropElement, dropPayload, dropGrab);
+            return;
+          }
+          if (wasLifted) onDrop?.(dropElement, dropPayload, event, dropGrab);
+          else onTap?.(dropElement, dropPayload, event);
+        };
+
+        addEventListener('blur', () => up(null, true));
+
+        const attach = (dragElement, dragPayload = null) => {
+          dragElement.addEventListener('pointerdown', event => down(event, dragElement, dragPayload));
+          dragElement.addEventListener('pointermove', move);
+          dragElement.addEventListener('pointerup', event => up(event, false));
+          dragElement.addEventListener('pointercancel', event => up(event, true));
+        };
+
+        return { attach, snapTo };
+      };
+
+      // The topmost window under a point — real stacking, not rectangles:
+      // whatever window visually claims the point claims the drop. A
+      // carried element is skipped so a drag can see through itself.
+      VisualIdentity.windowUnder = (px, py, skip = null) => {
+        for (const el of document.elementsFromPoint(px, py)) {
+          if (skip && skip.contains(el)) continue;
+          const w = el.closest('.mac-window');
+          if (w) return w;
+        }
+        return null;
+      };
+
+      // The topmost desk item under a point — the same honest stacking,
+      // one shelf down: app icons and trash-born strays, never windows
+      // (the drop verdicts ask about windows first). The carried element
+      // is skipped so a drop can see what it lands on.
+      VisualIdentity.iconUnder = (px, py, skip = null) => {
+        for (const el of document.elementsFromPoint(px, py)) {
+          if (skip && skip.contains(el)) continue;
+          const icon = el.closest('.pixel-icon, .trash-out');
+          if (icon) return icon;
+        }
+        return null;
+      };
+
+      // The trash can's own patch of desk (a visible can only). Together
+      // with windowUnder this decides where a carry is headed: over a
+      // folder window or the uncovered can, a drop files into a folder —
+      // the can is a folder's second door.
+      VisualIdentity.overTrashCan = (px, py) => {
+        const can = document.querySelector('.trash-can');
+        if (!can || getComputedStyle(can).display === 'none') return false;
+        const rect = can.getBoundingClientRect();
+        return px >= rect.left && px <= rect.right &&
+          py >= rect.top && py <= rect.bottom;
+      };
+
+      // The can opens its lid while a carry hovers it — the classic
+      // 'this will take it' signal. Carriers set this per move and clear
+      // it on release; the CSS .open state draws the lifted lid.
+      VisualIdentity.setCanOpen = on => {
+        document.querySelector('.trash-can')?.classList.toggle('open', Boolean(on));
+      };
+
+      // The desk, wired as the first surface — and the same carry the
+      // folders have, because desk items and folder items are the same
+      // thing at two scales. A lifted icon rides above every window
+      // (.dragging z) and wears the scale of where it points: full over
+      // the desk, HALF over a folder window (previewing what a drop
+      // would make of it). Drop verdicts, hit-tested by real stacking:
+      //   - bare desk: it lands where it was dropped;
+      //   - the trash can: it snaps home and is moved to the trash, no
+      //     questions (identity-trash-drop — the can only stands
+      //     signed-in);
+      //   - a folder window: it snaps home and the folder is told
+      //     (identity-folder-drop) — the Trash files it from there;
+      //   - another desk item: the item is OFFERED the drop
+      //     (identity-icon-drop, cancelable — the console fits the TV);
+      //     a claim takes the carry, and an unclaimed offer falls
+      //     through to the bare-desk landing;
+      //   - any other window: the window is OFFERED the drop first
+      //     (identity-window-drop, cancelable — the console's slot
+      //     takes the disk); unclaimed, an illegal place: it walks
+      //     home.
+      // Taps stay with each icon's own window chrome. The inline
+      // transform is 'none', never '' — the app icons carry a CSS
+      // translate(-50%,-50%) fallback for the pre-boot paint that must
+      // not resurface mid-drag.
+      const walkHome = (element, grab) => {
+        if (grab.wasUserMoved) {
+          element.style.left = `${VisualIdentity.snap(grab.originX)}px`;
+          element.style.top = `${VisualIdentity.snap(grab.originY)}px`;
+        } else {
+          delete element.dataset.userMoved;
+          VisualIdentity.alignToGrid();
+        }
+      };
+
+      // The app icons carry an INLINE z from raiseIcon (renormalized on
+      // every pointerdown), which would beat the .dragging class rule —
+      // so the lift borrows the inline slot for the carry's 9990 and the
+      // release gives it back.
+      let restZ = '';
+
+      const deskDrag = VisualIdentity.makeDragSurface({
+        unit: VisualIdentity.pixelSize,
+        onGrab: () => { moved = false; },
+        onLift: element => {
+          moved = true;
+          restZ = element.style.zIndex || '';
+          element.style.zIndex = '9990';
+          element.style.transform = 'none';
+          element.style.transformOrigin = 'top left';
+          element.style.bottom = 'auto';
+        },
+        place: (element, px, py, grab) => {
+          const under = VisualIdentity.windowUnder(px, py, element);
+          const overCan = !under && VisualIdentity.overTrashCan(px, py);
+          VisualIdentity.setCanOpen(overCan);
+          const folderBound = overCan || (under && under.classList.contains('folder-window'));
+          const scale = folderBound ? 0.5 : 1;
+          element.style.left = `${VisualIdentity.snap(px - grab.grabDX * scale)}px`;
+          element.style.top = `${VisualIdentity.snap(py - grab.grabDY * scale)}px`;
+          element.style.transform = scale === 1 ? 'none' : 'scale(0.5)';
+        },
+        onDrop: (element, payload, event, grab) => {
+          element.style.transform = 'none';
+          element.style.zIndex = restZ;
+          VisualIdentity.setCanOpen(false);
+          const px = event.clientX;
+          const py = event.clientY;
+          const under = VisualIdentity.windowUnder(px, py, element);
+          if (under) {
+            if (!under.classList.contains('folder-window') && !document.dispatchEvent(
+              new CustomEvent('identity-window-drop', {
+                cancelable: true,
+                detail: { icon: element, window: under, clientX: px, clientY: py },
+              }))) {
+              return;   // claimed: the window took the carry (a slot fed)
+            }
+            walkHome(element, grab);
+            if (under.classList.contains('folder-window')) {
+              document.dispatchEvent(new CustomEvent('identity-folder-drop',
+                { detail: { icon: element, window: under, clientX: px, clientY: py } }));
+            }
+            return;
+          }
+          if (VisualIdentity.overTrashCan(px, py)) {
+            walkHome(element, grab);
+            document.dispatchEvent(new CustomEvent('identity-trash-drop', { detail: { icon: element } }));
+            return;
+          }
+          const target = VisualIdentity.iconUnder(px, py, element);
+          if (target && target !== element && !document.dispatchEvent(
+            new CustomEvent('identity-icon-drop', {
+              cancelable: true,
+              detail: { icon: element, target, clientX: px, clientY: py },
+            }))) {
+            return;   // claimed: the listener took the carry
+          }
+          // bare desk: it stays where it was dropped
+        },
+        onCancel: (element, payload, grab) => {
+          element.style.transform = 'none';
+          element.style.zIndex = restZ;
+          VisualIdentity.setCanOpen(false);
+          walkHome(element, grab);
+        },
+      });
+      draggableItems.forEach(item => deskDrag.attach(item));
+      // The desk surface is a door: the Trash adopts items dragged out of
+      // a folder onto the desk, and they must drag like anything else.
+      VisualIdentity.deskSurface = deskDrag;
 
       // Window stacking: the active window rises above the others. Windows
       // start at the z-index 30 tier; each raise takes the next slot (still
@@ -2330,8 +2664,9 @@
 
         // Icons flow as centered rows, wrapping when the viewport is too
         // narrow for one row (rows fill greedily, whole block stays
-        // vertically centered).
-        const icons = [...document.querySelectorAll('.pixel-icon')];
+        // vertically centered). A hidden icon — one the Trash holds — has
+        // left the desk, so it leaves the flow too.
+        const icons = [...document.querySelectorAll('.pixel-icon:not([hidden])')];
         if (icons.length) {
           const iconGap = VisualIdentity.pixelSize * 6;
           const maxRowWidth = innerWidth - 64;
@@ -2375,6 +2710,22 @@
           lightSwitch.style.left =
             `${VisualIdentity.snap(innerWidth - lightSwitch.offsetWidth - 32)}px`;
         }
+
+        // The wastebasket stands on the floor, bottom-right — the switch's
+        // problem on both axes: corner anchoring can't guarantee
+        // grid-multiple offsets. Its CSS corner cushions (safe-area aware)
+        // seat it first; that seat is then snapped onto the grid, upward
+        // and leftward only, so the cushions can never shrink.
+        const trashCan = document.querySelector('.trash-can');
+        if (trashCan && getComputedStyle(trashCan).display !== 'none') {
+          const gridDown = value =>
+            Math.floor(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+          trashCan.style.top = 'auto';
+          trashCan.style.left = 'auto';
+          const seat = trashCan.getBoundingClientRect();
+          trashCan.style.top = `${gridDown(seat.top)}px`;
+          trashCan.style.left = `${gridDown(seat.left)}px`;
+        }
       };
 
       addEventListener('resize', VisualIdentity.alignToGrid);
@@ -2416,6 +2767,28 @@
         }
         if (store) localStorage.setItem('identity-accent', accent);
         document.dispatchEvent(new CustomEvent('identity-accent-change', { detail: { accent } }));
+      };
+
+      // Session user: the desk is a guest session by default; signing in as
+      // sana (Control Panel → Users pane does the asking) sets
+      // [data-user="sana"], which unlocks the resident-only furniture (the
+      // Trash). Persists like theme and accent; the head boot script applies
+      // it pre-paint. Re-seats the fixtures, since unlocking one changes
+      // what alignToGrid has to place.
+      const USERS = ['sana'];
+      VisualIdentity.setUser = (user, store = true) => {
+        user = USERS.includes(user) ? user : null;
+        if (user) {
+          document.documentElement.dataset.user = user;
+        } else {
+          delete document.documentElement.dataset.user;
+        }
+        if (store) {
+          if (user) localStorage.setItem('identity-user', user);
+          else localStorage.removeItem('identity-user');
+        }
+        VisualIdentity.alignToGrid();
+        document.dispatchEvent(new CustomEvent('identity-user-change', { detail: { user } }));
       };
 
       syncSwitch();
@@ -2737,7 +3110,7 @@
           ? token('--identity-paper') : pageBackground;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        document.querySelectorAll('.pixel-icon .doc-px, .light-switch .doc-px').forEach(px => {
+        document.querySelectorAll('.pixel-icon .doc-px, .light-switch .doc-px, .trash-can .doc-px, .trash-out .doc-px').forEach(px => {
           const rect = px.getBoundingClientRect();
           ctx.fillStyle = getComputedStyle(px).backgroundColor;
           ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
@@ -2765,10 +3138,16 @@
           ctx.fillText(link.textContent, rect.left, rect.top + rect.height / 2);
         });
 
-        // Publications window chrome (body content is left as blank paper —
-        // the transition is too fast for it to read anyway).
-        const macWindow = document.querySelector('.mac-window');
-        if (macWindow && !macWindow.hidden) {
+        // EVERY open window's chrome, back to front (body content is left
+        // as blank paper — nothing that reads this picture holds still
+        // long enough for content to matter). Drawing only the first
+        // .mac-window used to lose every other one, which showed the
+        // moment the panic screen froze a desk with windows open on it.
+        const stacked = [...document.querySelectorAll('.mac-window')]
+          .filter(win => !win.hidden)
+          .sort((a, b) => (parseInt(getComputedStyle(a).zIndex, 10) || 0)
+                        - (parseInt(getComputedStyle(b).zIndex, 10) || 0));
+        stacked.forEach(macWindow => {
           const rect = macWindow.getBoundingClientRect();
           ctx.fillStyle = token('--identity-tint-shadow');
           ctx.fillRect(rect.left + 8, rect.top + 8, rect.width, rect.height);
@@ -2788,9 +3167,11 @@
           ctx.fillStyle = token('--identity-paper');
           ctx.fillRect(rect.left + 24, rect.top + 16, 16, 16);
           const macTitle = macWindow.querySelector('.mac-title');
-          const titleRect = macTitle.getBoundingClientRect();
-          ctx.fillRect(titleRect.left, titleRect.top, titleRect.width, titleRect.height);
-          drawCenteredText(macTitle);
+          if (macTitle) {
+            const titleRect = macTitle.getBoundingClientRect();
+            ctx.fillRect(titleRect.left, titleRect.top, titleRect.width, titleRect.height);
+            drawCenteredText(macTitle);
+          }
 
           // The SR sticker — a physical object on the glass; draw its actual
           // asset at the element's center with the resting tilt. Only the
@@ -2808,7 +3189,7 @@
             ctx.drawImage(stickerImage, -size / 2, -size / 2, size, size);
             ctx.restore();
           }
-        }
+        });
       };
 
       VisualIdentity.pixelateTo = url => {
@@ -2897,6 +3278,17 @@
   <script src="news.md.js"></script>
   <script src="tv.js"></script>
   <script src="control-panel.js"></script>
+  <script src="folder.js"></script>
+  <script src="mikan.aozora.js"></script>
+  <script src="eldrazi.deck.js"></script>
+  <script src="worldfire.deck.js"></script>
+  <script src="reader.js"></script>
+  <script src="crash.js"></script>
+  <script src="power.js"></script>
+  <script src="locker.js"></script>
+  <script src="files.js"></script>
+  <script src="console.js"></script>
+  <script src="trash.js"></script>
   <script src="contacts.md.js"></script>
   <script src="contacts.js"></script>
   <script src="chat.data.js"></script>

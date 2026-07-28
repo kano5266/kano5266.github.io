@@ -5,7 +5,7 @@
 //
 // Format, per contact:
 //   # Name · kanji (admin)       <- "(admin)" marks the owner card
-//   avatar: avatars/portrait.svg  <- optional; omit for the anonymous placeholder
+//   avatar: avatars/sana.svg  <- optional; omit for the anonymous placeholder
 //   role: PhD Student
 //   - label: value               <- info rows (mail: becomes a mailto);
 //                                   repeat a label to list several values
