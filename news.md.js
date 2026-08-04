@@ -8,10 +8,15 @@
 //   ## date            <- as shown ("2026 JUL")
 //   one line of text
 //
-// The same items appear twice on the desk: CH 1 of the TV rolls them as
-// an endroll (oldest to newest, ending on the latest), and Messages
-// replays them as chat history along the timeline — with the newest one
-// arriving live as the unread message.
+// The same items appear in three places on the desk. The TV: CH 1 holds
+// the NEWEST as the headline under the LIVE bug and crawls the older
+// ones along the ticker; CH 2 rolls the whole timeline as an endroll,
+// oldest to newest, ending on the latest. Messages: the timeline replays
+// as dated chat history, with the newest arriving live as the unread
+// message the red dot is for. And the arrival NOTICE at the top of the
+// screen, which carries that same newest item in as a message banner
+// and opens the thread if it is clicked (the welcome script at the foot
+// of index.html).
 window.NEWS_MD = String.raw`
 ## 2026 JUL
 This pixel homepage went live!

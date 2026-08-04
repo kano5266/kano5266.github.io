@@ -68,6 +68,12 @@
       font-family: var(--font-display);
       font-size: 16px;
       line-height: 24px;
+      /* The panel hangs off <body>, not inside a .mac-window, so it inherits
+         none of the window's type settings — including this one. Without it
+         the browser antialiases the pixel face and the last screen anyone
+         sees is the one screen with soft letters on it. */
+      -webkit-font-smoothing: none;
+      font-smooth: never;
       overflow: auto;
       cursor: default;
       user-select: none;

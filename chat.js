@@ -735,6 +735,11 @@
     // anchor behaves natively.
     const fileBubble = (url, filename) => {
       const ext = (filename.split('.').pop() || 'file').toUpperCase();
+      // A file of hers saves; a paper on the publisher's server cannot —
+      // browsers ignore `download` across origins and open it instead. Say
+      // which, rather than promise a save that will not happen.
+      const away = /^https?:\/\//i.test(url) && !url.startsWith(location.origin);
+      const sub = away ? `${ext} · tap to open` : `${ext} · tap to save`;
       const row = document.createElement('div');
       row.className = 'msg';
       row.innerHTML =
@@ -745,7 +750,7 @@
              <img class="msg-file-icon" src="icons/pdf.svg" alt="" draggable="false" />
              <span class="msg-file-meta">
                <span class="msg-file-name">${filename}</span>
-               <span class="msg-file-sub">${ext} · tap to save</span>
+               <span class="msg-file-sub">${sub}</span>
              </span>${CORNERS}
            </a>
          </div>`;

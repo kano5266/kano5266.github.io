@@ -12,6 +12,14 @@
 //   - Authors: "Last, First" names render as "F Last"; names without a
 //     comma (e.g. CJK) render as written.
 //   - Within a section, entries sort by year (newest first).
+//   - Materials: `pdf`, `slides`, `paper` and `poster` each put a button
+//     under the entry, in that order. A local path is a file Jiali sends
+//     you in Messages; an absolute URL opens at the publisher instead.
+//   - The bibtex button hands over a CITATION, not this entry verbatim:
+//     the fields that only mean something on this page — shortvenue,
+//     category, pdf, slides, paper, poster, url — are left out of it.
+//     Put a `doi` on anything published; that is the one every citation
+//     manager actually wants.
 //
 // Caveats of the JS wrapper: avoid backticks and the sequence ${ in values.
 
@@ -24,9 +32,17 @@ window.PUBLICATIONS_BIB = String.raw`
 @inproceedings{ma2025c2explainer,
   title      = {C2Explainer: Customizable Mask-based Counterfactual Explanation for Graph Neural Networks},
   author     = {Ma, Jiali and Takigawa, Ichigaku and Yamamoto, Akihiro},
-  booktitle  = {Proceedings of the 2025 ACM Conference on Fairness, Accountability, and Transparency (FAccT)},
+  booktitle  = {Proceedings of the 2025 ACM Conference on Fairness, Accountability, and Transparency},
+  series     = {FAccT '25},
   shortvenue = {ACM FAccT},
+  pages      = {137--149},
+  numpages   = {13},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  isbn       = {9798400714825},
   year       = {2025},
+  doi        = {10.1145/3715275.3732012},
+  pdf        = {https://dl.acm.org/doi/pdf/10.1145/3715275.3732012},
   slides     = {pdfs/FAccT2025_slide.pdf},
   url        = {https://scholar.google.com/citations?view_op=view_citation&hl=en&user=DxWQw84AAAAJ&citation_for_view=DxWQw84AAAAJ:u5HHmVD_uO8C}
 }

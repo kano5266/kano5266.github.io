@@ -232,6 +232,138 @@
       .pixel-transition { display: none; }
     }
 
+    /* System notices (VisualIdentity.notify) — the desk's unit for what it
+       only OVERHEARD: a battery going flat, news that landed while you were
+       away. ONE rail for all of them: two modules each pinning their own to
+       the top of the screen would land exactly on top of each other. The
+       rail is full width and takes no clicks; the notices inside are what
+       the pointer can reach. Centring this way keeps transform free for the
+       drop, which needs it. */
+    .sys-rail {
+      position: fixed;
+      top: 16px;
+      left: 0;
+      right: 0;
+      z-index: 9990;        /* over any window (their z climbs forever);
+                               under the overlays that end a session */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    /* A sealed desk speaks only for the thing that sealed it. */
+    [data-locked] .sys-rail { display: none; }
+
+    .sys-note {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: min(640px, calc(100vw - 48px));
+      margin: 0;
+      padding: 8px 16px;
+      border: 4px solid var(--identity-normal);
+      background: var(--identity-paper);
+      box-shadow: 8px 8px 0 var(--identity-tint-shadow);
+      color: var(--identity-normal);
+      font-family: var(--font-content);
+      font-size: 16px;
+      line-height: 24px;
+      /* A notice hangs off <body>, not inside a .mac-window, so it inherits
+         none of the window's type settings — including this one. Without it
+         the browser antialiases the pixel face and every glyph picks up a
+         gray rim, which reads as a thicker, softer letter sitting next to
+         the same sentence rendered hard inside the thread. */
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+      text-align: left;
+      pointer-events: auto;
+      cursor: pointer;
+      animation: sys-note-drop 240ms step-end;
+    }
+
+    /* In by whole cells, four frames, nothing in between. */
+    @keyframes sys-note-drop {
+      0%   { transform: translateY(-32px); }
+      25%  { transform: translateY(-24px); }
+      50%  { transform: translateY(-16px); }
+      75%  { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Out the way it came in — whole cells, no fade — but far enough to
+       clear the top of the screen. A notice that stopped halfway and
+       vanished reads as a redraw, not a departure. The distance is its own
+       bottom edge, so a notice further down the rail lifts further; notify()
+       hands the cells over, because CSS cannot measure the box it is in. */
+    .sys-note.leaving {
+      animation: sys-note-lift var(--lift-ms) steps(var(--lift-cells), end) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes sys-note-lift {
+      to { transform: translateY(calc(var(--lift) * -1)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sys-note,
+      .sys-note.leaving { animation: none; }
+    }
+
+    .sys-note:focus-visible {
+      outline: 2px solid var(--identity-primary);
+      outline-offset: 4px;
+    }
+
+    .sys-note .note-mark { flex: none; display: flex; }
+
+    .sys-note .note-words { min-width: 0; }
+
+    .sys-note .note-head,
+    .sys-note .note-line { display: block; }
+
+    .sys-note .note-head { font-weight: 700; }
+
+    .sys-note .note-line { color: var(--identity-gray); }
+
+    /* A notice that carries somebody's WORDS says them at content size, the
+       same 24 the message bubble uses — the banner and the bubble it opens
+       are the same sentence, and one of them shrinking it would be the desk
+       paraphrasing. The bold stays: a notice head is bold at every size, and
+       an unread message is the one sentence on the desk that has not been
+       read yet. The attribution under it stays chrome, because an app name
+       is the desk talking, not her. */
+    .sys-note.note-said .note-head {
+      font-size: 24px;
+      line-height: 24px;
+    }
+
+    /* A banner wears the APP's icon, the way every notification does: the
+       live desk icon's own spans, cloned, in the 112x136 canvas they were
+       authored in at scale 0.5 — exact 4px cells, lossless because the art
+       is solid rects (the same trick folder panes use). The box is cropped
+       to the drawing's own extent (8,40)-(112,120), halved, so the notice
+       holds the icon and not the air around it. The unread badge comes with
+       the clone and stays hidden, which is its own law: a badge is presence,
+       not artwork, and this one is a copy. */
+    .sys-note .note-app {
+      position: relative;
+      width: 52px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .sys-note .note-art {
+      position: absolute;
+      left: -4px;
+      top: -20px;
+      width: 112px;
+      height: 136px;
+      transform: scale(0.5);
+      transform-origin: top left;
+    }
+
     .draggable-item {
       position: fixed;
       touch-action: none;
@@ -852,6 +984,14 @@
        margin. So it stays on the desk. */
     @media (max-width: 640px) { .sr-sticker { display: none; } }
 
+    /* OFF FOR NOW — super resolution is disabled everywhere, not just on the
+       phone. Hiding the sticker IS the whole switch: clicking it is the only
+       way into the mode (nothing else ever sets .super-res on the window), so
+       the glass stylesheet below simply never applies. Everything stays where
+       it is — delete this rule and the sticker, its peel, and the whole mode
+       come back exactly as they were. */
+    .sr-sticker { display: none; }
+
     /* Peeling: the sticker is physical — it can be tugged and torn off. */
     .sr-sticker.peeling {
       transition: none;
@@ -1082,6 +1222,16 @@
     .pub-section[data-section='domestic'] .pub-section-title::before { background: var(--identity-accent-green); }
     .pub-section[data-section='preprint'] .pub-section-title::before { background: var(--identity-accent-cyan); }
     .pub-section[data-section='other'] .pub-section-title::before { background: var(--identity-accent-pink); }
+
+    /* The conference carries the line in the international list. A venue is
+       the one thing a reader scans this section FOR — they know the names,
+       and the name is what tells them what the paper is — so it steps out of
+       the gray meta run in amber. The accent is a token, so it swaps with the
+       theme like everything else; it is left alone in the other sections,
+       where a journal or a workshop name is not the thing being looked up. */
+    .pub-section[data-section='international'] .pub-venue {
+      color: var(--identity-accent-amber);
+    }
 
     .pub-list {
       list-style: none;
@@ -1368,6 +1518,19 @@
     }
 
     .super-res .pub-self { font-weight: 600; }
+
+    /* The meta line drops to 14px here, and the amber that carries a 24px
+       pixel venue at 3.2:1 is thin at that size. One step darker holds the
+       same colour idea above 4.5:1 — a literal value, like the rest of this
+       mode's palette, because super-res is the one place that does not swap
+       with the theme's tokens. */
+    .super-res .pub-section[data-section='international'] .pub-venue {
+      color: #b45309;
+    }
+
+    html[data-theme="dark"] .super-res .pub-section[data-section='international'] .pub-venue {
+      color: #fbbf24;
+    }
 
     .super-res .pub-year {
       display: inline-block;
@@ -2611,6 +2774,111 @@
         return setFolded;
       };
 
+      // System notices — the desk's unit for things it only OVERHEARD, and
+      // the counterpart to attachWindowChrome: a notice takes no slot in the
+      // cascade, cannot be dragged, and leaves on its own. Every module with
+      // something to SAY (power.js's flat battery, the arrival's latest news)
+      // says it through here, so notices queue down one rail instead of
+      // landing on top of each other.
+      //
+      //   mark    a Node or HTML for the badge at the left (optional)
+      //   head    the line in bold — the thing being said
+      //   line    the quieter second line (optional)
+      //   hold    ms before it leaves on its own
+      //   voice   'chrome' (the desk speaking — the default) or 'content'
+      //           (someone's words, said at the size they are said at)
+      //   onOpen  where the notice leads, if it leads anywhere; a click
+      //           always takes the notice down, this is what else happens
+      //
+      // Returns take(): the caller can pull its own notice early.
+      const LIFT_PER_CELL_MS = 24;   // one 8px step of the departure
+      let noticeRail = null;
+
+      VisualIdentity.notify = ({ mark = '', head = '', line = '', hold = 8000,
+                                voice = 'chrome', onOpen = null } = {}) => {
+        // Nothing draws over a machine that has already given up, and a
+        // sealed desk speaks only for the thing that sealed it.
+        const flags = document.documentElement.dataset;
+        if (flags.stopped === 'true' || flags.locked === 'true') return () => {};
+
+        if (!noticeRail) {
+          noticeRail = document.createElement('div');
+          noticeRail.className = 'sys-rail';
+          // On the rail, not the notice: a notice that announced itself
+          // would also have to announce itself again when it leaves.
+          noticeRail.setAttribute('aria-live', 'polite');
+          document.body.appendChild(noticeRail);
+        }
+
+        const note = document.createElement('button');
+        note.type = 'button';
+        note.className = voice === 'content' ? 'sys-note note-said' : 'sys-note';
+
+        const markSpan = document.createElement('span');
+        markSpan.className = 'note-mark';
+        if (mark instanceof Node) markSpan.appendChild(mark);
+        else if (mark) markSpan.innerHTML = mark;
+
+        const words = document.createElement('span');
+        words.className = 'note-words';
+        const headSpan = document.createElement('span');
+        headSpan.className = 'note-head';
+        headSpan.textContent = head;
+        words.appendChild(headSpan);
+        if (line) {
+          const lineSpan = document.createElement('span');
+          lineSpan.className = 'note-line';
+          lineSpan.textContent = line;
+          words.appendChild(lineSpan);
+        }
+        note.append(markSpan, words);
+
+        let goTimer = null;
+        let leaving = false;
+
+        const take = () => {
+          clearTimeout(goTimer);
+          goTimer = null;
+          note.remove();
+          // The rail exists only while something is on it.
+          if (noticeRail && !noticeRail.children.length) {
+            noticeRail.remove();
+            noticeRail = null;
+          }
+        };
+
+        // The departure: up and off the top edge in whole cells. Its own
+        // bottom (plus the shadow it drags with it) is the distance, so a
+        // notice lower down the rail travels further and they clear together.
+        const leave = () => {
+          if (leaving || !note.isConnected) return;
+          leaving = true;
+          clearTimeout(goTimer);
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) { take(); return; }
+          const cells = Math.ceil((note.getBoundingClientRect().bottom + 8) / VisualIdentity.pixelSize);
+          const ms = cells * LIFT_PER_CELL_MS;
+          note.style.setProperty('--lift', `${cells * VisualIdentity.pixelSize}px`);
+          note.style.setProperty('--lift-cells', String(cells));
+          note.style.setProperty('--lift-ms', `${ms}ms`);
+          note.classList.add('leaving');
+          // A timer, not animationend: a backgrounded tab never runs the
+          // animation, and a notice waiting on a frame that never comes
+          // would sit there for the rest of the session.
+          goTimer = setTimeout(take, ms + 80);
+        };
+
+        note.addEventListener('click', () => {
+          // Going somewhere: the window opening IS the answer, so the notice
+          // gets out of the way at once. Going nowhere: it leaves properly.
+          if (onOpen) { take(); onOpen(); }
+          else leave();
+        });
+
+        noticeRail.appendChild(note);
+        goTimer = setTimeout(leave, hold);
+        return take;
+      };
+
       VisualIdentity.placeWindow = windowElement => {
         if (windowElement.hidden) return;
         // A maximized window IS the desk: nowhere to place it, nothing to
@@ -2814,12 +3082,11 @@
             else if (source[end] === '}') depth -= 1;
           }
           const body = source.slice(open + 1, end - 1);
-          const raw = source.slice(cursor, end).trim();   // the entry verbatim, for the bibtex button
           cursor = end;
           if (type === 'comment' || type === 'string' || type === 'preamble') continue;
 
           const firstComma = body.indexOf(',');
-          const entry = { type, key: body.slice(0, firstComma).trim(), raw, fields: {} };
+          const entry = { type, key: body.slice(0, firstComma).trim(), fields: {} };
           let rest = body.slice(firstComma + 1);
           let i = 0;
           while (i < rest.length) {
@@ -2852,6 +3119,26 @@
           entries.push(entry);
         }
         return entries;
+      };
+
+      // The bibtex button hands over a CITATION, not this page's copy of the
+      // entry. `shortvenue` and `category` are display instructions;
+      // `pdf`/`slides`/`paper`/`poster` are the buttons under the entry, and
+      // `url` is the link on its title — every one of them is a door on this
+      // desk and none of them means anything in somebody else's bibliography.
+      // What is left is what a citation manager reads, in the order it was
+      // written, with the '=' aligned the way the .bib file writes it.
+      const SITE_ONLY = new Set([
+        'shortvenue', 'category', 'pdf', 'slides', 'paper', 'poster', 'url',
+      ]);
+
+      const citationOf = pub => {
+        const rows = Object.entries(pub.fields).filter(([name]) => !SITE_ONLY.has(name));
+        const width = Math.max(0, ...rows.map(([name]) => name.length));
+        const body = rows
+          .map(([name, value]) => `  ${name.padEnd(width)} = {${value}}`)
+          .join(',\n');
+        return `@${pub.type}{${pub.key},\n${body}\n}`;
       };
 
       // "Last, First" -> "F Last"; names without a comma (CJK) stay as written.
@@ -2942,8 +3229,17 @@
               }
               if (index < authors.length - 1) meta.append(', ');
             });
-            if (authors.length && venue) meta.append(` · ${venue}`);
-            else if (venue) meta.append(venue);
+            // The venue is its own span so a section can colour it — the
+            // international list wears the conference name in amber (see
+            // .pub-venue). Everywhere else it inherits the gray meta line
+            // and the span costs nothing.
+            if (venue) {
+              if (authors.length) meta.append(' · ');
+              const venueEl = document.createElement('span');
+              venueEl.className = 'pub-venue';
+              venueEl.textContent = venue;
+              meta.appendChild(venueEl);
+            }
             if (authors.length || venue) meta.append(' · ');
             const year = document.createElement('span');
             year.className = 'pub-year';
@@ -2956,6 +3252,7 @@
             // Downloadable materials, if the entry declares any. Rather than a
             // plain download, each opens Messages and Jiali "sends" the file.
             const mats = [
+              { field: 'pdf', kind: 'pdf' },
               { field: 'slides', kind: 'slides' },
               { field: 'paper', kind: 'paper' },
               { field: 'poster', kind: 'poster' },
@@ -2970,7 +3267,10 @@
               btn.className = 'pub-material';
               btn.type = 'button';
               btn.textContent = m.kind;
-              const filename = `${base}${pub.fields.year ? '-' + pub.fields.year : ''}-${m.kind}.pdf`;
+              // "ACM-FAccT-2025-slides.pdf" — but never "…-pdf.pdf": the
+              // paper itself is named for the venue and nothing else.
+              const stem = `${base}${pub.fields.year ? '-' + pub.fields.year : ''}`;
+              const filename = m.kind === 'pdf' ? `${stem}.pdf` : `${stem}-${m.kind}.pdf`;
               btn.addEventListener('click', () => {
                 window.ChatApp?.share?.({ url: pub.fields[m.field], venue: matVenue, kind: m.kind, filename });
               });
@@ -2987,7 +3287,7 @@
               bib.title = 'Copy BibTeX';
               bib.addEventListener('click', async () => {
                 try {
-                  await navigator.clipboard.writeText(pub.raw);
+                  await navigator.clipboard.writeText(citationOf(pub));
                   bib.textContent = 'copied!';
                 } catch {
                   bib.textContent = 'copy failed';
@@ -3294,24 +3594,56 @@
   <script src="chat.data.js"></script>
   <script src="chat.js"></script>
 
-  <!-- The welcome: an empty desk says nothing, so the reader arrives to the two
-       windows that introduce the place — Contacts (who this is) and the TV (what
-       is new). They are not there on load: the desk lands bare, then each icon
-       visibly presses itself and its window opens on the release, so the reader
-       reads it as something being opened rather than a page that rendered oddly.
-       Contacts goes first, so the TV lands stepped over it and both stay legible;
-       Messages is deliberately left shut, since its unread dot is the invitation.
+  <!-- The welcome: an empty desk says nothing, so the reader arrives to the one
+       window that introduces the place — Contacts, who this is. It is not there
+       on load: the desk lands bare, then the icon visibly presses itself and the
+       window opens on the release, so the reader reads it as something being
+       opened rather than a page that rendered oddly.
+       A beat later the unread message announces itself as a NOTICE. Messages
+       stays shut — the banner is how a real desk points at an unread message,
+       and it carries the newest news item, which IS that message (news.md.js).
+       So the reader learns what is new without a second window opening itself:
+       the TV stays off until it is asked for, which is the part that used to
+       get old on every visit.
        This runs last on purpose: each app registers its own DOMContentLoaded boot
        as it loads, so by the time this one fires their doors exist. -->
   <script>
     (() => {
-      const WAIT_MS  = 800;   // beat before the first icon, and between them
+      const WAIT_MS  = 800;   // beat before the icon, and again before the banner
       const PRESS_MS = 160;   // how long an icon stays pushed in
 
       const doors = [
         ['.contacts-icon', () => window.ContactsApp?.open?.()],
-        ['.tv-icon',       () => window.TVApp?.open?.()],
       ];
+
+      // The unread message, announced. The red dot on the icon is a hint the
+      // reader has to notice; a banner is what a real desk does with a
+      // message that arrived while nobody was looking — the app it came
+      // from, what was said, and a click that opens the thread and marks it
+      // read. What was said is the latest news item: the same line the TV
+      // holds as its headline on CH 1, here in the voice of whoever wrote
+      // it, at the size the bubble will say it again in.
+      const sayMessage = () => {
+        const latest = (window.NEWS_ITEMS || [])[0];
+        if (!latest) return;
+        // The app's own desk icon, cloned live — the same drawing at half
+        // scale, so the banner and the icon it points at can never drift.
+        const art = document.createElement('span');
+        art.className = 'note-art';
+        art.innerHTML = [...document.querySelectorAll('.chat-icon .doc-px')]
+          .map(px => px.outerHTML).join('');
+        const badge = document.createElement('span');
+        badge.className = 'note-app';
+        badge.appendChild(art);
+        const name = window.ContactsData?.owner?.()?.short;
+        window.VisualIdentity?.notify?.({
+          mark: badge,
+          head: latest.text,
+          line: name ? `${name} · Messages` : 'Messages',
+          voice: 'content',
+          onOpen: () => window.ChatApp?.open?.(),
+        });
+      };
 
       // Deep links: www.jialima.com/#publications is the desk with that app
       // already open — linkable from a paper footer or an email signature.
@@ -3334,9 +3666,13 @@
       addEventListener('hashchange', openFromHash);
 
       const welcome = () => {
+        // The banner lands on every arrival, the phone included: a notice
+        // takes no room the desk needs and leaves on its own, so it is the
+        // one part of the welcome that costs a small display nothing.
+        setTimeout(sayMessage, WAIT_MS * 2);
         // Where windows open maximized, each one fills the display — so staging
-        // two would bury the first and hide the home screen the reader just
-        // arrived at. The icons are the welcome there; they tap in themselves.
+        // one would bury the home screen the reader just arrived at. The icons
+        // are the welcome there; they tap in themselves.
         // (One of only two places allowed to ask this; see isPhone above.)
         if (window.VisualIdentity?.isPhone?.()) return;
         // Someone who asked for less motion just gets the windows, no theatre.
