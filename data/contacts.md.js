@@ -25,7 +25,7 @@ role: PhD Student
 - affiliation: University of Tokyo · Graduate School of Frontier Science
 - research interest: Counterfactual Explanation · Algorithmic Recourse · Graph Neural Networks
 - broader research interest: Explainable AI · Interpretability · Knowledge Discovery · Causal Inference
-- mail: ma.jiali.28s@st.kyoto-u.ac.jp
+- mail: i@jialima.com
 
 ## links
 - [Messages](app:chat)

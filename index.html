@@ -2,7 +2,7 @@
 <!--
   Visual identity: everything on this page lives on an 8px pixel grid —
   positions, sizes, colors, and motion all snap to it.
-  See STYLE_GUIDE.md before changing or adding anything.
+  See docs/STYLE_GUIDE.md before changing or adding anything.
 -->
 <html lang="en">
 <head>
@@ -39,7 +39,7 @@
     "alternateName": "まかり",
     "url": "https://www.jialima.com/",
     "image": "https://www.jialima.com/og.png",
-    "email": "mailto:ma.jiali.28s@st.kyoto-u.ac.jp",
+    "email": "mailto:i@jialima.com",
     "jobTitle": "PhD student",
     "affiliation": [
       { "@type": "Organization", "name": "Kyoto University" },
@@ -1677,7 +1677,9 @@
       padding: 0;
       border: 0;
       background: transparent;
-      cursor: pointer;
+      /* No cursor of its own: .draggable-item's grab/grabbing is the whole
+         point — the can is picked up the way every other thing on this desk
+         is, and a pointer here would promise it could only be clicked. */
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
@@ -1705,6 +1707,11 @@
     .px-t-grip      { left: 32px; top: 8px;  width: 24px; height: 8px;  background: currentColor; }
     .px-t-brim      { left: 0;    top: 16px; width: 88px; height: 8px;  background: currentColor; }
     .px-t-mouth     { left: 16px; top: 24px; width: 56px; height: 8px;  background: var(--identity-tint-soft); }
+    /* The front face. Without it the gaps between the slats are holes and
+       the desk shows through the can — every other icon fills its outline
+       with paper before drawing anything on top. Painted before the slats,
+       because DOM order is paint order. */
+    .px-t-body      { left: 16px; top: 32px; width: 56px; height: 64px; background: var(--identity-paper); }
     .px-t-slat-m    { left: 40px; top: 32px; width: 8px;  height: 56px; background: var(--identity-primary); }
     .px-t-base      { left: 16px; top: 96px; width: 56px; height: 8px;  background: currentColor; }
     .px-t-shadow-r  { left: 80px; top: 88px; width: 8px;  height: 8px;  background: var(--identity-tint-shadow); }
@@ -1892,7 +1899,7 @@
         <p style="margin: 0 0 16px;">Research: counterfactual explanation, algorithmic
           recourse, graph neural networks.</p>
         <p style="margin: 0 0 16px;">
-          <a href="mailto:ma.jiali.28s@st.kyoto-u.ac.jp" style="color: #4f46e5;">mail</a> ·
+          <a href="mailto:i@jialima.com" style="color: #4f46e5;">mail</a> ·
           <a href="https://scholar.google.com/citations?user=DxWQw84AAAAJ" style="color: #4f46e5;">Google Scholar</a>
         </p>
         <p style="margin: 0; color: #555;">This site is an interactive pixel desktop
@@ -2074,15 +2081,19 @@
     <span class="doc-label">Controls</span>
   </button>
 
-  <!-- The Trash — a room fixture, not a seventh app: pinned to the
-       bottom-right corner (alignToGrid seats it on the grid there), at
-       furniture scale. It wears its name: the can only stands signed-in,
-       so the guest desk stays clean either way, and a labeled can reads
-       the classic way. One look, full or not: the straight can reads
-       best, so it never bulges — the Trash app behind it says what is
-       inside. It stays last in DOM order so it tabs after the apps: desk
-       first, floor last. -->
-  <button class="trash-can identity-pixel-color" type="button">
+  <!-- The Trash — furniture rather than a seventh app: it STARTS in the
+       bottom-right corner (alignToGrid seats it on the grid there) at
+       furniture scale, and stays last in DOM order so it tabs after the
+       apps: desk first, floor last. But where it starts is the only thing
+       that makes it different. It is a .draggable-item like every icon —
+       same carry, same grid, same stacking tier, and once moved it keeps
+       its spot through a resize exactly as a moved icon does. A thing on a
+       desk that alone cannot be picked up reads as a bug, not as furniture.
+       It wears its name: the can only stands signed-in, so the guest desk
+       stays clean either way, and a labeled can reads the classic way. One
+       look, full or not: the straight can reads best, so it never bulges —
+       the Trash app behind it says what is inside. -->
+  <button class="trash-can draggable-item identity-pixel-color" type="button">
     <span class="doc-px px-t-shadow-r"></span>
     <span class="doc-px px-t-shadow-r2"></span>
     <span class="doc-px px-t-shadow-l"></span>
@@ -2090,6 +2101,7 @@
     <span class="doc-px px-t-grip"></span>
     <span class="doc-px px-t-brim"></span>
     <span class="doc-px px-t-mouth"></span>
+    <span class="doc-px px-t-body"></span>
     <span class="doc-px px-t-slat-m"></span>
     <span class="doc-px px-t-base"></span>
     <span class="doc-px px-t-wall-l"></span>
@@ -2122,7 +2134,7 @@
     </button>
   </section>
 
-  <script src="publications.bib.js"></script>
+  <script src="data/publications.bib.js"></script>
   <script>
     (() => {
       // Desk items drag through the shared surface physics — defined with
@@ -2275,9 +2287,12 @@
       // with windowUnder this decides where a carry is headed: over a
       // folder window or the uncovered can, a drop files into a folder —
       // the can is a folder's second door.
-      VisualIdentity.overTrashCan = (px, py) => {
+      // `skip` is the thing being carried, because the can is carried like
+      // anything else on this desk: without it, dragging the can would find
+      // its own patch under the pointer and file the can into itself.
+      VisualIdentity.overTrashCan = (px, py, skip = null) => {
         const can = document.querySelector('.trash-can');
-        if (!can || getComputedStyle(can).display === 'none') return false;
+        if (!can || can === skip || getComputedStyle(can).display === 'none') return false;
         const rect = can.getBoundingClientRect();
         return px >= rect.left && px <= rect.right &&
           py >= rect.top && py <= rect.bottom;
@@ -2343,7 +2358,7 @@
         },
         place: (element, px, py, grab) => {
           const under = VisualIdentity.windowUnder(px, py, element);
-          const overCan = !under && VisualIdentity.overTrashCan(px, py);
+          const overCan = !under && VisualIdentity.overTrashCan(px, py, element);
           VisualIdentity.setCanOpen(overCan);
           const folderBound = overCan || (under && under.classList.contains('folder-window'));
           const scale = folderBound ? 0.5 : 1;
@@ -2373,7 +2388,7 @@
             }
             return;
           }
-          if (VisualIdentity.overTrashCan(px, py)) {
+          if (VisualIdentity.overTrashCan(px, py, element)) {
             walkHome(element, grab);
             document.dispatchEvent(new CustomEvent('identity-trash-drop', { detail: { icon: element } }));
             return;
@@ -2905,8 +2920,13 @@
       // whole tier must stay below the links (20) and windows (30+) — so
       // instead of counting upward, the tier is renormalized to 2..N on
       // every raise (the active icon takes the top slot).
+      // The can is in the tier. It used to sit at a fixed 2 as floor
+      // furniture, which was fine while it could not move; now that it can
+      // be carried anywhere, a can left permanently under every icon it was
+      // dropped beside is the one place the desk still treats it as a
+      // different kind of thing.
       VisualIdentity.raiseIcon = iconElement => {
-        const rest = [...document.querySelectorAll('.pixel-icon')]
+        const rest = [...document.querySelectorAll('.pixel-icon, .trash-can')]
           .filter(el => el !== iconElement)
           .sort((a, b) => (+a.style.zIndex || 2) - (+b.style.zIndex || 2));
         rest.concat(iconElement).forEach((el, i) => {
@@ -2920,7 +2940,7 @@
           VisualIdentity.raiseWindow(win);
           return;
         }
-        const icon = event.target.closest('.pixel-icon');
+        const icon = event.target.closest('.pixel-icon, .trash-can');
         if (icon) VisualIdentity.raiseIcon(icon);
       }, true);
 
@@ -2985,9 +3005,16 @@
         // seat it first; that seat is then snapped onto the grid, upward
         // and leftward only, so the cushions can never shrink.
         const trashCan = document.querySelector('.trash-can');
-        if (trashCan && getComputedStyle(trashCan).display !== 'none') {
+        if (trashCan && !trashCan.dataset.userMoved
+            && getComputedStyle(trashCan).display !== 'none') {
           const gridDown = value =>
             Math.floor(value / VisualIdentity.pixelSize) * VisualIdentity.pixelSize;
+          // The cushions have to be BACK before the seat is measured. A carry
+          // clears `bottom` on lift (onLift, so the drag drives top/left
+          // alone), and a can that walks home still carries that: measured
+          // with no bottom and no top, a fixed box sits at 0 and the can
+          // would re-seat itself against the ceiling.
+          trashCan.style.bottom = '';
           trashCan.style.top = 'auto';
           trashCan.style.left = 'auto';
           const seat = trashCan.getBoundingClientRect();
@@ -3573,26 +3600,26 @@
       draggableItems.forEach(link => link.addEventListener('dragstart', event => event.preventDefault()));
     })();
   </script>
-  <script src="version.js"></script>
-  <script src="wallet.js"></script>
-  <script src="news.md.js"></script>
-  <script src="tv.js"></script>
-  <script src="control-panel.js"></script>
-  <script src="folder.js"></script>
-  <script src="mikan.aozora.js"></script>
-  <script src="eldrazi.deck.js"></script>
-  <script src="worldfire.deck.js"></script>
-  <script src="reader.js"></script>
-  <script src="crash.js"></script>
-  <script src="power.js"></script>
-  <script src="locker.js"></script>
-  <script src="files.js"></script>
-  <script src="console.js"></script>
-  <script src="trash.js"></script>
-  <script src="contacts.md.js"></script>
-  <script src="contacts.js"></script>
-  <script src="chat.data.js"></script>
-  <script src="chat.js"></script>
+  <script src="js/version.js"></script>
+  <script src="js/wallet.js"></script>
+  <script src="data/news.md.js"></script>
+  <script src="js/tv.js"></script>
+  <script src="js/control-panel.js"></script>
+  <script src="js/folder.js"></script>
+  <script src="data/mikan.aozora.js"></script>
+  <script src="data/eldrazi.deck.js"></script>
+  <script src="data/worldfire.deck.js"></script>
+  <script src="js/reader.js"></script>
+  <script src="js/crash.js"></script>
+  <script src="js/power.js"></script>
+  <script src="js/locker.js"></script>
+  <script src="js/files.js"></script>
+  <script src="js/console.js"></script>
+  <script src="js/trash.js"></script>
+  <script src="data/contacts.md.js"></script>
+  <script src="js/contacts.js"></script>
+  <script src="data/chat.data.js"></script>
+  <script src="js/chat.js"></script>
 
   <!-- The welcome: an empty desk says nothing, so the reader arrives to the one
        window that introduces the place — Contacts, who this is. It is not there

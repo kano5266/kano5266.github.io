@@ -7,6 +7,23 @@ pixeled on an 8px grid. Vanilla HTML / CSS / JavaScript, no build step — open
 
 © 2026 Jiali Ma. All rights reserved. See [LICENSE](LICENSE).
 
+## Layout
+
+    index.html   the desk itself — markup, all the CSS, VisualIdentity
+    js/                     one file per app or system feature
+    data/                   content as data: *.md.js, *.bib.js, *.deck.js
+    avatars/ cards/ icons/  artwork the page loads
+    fonts/ pdfs/
+    tools/                  pixel, card and icon editors (workshop only)
+    docs/                   STYLE_GUIDE.md — the rules, and why
+    art/                    drawings nothing currently wears
+    publish.sh              build the public copy; stamp-version.sh stamps the build id
+
+`js/` and `data/` keep their names in the published site: there is no build
+step and the page must run from `file://`, so a script's path is the same
+string here and on the server. Anything not listed in `publish.sh` does not
+ship — that file is the source of truth for what the site actually needs.
+
 ## Fonts
 
 The fonts are third-party. They stay under their own licences and are **not**

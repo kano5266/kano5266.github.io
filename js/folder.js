@@ -420,8 +420,41 @@
     return ART[item.art].reduce((max, cell) => Math.max(max, cell[1] + cell[3]), 0);
   };
 
+  // The same measurement across, for the same reason. Drawings are not all
+  // the same WIDTH inside the shared canvas either — the wallet and the
+  // television are 144 where most are 112 — so a glyph left at canvas x=0
+  // hangs to the right of the label centred under it. This rides each art
+  // sideways until its middle sits over the slot's middle. Whole cells
+  // only: the canvas renders at scale 0.5, so a stray 2px would land the
+  // art off the folder's 4px grid and blur every pixel in it. Standard
+  // 112-wide art rounds to 0 and does not move.
+  const artSpan = item => {
+    if (item.artFrom) {
+      let left = Infinity;
+      let right = 0;
+      document.querySelectorAll(`${item.artFrom} .doc-px`).forEach(px => {
+        const style = getComputedStyle(px);
+        const x = parseInt(style.left, 10) || 0;
+        left = Math.min(left, x);
+        right = Math.max(right, x + (parseInt(style.width, 10) || 0));
+      });
+      return Number.isFinite(left) ? [left, right] : [0, 112];
+    }
+    const cells = ART[item.art];
+    return [
+      cells.reduce((min, cell) => Math.min(min, cell[0]), Infinity),
+      cells.reduce((max, cell) => Math.max(max, cell[0] + cell[2]), 0),
+    ];
+  };
+
+  const artLeft = item => {
+    const [left, right] = artSpan(item);
+    // Where the drawing's middle has to land: half of the 56px glyph slot.
+    return Math.round((28 - (left + right) / 4) / UNIT) * UNIT;
+  };
+
   const glyph = item => `<span class="f-glyph" aria-hidden="true"><span class="f-art"
-    style="top:${(136 - artBottom(item)) / 2}px">${
+    style="left:${artLeft(item)}px;top:${(136 - artBottom(item)) / 2}px">${
     item.artFrom ? cloneGlyph(item.artFrom) : artGlyph(ART[item.art])}</span></span>`;
 
   // Every folder window registers here, so a drop from anywhere — the
