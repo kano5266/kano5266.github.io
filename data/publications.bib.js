@@ -29,6 +29,19 @@ window.PUBLICATIONS_SELF = ['Ma, Jiali', '馬嘉利'];
 
 window.PUBLICATIONS_BIB = String.raw`
 
+@techreport{ma2026privaterecourse,
+  title      = {私的情報を開示しないアルゴリズム的償還のパーソナライズ化},
+  author     = {Ma, Jiali and Takigawa, Ichigaku and Yamamoto, Akihiro},
+  booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第137回 (SIG-FPAI)},
+  shortvenue = {JSAI SIG-FPAI 137},
+  volume     = {137},
+  number     = {SIG-FPAI-137-06},
+  pages      = {44-49},
+  year       = {2026},
+  doi        = {10.11517/jsaifpai.137.0_44},
+  url        = {https://doi.org/10.11517/jsaifpai.137.0_44}
+}
+
 @inproceedings{ma2025c2explainer,
   title      = {C2Explainer: Customizable Mask-based Counterfactual Explanation for Graph Neural Networks},
   author     = {Ma, Jiali and Takigawa, Ichigaku and Yamamoto, Akihiro},
@@ -69,7 +82,7 @@ window.PUBLICATIONS_BIB = String.raw`
 
 @techreport{ma2025propagation,
   title      = {Counterfactual Explanation Propagation for Graph Neural Networks},
-  author     = {Ma, Jiali},
+  author     = {Ma, Jiali and Takigawa, Ichigaku and Yamamoto, Akihiro},
   booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第131回 (SIG-FPAI)},
   shortvenue = {JSAI SIG-FPAI 131},
   pages      = {56-61},
@@ -78,7 +91,7 @@ window.PUBLICATIONS_BIB = String.raw`
 
 @techreport{ma2024recourse,
   title      = {Algorithmic Recourse for Graph Neural Networks via Customizable Edge Masks},
-  author     = {Ma, Jiali},
+  author     = {Ma, Jiali and Yamamoto, Akihiro},
   booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第129回 (SIG-FPAI)},
   shortvenue = {JSAI SIG-FPAI 129},
   pages      = {02-07},
@@ -87,7 +100,7 @@ window.PUBLICATIONS_BIB = String.raw`
 
 @techreport{ma2024nonsubgraph,
   title      = {Non-subgraph Counterfactual Explanation for Node Classification Graph Neural Networks},
-  author     = {Ma, Jiali},
+  author     = {Ma, Jiali and Yamamoto, Akihiro},
   booktitle  = {人工知能学会研究会資料 人工知能基本問題研究会 第128回 (SIG-FPAI)},
   shortvenue = {JSAI SIG-FPAI 128},
   pages      = {28-33},

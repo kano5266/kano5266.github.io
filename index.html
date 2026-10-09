@@ -1233,6 +1233,18 @@
       color: var(--identity-accent-amber);
     }
 
+    /* The one window wider than the rest: it carries the longest text on the
+       desk — whole titles and whole author lists — and 560 makes a column of
+       it. 640 is 80 cells, roomy without taking over the desk.
+       It is NOT sized to the longest line, on purpose. A window with a grow
+       box already answers that, a wrapped author list is an ordinary thing to
+       read, and a width fitted to today's longest string is stale the day a
+       paper has one more author on it. The clamp is every window's, so a
+       phone is unaffected. */
+    .mac-window.publications-window {
+      width: min(640px, calc(100vw - 48px));
+    }
+
     .pub-list {
       list-style: none;
       margin: 0;
@@ -2111,7 +2123,7 @@
     <span class="doc-label">Trash</span>
   </button>
 
-  <section class="mac-window" role="dialog" aria-labelledby="publications-title" tabindex="-1" hidden>
+  <section class="mac-window publications-window" role="dialog" aria-labelledby="publications-title" tabindex="-1" hidden>
     <header class="mac-titlebar">
       <button class="mac-close" type="button" aria-label="Close publications window"></button>
       <h2 class="mac-title" id="publications-title">Publications</h2>
@@ -3168,17 +3180,29 @@
         return `@${pub.type}{${pub.key},\n${body}\n}`;
       };
 
-      // "Last, First" -> "F Last"; names without a comma (CJK) stay as written.
+      // "Last, First" -> "Jiali Ma"; a name without a comma (CJK) is already
+      // whole and is returned as written. WHOLE names, not initials: this is
+      // her page, the author line is the thing a reader scans it for, and a
+      // name someone is meant to remember has to actually be there. Her
+      // co-authors are people worth looking up too, so they are written out
+      // on the same terms — a list where one name is full and the rest are
+      // initials reads as a mistake rather than as emphasis, and the bold she
+      // already wears (.pub-self) is emphasis enough.
+      // Whole names cost width, and the publications window is wider than
+      // every other one partly for that (see .publications-window) — but only
+      // partly: a long author list is allowed to wrap, and the window has a
+      // grow box for anyone who would rather it did not.
       const formatAuthor = name => {
         const clean = name.replace(/[{}]/g, '').trim();
         const comma = clean.indexOf(',');
         if (comma === -1) return clean;
         const last = clean.slice(0, comma).trim();
-        const initials = clean.slice(comma + 1).trim()
-          .split(/[\s.]+/).filter(Boolean).map(part => part[0]).join(' ');
-        return `${initials} ${last}`;
+        const first = clean.slice(comma + 1).trim().replace(/\s+/g, ' ');
+        return first ? `${first} ${last}` : last;
       };
 
+      // Identity is checked on the whole name, which also normalizes order —
+      // "Ma, Jiali" and "Jiali Ma" are the same person either way round.
       const isSelfAuthor = name => (window.PUBLICATIONS_SELF ?? []).some(self =>
         formatAuthor(name) === formatAuthor(self));
 
