@@ -25,6 +25,7 @@ role: PhD Student
 - affiliation: University of Tokyo · Graduate School of Frontier Science
 - research interest: Counterfactual Explanation · Algorithmic Recourse · Graph Neural Networks
 - broader research interest: Explainable AI · Interpretability · Knowledge Discovery · Causal Inference
+- reviewer: ACM FAccT · NeurIPS
 - mail: i@jialima.com
 
 ## links
@@ -34,7 +35,6 @@ role: PhD Student
 
 ## notes
 - JSAI student member
-// - service — reviewer, NeurIPS 2026
 
 # A. Yamamoto · 山本章博
 avatar: avatars/sensei.svg
